@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Scene : MonoBehaviour
 {
-    public static Scene instance;
+   // public static Scene instance;
 
     bool bLoad;
     private void Start()
     {
-        instance = this;
+       // instance = this;
         bLoad = true;
     }
 
@@ -64,6 +64,22 @@ public class Scene : MonoBehaviour
 
     public virtual void load() { }
     public virtual void free() { }
+    public void LoadPlayer()
+    {   // this function load Player on spawn Object Position
+        PlayerPrefs.DeleteAll();
+        Player player = GameManager.Instance.GetPlayer();
+        if (player == null)
+        {
+            GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+            obj.name = "Player";
+            obj.transform.localScale *= 2;
+            player = obj.AddComponent<Player>();
+        }
+
+        Transform spawnPos = GameObject.Find("spawn").transform;
+        player.transform.position = spawnPos.position;
+        GameManager.Instance.SetPlayer(player);
+    }
 
     private string nameScene;
     private float fadeDt = 0.5f;
@@ -71,7 +87,11 @@ public class Scene : MonoBehaviour
     public void fade(float dt)
     {
         if (fadeDt == 0)
+        {
+            GameManager.Instance.canInput = true;
             return;
+        }
+        GameManager.Instance.canInput = false;
 
         float alpha;
         
@@ -114,8 +134,13 @@ public class Scene : MonoBehaviour
         {
             GameObject.Destroy(goScene);
             Resources.UnloadUnusedAssets();
+            if(GameManager.Instance.GetPlayer())
+            {
+                GameManager.Instance.SetPlayer(null);
+            }
         }
 
         goScene = go;
+        GameManager.Instance.curScene = go.GetComponent<Scene>();
     }
 }

@@ -54,13 +54,6 @@ public class UIManager : MonoBehaviour
     Text talkText;
     Text nameText;
 
-    // Intro Scene UI
-    GameObject mainMenu;
-    GameObject mainMenu_Panel;
-    Button newGameButton;
-    Button continueGameButton;
-    Button gameExitButton;
-
     void DefaultUISetting()
     {
         // fade 이미지
@@ -81,7 +74,6 @@ public class UIManager : MonoBehaviour
         // 채팅 UI
         TalkUISetting();
     }
-
 
     private void FadeImgSetting()
     {
@@ -159,9 +151,6 @@ public class UIManager : MonoBehaviour
 
         talk_panel.SetActive(false);
     }
-
-
-
     public void CanvasSetting()
     {
         if (canvas) return;
@@ -177,19 +166,18 @@ public class UIManager : MonoBehaviour
         // 기본 UI세팅
         DefaultUISetting();
     }
-    
     public void MainMenuButton()
     {
-        Debug.Log("메인 메뉴로!");
+        Debug.Log("메인 메뉴로!"  + (GameManager.Instance.curScene ? "있음 " : "없음"));
         GameManager.Instance.PauseFunc();
         Destroy(GameManager.Instance.player.gameObject);
         //mainMenu_Panel.SetActive(true);
         Cursor.visible = true;
-        Scene.setSceneImmediately("Intro");
+        GameManager.Instance.curScene.setScene("Intro");
     }
+
     private void ContinueButton()
     {
-        Debug.Log("계속하기로!");
         GameManager.Instance.PauseFunc();
         //mainMenu_Panel.SetActive(false);
         Cursor.visible = false;
@@ -197,11 +185,6 @@ public class UIManager : MonoBehaviour
 
     public void InitGame()
     { 
-
-    }
-
-    public void PauseGame()
-    {
 
     }
 
@@ -220,7 +203,7 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void PauseFunc(bool isPause)
+    public void PauseGame(bool isPause)
     {
         if (isPause == true)
         {

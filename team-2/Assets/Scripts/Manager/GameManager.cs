@@ -41,10 +41,14 @@ public class GameManager : MonoBehaviour
     Data data;
     Dictionary<GameObject, int> roomState; // Room Clear?
     // 플레이어
-    public Player player;
+    public Player player;   // Player
     // 유저 데이터
-    //public UserData playerData;
- 
+    //public UserData playerData;   // Using PlayerData
+    // 현재 씬
+    public Scene curScene;  // Playing in Current User Scene
+    // 입력 시스템 컨트롤
+    public bool canInput;
+    
     // 채팅 시스템
     public iChat chat;
 
@@ -298,7 +302,7 @@ public class GameManager : MonoBehaviour
     {
         isPause = isPause ? false : true;
 
-        UIManager.Instance.PauseFunc(isPause);
+        UIManager.Instance.PauseGame(isPause);
     }
 
 
@@ -314,13 +318,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void Gameload()
     {
-        if (player == null)
-        {
-            GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-            obj.name = "Player";
-            obj.transform.localScale *= 2;
-            player = obj.AddComponent<Player>();
-        }
+        
 #if false   // dont use prev ver load to data
 
         /* system.talkId = 0;
@@ -393,6 +391,10 @@ public class GameManager : MonoBehaviour
              RSP_First_Phase();
          }*/
 #endif
+    }
+    public void SetPlayer(Player p)
+    {
+        player = p;
     }
 
     public Player GetPlayer()

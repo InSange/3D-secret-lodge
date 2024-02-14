@@ -59,11 +59,14 @@ public class Player : MonoBehaviour
     }
 
     void Update()
-    {
-        GetInput();
-        Move();
-        Jump();
-        Interaction();
+    {   // don't work Input System for Player that playing fade In/Out System now
+        if (GameManager.Instance.canInput && !GameManager.Instance.getIsPause() && !isLoading)
+        {
+            GetInput();
+            Move();
+            Jump();
+            Interaction();
+        }
     }
 
     private void FixedUpdate()

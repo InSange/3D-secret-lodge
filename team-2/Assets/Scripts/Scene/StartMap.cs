@@ -11,10 +11,39 @@ public class StartMap : Scene
     [SerializeField] GameObject door;
     [SerializeField] GameObject tutoPanel;
 
-    Player player = null;
-
     // Start is called before the first frame update
     void Start()
+    {
+        Init();
+    }
+
+    // Update is called once per frame
+    protected override void Update()
+    {
+        base.Update();
+    }
+    /// <summary>
+    /// Load object and data to StartMap
+    /// </summary>
+    private void Init()
+    {
+        LoadMap();
+        LoadUI();
+
+        PlayerPrefs.DeleteAll();
+        LoadPlayer();
+
+        // Player move restrict to message
+        GameManager.Instance.player.isLoading = true;
+    }
+
+    void LoadMap()
+    {   // Load BackGround Map
+        map = Instantiate((GameObject)Resources.Load("Scene/StartMap/Start_MAP"));
+        map.transform.SetParent(this.transform);
+    }
+
+    void LoadUI()
     {
         // 기본 캔버스 세팅
         startMap_Canvas = new GameObject("Canvas");
@@ -34,31 +63,6 @@ public class StartMap : Scene
         tutoButton.onClick.AddListener(TutorialButton);
 
         tutoPanel.SetActive(true);
-
-        PlayerPrefs.DeleteAll();
-        GameManager.Instance.Gameload();
-        player = GameManager.Instance.GetPlayer();
-
-        Debug.Log("게임 시작");
-        Init();
-    }
-
-    // Update is called once per frame
-    protected override void Update()
-    {
-        base.Update();
-    }
-    /// <summary>
-    /// Load object and data to StartMap
-    /// </summary>
-    private void Init()
-    {
-        // load object
-        map = Instantiate((GameObject)Resources.Load("Scene/StartMap/Start_MAP"));
-        map.transform.parent = this.transform;
-
-        // Player move restrict to message
-        GameManager.Instance.player.isLoading = true;
     }
 
     void TutorialButton()

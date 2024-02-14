@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Intro : Scene
 {
+    GameObject map;
     GameObject mainMenu;
     GameObject introCanvas;
     GameObject mainMenu_Panel;
@@ -14,6 +15,10 @@ public class Intro : Scene
 
     void Start()
     {
+        // background map instance
+        map = Instantiate((GameObject)Resources.Load("Scene/StartMap/Start_MAP"));
+        map.transform.SetParent(this.transform);
+
         // mainMenu prefab setting
         mainMenu = Instantiate((GameObject)Resources.Load("Scene/Intro/MainMenu"));
         mainMenu.transform.parent = this.transform;
