@@ -12,15 +12,6 @@ public class SystemManager : MonoBehaviour
     public GameObject scanOBJ;
     public NPC npc_Cat;
 
-    public void MainMenuButton()
-    {
-        GameManager.instance.PauseFunc();
-      //  Destroy(GameManager.instance.player.gameObject);
-     //   mainMenu_Panel.SetActive(true);
-    //    MainMenu.gameObject.SetActive(true);
-        Cursor.visible = true;
-    }
-
     /*public void SetInformationPanel()
     {
         isSelectInformation = true;

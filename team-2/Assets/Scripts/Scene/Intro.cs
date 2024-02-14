@@ -68,7 +68,7 @@ public class Intro : Scene
     void ContinueGameButton()
     {
         mainMenu_Panel.SetActive(false);
-        GameManager.instance.Gameload();
+        GameManager.Instance.Gameload();
         mainMenu.gameObject.SetActive(false);
         Cursor.visible = false;
     }

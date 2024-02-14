@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
     // 상태 조건
     private bool isGetArtifact = false; // Room Artifact Get?
     private bool isNeedArtifact = false; // if Get Room Artifact Player can Escape
-    private bool isPause = false;
+    [SerializeField] private bool isPause = false;
 
     public bool getIsPause() {return isPause;}
     // 필드 및 스폰포인트.

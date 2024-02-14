@@ -36,8 +36,8 @@ public class StartMap : Scene
         tutoPanel.SetActive(true);
 
         PlayerPrefs.DeleteAll();
-        GameManager.instance.Gameload();
-        player = GameManager.instance.GetPlayer();
+        GameManager.Instance.Gameload();
+        player = GameManager.Instance.GetPlayer();
 
         Debug.Log("게임 시작");
         Init();
@@ -58,14 +58,14 @@ public class StartMap : Scene
         map.transform.parent = this.transform;
 
         // Player move restrict to message
-        GameManager.instance.player.isLoading = true;
+        GameManager.Instance.player.isLoading = true;
     }
 
     void TutorialButton()
     {
         tutoPanel.SetActive(false);
         Cursor.visible = false;
-        GameManager.instance.player.isLoading = false;
+        GameManager.Instance.player.isLoading = false;
         // TutorialMessage();
     }
 }

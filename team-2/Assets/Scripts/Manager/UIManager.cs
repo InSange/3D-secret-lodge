@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -62,68 +63,104 @@ public class UIManager : MonoBehaviour
 
     void DefaultUISetting()
     {
-        RectTransform rect;
-
         // fade 이미지
+        FadeImgSetting();
+
+        // 게임오버 이미지
+        GameOverImgSetting();
+
+        // 트레저 이미지 UI
+        TreasureImgSetting();
+
+        // 던전 정보 UI
+        DungeonInfoUISetting();
+
+        // 일시 정지 UI
+        PauseUISetting();
+
+        // 채팅 UI
+        TalkUISetting();
+    }
+
+
+    private void FadeImgSetting()
+    {
         GameObject fadeOBJ = new GameObject();
         fadeOBJ.name = "FadeInOutImage";
         fadeOBJ.transform.SetParent(canvas.transform);
         fadeImage = fadeOBJ.AddComponent<Image>();
         fadeImage.color = new Color32(255, 255, 255, 0);
         fadeImage.raycastTarget = false;
-        rect = fadeOBJ.GetComponent<RectTransform>();
+        RectTransform rect = fadeOBJ.GetComponent<RectTransform>();
         rect.localPosition = new Vector3(0, 0, 0);
         rect.anchorMin = new Vector2(0, 0);
         rect.anchorMax = new Vector2(1, 1);
-
-        // 게임오버 이미지
+    }
+    private void GameOverImgSetting()
+    {
         GameObject gameOverOBJ = new GameObject();
         gameOverOBJ.name = "GameOverImage";
         gameOverOBJ.transform.SetParent(canvas.transform);
         gameOverImage = gameOverOBJ.AddComponent<Image>();
         gameOverImage.color = new Color32(255, 0, 0, 0);
         gameOverImage.raycastTarget = false;
-        rect = gameOverOBJ.GetComponent<RectTransform>();
+        RectTransform rect = gameOverOBJ.GetComponent<RectTransform>();
         rect.localPosition = new Vector3(0, 0, 0);
         rect.anchorMin = new Vector2(0, 0);
         rect.anchorMax = new Vector2(1, 1);
-
-        // 트레저 이미지 UI
-        infoPanel = Instantiate((GameObject)Resources.Load("Scene/CommonUI/TreasureImage"));
-        infoPanel.name = "TreasureImage";
-        infoPanel.transform.SetParent(canvas.transform);
-        rect = infoPanel.GetComponent<RectTransform>();
+    }
+    private void TreasureImgSetting()
+    {
+        treasurePanel = Instantiate((GameObject)Resources.Load("Scene/CommonUI/TreasureImage"));
+        treasurePanel.name = "TreasureImage";
+        treasurePanel.transform.SetParent(canvas.transform);
+        RectTransform rect = treasurePanel.GetComponent<RectTransform>();
         rect.localPosition = new Vector3(0, 0, 0);
+        treasurePanel.SetActive(false);
+    }
 
-        // 던전 정보 UI
+
+    private void DungeonInfoUISetting()
+    {
         infoPanel = Instantiate((GameObject)Resources.Load("Scene/CommonUI/Information_Panel"));
         infoPanel.name = "Information_Panel";
         infoPanel.transform.SetParent(canvas.transform);
-        rect = infoPanel.GetComponent<RectTransform>();
+        RectTransform rect = infoPanel.GetComponent<RectTransform>();
         rect.localPosition = new Vector3(0, 0, 0);
         rect.offsetMin = new Vector2(0, 0);
         rect.offsetMax = new Vector2(0, 0);
 
-        // 일시 정지 UI
+        infoPanel.SetActive(false);
+    }
+    private void PauseUISetting()
+    {
         pausePanel = Instantiate((GameObject)Resources.Load("Scene/CommonUI/Pause_Panel"));
         pausePanel.name = "Pause_Panel";
         pausePanel.transform.SetParent(canvas.transform);
-        rect = pausePanel.GetComponent<RectTransform>();
+        RectTransform rect = pausePanel.GetComponent<RectTransform>();
         rect.localPosition = new Vector3(0, 0, 0);
         rect.offsetMin = new Vector2(0, 0);
         rect.offsetMax = new Vector2(0, 0);
 
-        // 채팅 UI
+        Button mainMenuButton = GameObject.Find("MainMenu Button").GetComponent<Button>();
+        mainMenuButton.onClick.AddListener(MainMenuButton);
+        Button continueButton = GameObject.Find("Continue Button").GetComponent<Button>();
+        continueButton.onClick.AddListener(ContinueButton);
+
+        pausePanel.SetActive(false);
+    }
+    private void TalkUISetting()
+    {
         talk_panel = Instantiate((GameObject)Resources.Load("Scene/CommonUI/Talk_Panel"));
         talk_panel.name = "Talk_Panel";
         talk_panel.transform.SetParent(canvas.transform);
-        rect = talk_panel.GetComponent<RectTransform>();
+        RectTransform rect = talk_panel.GetComponent<RectTransform>();
         rect.localPosition = new Vector3(0, -520, 0);
 
-        infoPanel.SetActive(false);
-        pausePanel.SetActive(false);
         talk_panel.SetActive(false);
     }
+
+
 
     public void CanvasSetting()
     {
@@ -141,9 +178,21 @@ public class UIManager : MonoBehaviour
         DefaultUISetting();
     }
     
-    public void MainMenuUI()
+    public void MainMenuButton()
     {
-
+        Debug.Log("메인 메뉴로!");
+        GameManager.Instance.PauseFunc();
+        Destroy(GameManager.Instance.player.gameObject);
+        //mainMenu_Panel.SetActive(true);
+        Cursor.visible = true;
+        Scene.setSceneImmediately("Intro");
+    }
+    private void ContinueButton()
+    {
+        Debug.Log("계속하기로!");
+        GameManager.Instance.PauseFunc();
+        //mainMenu_Panel.SetActive(false);
+        Cursor.visible = false;
     }
 
     public void InitGame()
@@ -176,14 +225,14 @@ public class UIManager : MonoBehaviour
         if (isPause == true)
         {
             Cursor.visible = false;
-            Time.timeScale = 1;
-            pausePanel.SetActive(false);
+            Time.timeScale = 0;
+            pausePanel.SetActive(isPause);
         }
         else
         {
             Cursor.visible = true;
-            Time.timeScale = 0;
-            pausePanel.SetActive(true);
+            Time.timeScale = 1;
+            pausePanel.SetActive(isPause);
         }
     }
 
