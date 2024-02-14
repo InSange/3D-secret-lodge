@@ -26,11 +26,11 @@ public class Intro : Scene
         cs.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         cs.referenceResolution = new Vector2(1920, 1080);
         introCanvas.AddComponent<GraphicRaycaster>();
-        introCanvas.transform.parent = this.transform;
+        introCanvas.transform.SetParent(this.transform);
 
         // Intro UI setting
         mainMenu_Panel = Instantiate((GameObject)Resources.Load("Scene/Intro/MainMenu_Panel"));
-        mainMenu_Panel.transform.parent = introCanvas.transform;
+        mainMenu_Panel.transform.SetParent(introCanvas.transform);
         RectTransform rect = mainMenu_Panel.GetComponent<RectTransform>();
         rect.localPosition = new Vector3(0, 0, 0);
         newGameButton = GameObject.Find("NewGame Button").GetComponent<Button>();

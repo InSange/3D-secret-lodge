@@ -10,7 +10,33 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    private static GameManager instance = null;
+
+    private void Awake()
+    {
+        if(null == instance)
+        {
+            instance = this;
+
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    public static GameManager Instance
+    {
+        get
+        {
+            if(null == instance)
+            {
+                return null;
+            }
+            return instance;
+        }
+    }
 
     Data data;
     Dictionary<GameObject, int> roomState; // Room Clear?
@@ -21,9 +47,6 @@ public class GameManager : MonoBehaviour
  
     // 채팅 시스템
     public iChat chat;
-
-    // 페이드 인 아웃 이미지
-    public Image fadeImage;
 
     // 상태 조건
     private bool isGetArtifact = false; // Room Artifact Get?
@@ -54,8 +77,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        if (instance == null) instance = this;
-
         Init();
 
         new Main();
@@ -66,8 +87,6 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.CanvasSetting();
 
         chat = gameObject.AddComponent<iChat>();
-
-        fadeImage = GameObject.Find("FadeInOutImage").GetComponent<Image>();
 
         roomState = new Dictionary<GameObject, int>();
         lavaStartPos = new Vector3(0, -37, 300);

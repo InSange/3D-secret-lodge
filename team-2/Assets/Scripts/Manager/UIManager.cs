@@ -67,9 +67,10 @@ public class UIManager : MonoBehaviour
         // fade 이미지
         GameObject fadeOBJ = new GameObject();
         fadeOBJ.name = "FadeInOutImage";
-        fadeOBJ.transform.parent = canvas.transform;
+        fadeOBJ.transform.SetParent(canvas.transform);
         fadeImage = fadeOBJ.AddComponent<Image>();
-        fadeImage.color = new Color32(255, 255, 255, 255);
+        fadeImage.color = new Color32(255, 255, 255, 0);
+        fadeImage.raycastTarget = false;
         rect = fadeOBJ.GetComponent<RectTransform>();
         rect.localPosition = new Vector3(0, 0, 0);
         rect.anchorMin = new Vector2(0, 0);
@@ -78,9 +79,10 @@ public class UIManager : MonoBehaviour
         // 게임오버 이미지
         GameObject gameOverOBJ = new GameObject();
         gameOverOBJ.name = "GameOverImage";
-        gameOverOBJ.transform.parent = canvas.transform;
+        gameOverOBJ.transform.SetParent(canvas.transform);
         gameOverImage = gameOverOBJ.AddComponent<Image>();
-        gameOverImage.color = new Color32(255, 0, 0, 255);
+        gameOverImage.color = new Color32(255, 0, 0, 0);
+        gameOverImage.raycastTarget = false;
         rect = gameOverOBJ.GetComponent<RectTransform>();
         rect.localPosition = new Vector3(0, 0, 0);
         rect.anchorMin = new Vector2(0, 0);
@@ -89,14 +91,14 @@ public class UIManager : MonoBehaviour
         // 트레저 이미지 UI
         infoPanel = Instantiate((GameObject)Resources.Load("Scene/CommonUI/TreasureImage"));
         infoPanel.name = "TreasureImage";
-        infoPanel.transform.parent = canvas.transform;
+        infoPanel.transform.SetParent(canvas.transform);
         rect = infoPanel.GetComponent<RectTransform>();
         rect.localPosition = new Vector3(0, 0, 0);
 
         // 던전 정보 UI
         infoPanel = Instantiate((GameObject)Resources.Load("Scene/CommonUI/Information_Panel"));
         infoPanel.name = "Information_Panel";
-        infoPanel.transform.parent = canvas.transform;
+        infoPanel.transform.SetParent(canvas.transform);
         rect = infoPanel.GetComponent<RectTransform>();
         rect.localPosition = new Vector3(0, 0, 0);
         rect.offsetMin = new Vector2(0, 0);
@@ -105,7 +107,7 @@ public class UIManager : MonoBehaviour
         // 일시 정지 UI
         pausePanel = Instantiate((GameObject)Resources.Load("Scene/CommonUI/Pause_Panel"));
         pausePanel.name = "Pause_Panel";
-        pausePanel.transform.parent = canvas.transform;
+        pausePanel.transform.SetParent(canvas.transform);
         rect = pausePanel.GetComponent<RectTransform>();
         rect.localPosition = new Vector3(0, 0, 0);
         rect.offsetMin = new Vector2(0, 0);
@@ -114,14 +116,12 @@ public class UIManager : MonoBehaviour
         // 채팅 UI
         talk_panel = Instantiate((GameObject)Resources.Load("Scene/CommonUI/Talk_Panel"));
         talk_panel.name = "Talk_Panel";
-        talk_panel.transform.parent = canvas.transform;
+        talk_panel.transform.SetParent(canvas.transform);
         rect = talk_panel.GetComponent<RectTransform>();
         rect.localPosition = new Vector3(0, -520, 0);
 
         infoPanel.SetActive(false);
         pausePanel.SetActive(false);
-        gameOverImage.gameObject.SetActive(false);
-        fadeImage.gameObject.SetActive(false);
         talk_panel.SetActive(false);
     }
 
@@ -185,5 +185,10 @@ public class UIManager : MonoBehaviour
             Time.timeScale = 0;
             pausePanel.SetActive(true);
         }
+    }
+
+    public Image GetFadeImage()
+    {
+        return fadeImage;
     }
 }

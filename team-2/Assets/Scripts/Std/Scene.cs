@@ -90,7 +90,7 @@ public class Scene : MonoBehaviour
                 fadeDt = 0.0f;
         }
 
-        GameManager.instance.fadeImage.color = new Color(0, 0, 0, alpha);
+        UIManager.Instance.GetFadeImage().color = new Color(0, 0, 0, alpha);
     }
 
     public void setScene(string name)

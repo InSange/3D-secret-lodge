@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
         iDown = Input.GetKeyDown(KeyCode.E);//systemManager.isSelectInformation ? false : Input.GetKeyDown(KeyCode.E);
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            GameManager.instance.PauseFunc();
+            GameManager.Instance.PauseFunc();
         }
     }
 
@@ -110,11 +110,11 @@ public class Player : MonoBehaviour
             {
                 Debug.Log("Interaction + " + clickObject.name);
                 isLoading = true;
-                GameManager.instance.Field_Change(clickObject);
+                GameManager.Instance.Field_Change(clickObject);
             }
             else if(clickObject.CompareTag("Artifact"))
             {
-                GameManager.instance.Get_Artifact(clickObject);
+                GameManager.Instance.Get_Artifact(clickObject);
                 clickObject = null;
             }
             else if(clickObject.CompareTag("Treasure"))
@@ -133,7 +133,7 @@ public class Player : MonoBehaviour
             else if(clickObject.name == "BossRoom In Point")
             {
                 Debug.Log(clickObject.name);
-                GameManager.instance.BossInRoom();
+                GameManager.Instance.BossInRoom();
             }
         }
         /*
@@ -169,12 +169,12 @@ public class Player : MonoBehaviour
         if(other.gameObject.CompareTag("Monster")&& live == true)
         {
             live = false;
-            GameManager.instance.GameOver();
+            GameManager.Instance.GameOver();
         }
         else if(other.gameObject.CompareTag("Flame")&&live == true)
         {
             live = false;
-            GameManager.instance.GameOver();
+            GameManager.Instance.GameOver();
         }
         else if(other.gameObject.name == "Paper" || other.gameObject.name == "Scissor" || other.gameObject.name == "Rock")
         {

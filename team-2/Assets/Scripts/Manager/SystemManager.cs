@@ -12,23 +12,6 @@ public class SystemManager : MonoBehaviour
     public GameObject scanOBJ;
     public NPC npc_Cat;
 
-    public void Start()
-    {
-        //npc_Cat = Object.FindObjectOfType<NPC>();
-        //pausePanel = GameObject.Find("pausePanel");
-        //pausePanel.SetActive(false);
-        //talkPanel = GameObject.Find("talkPanel");
-        //talkPanel.SetActive(false);
-        //infoPanel = GameObject.Find("infoPanel");
-        //infoPanel.SetActive(false);
-        //Tutorial_Panel = GameObject.Find("Tutorial_Panel");
-        //Tutorial_Panel.SetActive(false);
-    }
-
-    public void Init()
-    {
-    }
-
     public void MainMenuButton()
     {
         GameManager.instance.PauseFunc();
