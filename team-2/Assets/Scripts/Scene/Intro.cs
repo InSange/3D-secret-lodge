@@ -67,7 +67,7 @@ public class Intro : Scene
 
     void NewGameButton()
     {
-        setScene("StartMap");
+        setScene("Hall");
     }
 
     void ContinueGameButton()

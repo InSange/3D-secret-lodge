@@ -75,10 +75,11 @@ public class Scene : MonoBehaviour
             obj.transform.localScale *= 2;
             player = obj.AddComponent<Player>();
         }
-
+        
         Transform spawnPos = GameObject.Find("spawn").transform;
-        player.transform.position = spawnPos.position;
+        player.transform.localPosition = spawnPos.localPosition;
         GameManager.Instance.SetPlayer(player);
+        Debug.Log("포지션 값 " + spawnPos.localPosition + ", " + player.transform.localPosition);
     }
 
     private string nameScene;
