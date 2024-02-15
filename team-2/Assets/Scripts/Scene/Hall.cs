@@ -23,7 +23,7 @@ public class Hall : Scene
     {
         LoadMap();
 
-        LoadPlayer();
+        LoadPlayer("hall spawn");
     }
 
     void LoadMap()

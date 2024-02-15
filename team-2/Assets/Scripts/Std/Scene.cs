@@ -64,7 +64,7 @@ public class Scene : MonoBehaviour
 
     public virtual void load() { }
     public virtual void free() { }
-    public void LoadPlayer()
+    public void LoadPlayer(string spawnName = "spawn")
     {   // this function load Player on spawn Object Position
         PlayerPrefs.DeleteAll();
         Player player = GameManager.Instance.GetPlayer();
@@ -76,10 +76,10 @@ public class Scene : MonoBehaviour
             player = obj.AddComponent<Player>();
         }
         
-        Transform spawnPos = GameObject.Find("spawn").transform;
+        Transform spawnPos = GameObject.Find(spawnName).transform;
+        Debug.Log("포지션 값 " + spawnPos.transform.position + ", " + player.transform.localPosition);
         player.transform.localPosition = spawnPos.localPosition;
         GameManager.Instance.SetPlayer(player);
-        Debug.Log("포지션 값 " + spawnPos.localPosition + ", " + player.transform.localPosition);
     }
 
     private string nameScene;

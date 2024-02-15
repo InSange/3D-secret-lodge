@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
 
         chat = gameObject.AddComponent<iChat>();
 
-        roomState = new Dictionary<GameObject, int>();
+        /*roomState = new Dictionary<GameObject, int>();
         lavaStartPos = new Vector3(0, -37, 300);
 
         for (int i = 0; i < rooms.Length; i++)
@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
         foreach (KeyValuePair<GameObject, int> pair in roomState)
         {
             Debug.Log(pair.Key.name + "," + pair.Value);
-        }
+        }*/
 
         isPause = false;
         Cursor.visible = true;
