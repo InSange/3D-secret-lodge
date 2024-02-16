@@ -2,6 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SceneName
+{
+    Intro = 0,
+    StartMap,
+    Hall,
+    JumpMap,
+    Maze,
+    Quiz,
+    Treasure
+}
 public class Scene : MonoBehaviour
 {
    // public static Scene instance;

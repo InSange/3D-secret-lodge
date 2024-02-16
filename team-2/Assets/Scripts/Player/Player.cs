@@ -122,7 +122,7 @@ public class Player : MonoBehaviour
             }
             else if(clickObject.CompareTag("Treasure"))
             {
-                clickObject.GetComponent<Treasure>().OpenBox();
+                clickObject.GetComponent<TreasureBox>().OpenBox();
                 clickObject = null;
             }
             else if(clickObject.CompareTag("NPC"))

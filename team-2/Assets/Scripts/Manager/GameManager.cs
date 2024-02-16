@@ -108,7 +108,8 @@ public class GameManager : MonoBehaviour
         isPause = false;
         Cursor.visible = true;
     }
-
+  
+    /// <param name="interactionOBJ"></param>
     public void Field_Change(GameObject interactionOBJ)
     {
         // dont use prev code Scene Change
@@ -264,8 +265,8 @@ public class GameManager : MonoBehaviour
         }
         for(int i = 0; i < treasuresBox.Length; i++)
         {
-            treasuresBox[i].GetComponent<Treasure>().reward.SetActive(false);
-            treasuresBox[i].GetComponent<Treasure>().box.SetActive(true);
+            treasuresBox[i].GetComponent<TreasureBox>().reward.SetActive(false);
+            treasuresBox[i].GetComponent<TreasureBox>().box.SetActive(true);
             treasuresBox[i].gameObject.GetComponent<BoxCollider>().enabled = true;        
         }
         if(artifactNum == 2) 
