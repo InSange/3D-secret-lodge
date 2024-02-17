@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     public Player player;   // Player
     // 유저 데이터
     //public UserData playerData;   // Using PlayerData
+    [SerializeField] Dictionary<int, List<TextData>> textData;
     // 현재 씬
     public Scene curScene;  // Playing in Current User Scene
     // 입력 시스템 컨트롤
@@ -83,7 +84,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Init();
-        CSVReader.LoadCSVData("File/Conversation");
+        textData = CSVReader.LoadCSVData("File/Conversation");
+        if (textData != null) Debug.Log("대화 데이터 로드 잘됨");
 
         new Main();
     }
