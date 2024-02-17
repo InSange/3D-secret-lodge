@@ -4,19 +4,15 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    public Transform NextRoomPosition;
-    public bool inRoom;
-    public GameObject RoomOBJ;
+    SceneName nextScene;
 
-    public GameObject GetRoomOBJ()
+    public void SetDoorNextScene(SceneName scene)
     {
-        if(RoomOBJ.activeSelf == true)
-        {
-            return RoomOBJ;
-        }
-        else
-        {
-            return null;
-        }
+        nextScene = scene;
+    }
+
+    public SceneName GetNextScene()
+    {
+        return nextScene;
     }
 }
