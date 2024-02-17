@@ -10,7 +10,9 @@ public enum SceneName
     JumpMap,
     Maze,
     Quiz,
-    Treasure
+    Treasure,
+    CantMoveScene = 800,  // 고장난 출입구 때 쓰일 열거형
+    end = 999
 }
 public class Scene : MonoBehaviour
 {

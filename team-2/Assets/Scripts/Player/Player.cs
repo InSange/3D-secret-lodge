@@ -115,10 +115,13 @@ public class Player : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * 3.0f, Color.red);
         if (hit.collider) Debug.Log("Check Obj " + hit.collider.gameObject.name);
 
-        if (iDown && !isLoading)
+        if (iDown && !isLoading && hit.collider)
         {
             if (hit.collider.gameObject.CompareTag("Door"))
             {
+                Door doorInfo = hit.collider.gameObject.GetComponent<Door>();
+
+                GameManager.Instance.SceneChange(doorInfo.GetNextScene());
                 Debug.Log("Interaction + " + hit.collider.gameObject.name);
                 //isLoading = true;
                 //GameManager.Instance.Field_Change(clickObject);

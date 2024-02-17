@@ -44,5 +44,21 @@ public class Hall : Scene
         maze = GameObject.Find("Maze Door");
         quiz = GameObject.Find("Quiz Door");
         treasure = GameObject.Find("Treasure Door");
+
+        Door sceneDoor;
+        sceneDoor = entrance.AddComponent<Door>();
+        sceneDoor.SetDoorNextScene(SceneName.CantMoveScene);
+
+        sceneDoor = jumpMap.AddComponent<Door>();
+        sceneDoor.SetDoorNextScene(SceneName.JumpMap);
+
+        sceneDoor = maze.AddComponent<Door>();
+        sceneDoor.SetDoorNextScene(SceneName.Maze);
+
+        sceneDoor = quiz.AddComponent<Door>();
+        sceneDoor.SetDoorNextScene(SceneName.Quiz);
+
+        sceneDoor = treasure.AddComponent<Door>();
+        sceneDoor.SetDoorNextScene(SceneName.Treasure);
     }
 }
