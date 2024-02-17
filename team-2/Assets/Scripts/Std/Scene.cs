@@ -16,12 +16,12 @@ public enum SceneName
 }
 public class Scene : MonoBehaviour
 {
-   // public static Scene instance;
+    // public static Scene instance;
 
     bool bLoad;
     private void Start()
     {
-       // instance = this;
+        // instance = this;
         bLoad = true;
     }
 
@@ -38,10 +38,10 @@ public class Scene : MonoBehaviour
 
             load();
         }
-        
+
         fade(Time.deltaTime);
         iPoint point = mousePoint();
-        for(int i = 0; i < kc.Length; i++)
+        for (int i = 0; i < kc.Length; i++)
         {
             if (Input.GetKeyDown(kc[i]))
             {
@@ -87,7 +87,7 @@ public class Scene : MonoBehaviour
             obj.transform.localScale *= 2;
             player = obj.AddComponent<Player>();
         }
-        
+
         Transform spawnPos = GameObject.Find(spawnName).transform;
         Debug.Log("Æ÷Áö¼Ç °ª " + spawnPos.transform.position + ", " + player.transform.localPosition);
         player.transform.localPosition = spawnPos.localPosition;
@@ -107,7 +107,7 @@ public class Scene : MonoBehaviour
         GameManager.Instance.canInput = false;
 
         float alpha;
-        
+
         if (fadeDt < 0.5f)
         {   // ¾îµÎ¿öÁü
             alpha = fadeDt / 0.5f;
@@ -115,12 +115,16 @@ public class Scene : MonoBehaviour
             if (fadeDt >= 0.5f)
                 setSceneImmediately(nameScene);
         }
-        else// if(fadeDt < 1.0f)
+        else if(GameManager.Instance.isLoadScene)// && fadeDt < 1.0f)
         {   // ¹à¾ÆÁü
             alpha = 1.0f - (fadeDt - 0.5f) / 0.5f;
             fadeDt += dt;
             if (fadeDt >= 1.0f)
                 fadeDt = 0.0f;
+        }
+        else
+        {
+            alpha = 1.0f;
         }
 
         UIManager.Instance.GetFadeImage().color = new Color(0, 0, 0, alpha);
@@ -132,6 +136,7 @@ public class Scene : MonoBehaviour
         if (fadeDt != 0.0f)
             return;
 
+        GameManager.Instance.isLoadScene = false;
         nameScene = name;
         fadeDt = 0.0001f;
     }
@@ -143,11 +148,11 @@ public class Scene : MonoBehaviour
         System.Type type = System.Type.GetType(name);
         go.AddComponent(type);
 
-        if(goScene != null)
+        if (goScene != null)
         {
             GameObject.Destroy(goScene);
             Resources.UnloadUnusedAssets();
-            if(GameManager.Instance.GetPlayer())
+            if (GameManager.Instance.GetPlayer())
             {
                 GameManager.Instance.SetPlayer(null);
             }
@@ -155,5 +160,10 @@ public class Scene : MonoBehaviour
 
         goScene = go;
         GameManager.Instance.curScene = go.GetComponent<Scene>();
+    }
+
+    public void LoadFinish()
+    {
+        GameManager.Instance.isLoadScene = true;
     }
 }

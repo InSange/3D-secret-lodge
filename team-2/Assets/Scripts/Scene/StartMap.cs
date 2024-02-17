@@ -35,6 +35,7 @@ public class StartMap : Scene
 
         // Player move restrict to message
         GameManager.Instance.player.isLoading = true;
+        LoadFinish();
     }
 
     void LoadMap()

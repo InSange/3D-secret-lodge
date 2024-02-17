@@ -48,6 +48,8 @@ public class Intro : Scene
         newGameButton.onClick.AddListener(NewGameButton);
         continueGameButton.onClick.AddListener(ContinueGameButton);
         gameExitButton.onClick.AddListener(ExitGameButton);
+
+        LoadFinish();
     }
 
     protected override void Update()

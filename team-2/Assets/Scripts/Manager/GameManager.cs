@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
     private bool isGetArtifact = false; // Room Artifact Get?
     private bool isNeedArtifact = false; // if Get Room Artifact Player can Escape
     [SerializeField] private bool isPause = false;
+    public bool isLoadScene = true;   // Can Play? Scene Load Finish Check Flag
 
     public bool getIsPause() {return isPause;}
     // 필드 및 스폰포인트.
@@ -82,6 +83,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Init();
+        CSVReader.LoadCSVData("File/Conversation");
 
         new Main();
     }
@@ -89,8 +91,6 @@ public class GameManager : MonoBehaviour
     private void Init()
     {
         UIManager.Instance.CanvasSetting();
-
-        chat = gameObject.AddComponent<iChat>();
 
         /*roomState = new Dictionary<GameObject, int>();
         lavaStartPos = new Vector3(0, -37, 300);
