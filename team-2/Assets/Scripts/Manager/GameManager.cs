@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
 
         chat = gameObject.AddComponent<iChat>();
 
-        roomState = new Dictionary<GameObject, int>();
+        /*roomState = new Dictionary<GameObject, int>();
         lavaStartPos = new Vector3(0, -37, 300);
 
         for (int i = 0; i < rooms.Length; i++)
@@ -103,14 +103,55 @@ public class GameManager : MonoBehaviour
         foreach (KeyValuePair<GameObject, int> pair in roomState)
         {
             Debug.Log(pair.Key.name + "," + pair.Value);
-        }
+        }*/
 
         isPause = false;
         Cursor.visible = true;
     }
-
-    public void Field_Change(GameObject interactionOBJ)
+  
+    /// <param name="interactionOBJ"></param>
+    public void SceneChange(SceneName nextScene)
     {
+        switch (nextScene)
+        {
+            case SceneName.Intro:
+                Debug.Log("인트로 이동");
+                GameManager.Instance.curScene.setScene("Intro");
+                break;
+            case SceneName.StartMap:
+                Debug.Log("시작 맵 이동");
+                GameManager.Instance.curScene.setScene("StartMap");
+                break;
+            case SceneName.Hall:
+                Debug.Log("홀 이동");
+                GameManager.Instance.curScene.setScene("Hall");
+                break;
+            case SceneName.JumpMap:
+                Debug.Log("점프맵 이동");
+                GameManager.Instance.curScene.setScene("JumpMap");
+                break;
+            case SceneName.Maze:
+                Debug.Log("미로 이동");
+                GameManager.Instance.curScene.setScene("Maze");
+                break;
+            case SceneName.Quiz:
+                Debug.Log("퀴즈 이동");
+                GameManager.Instance.curScene.setScene("Quiz");
+                break;
+            case SceneName.Treasure:
+                Debug.Log("보물찾기 이동");
+                GameManager.Instance.curScene.setScene("Treasure");
+                break;
+            case SceneName.CantMoveScene:
+                Debug.Log("고장난 문 이동");
+                break;
+            case SceneName.end:
+                Debug.Log("마지막 열거형 이동");
+                break;
+            default:
+                break;
+        }
+
         // dont use prev code Scene Change
 #if true
         /*Objects OBJcomponent = interactionOBJ.GetComponent<Objects>();
@@ -264,8 +305,8 @@ public class GameManager : MonoBehaviour
         }
         for(int i = 0; i < treasuresBox.Length; i++)
         {
-            treasuresBox[i].GetComponent<Treasure>().reward.SetActive(false);
-            treasuresBox[i].GetComponent<Treasure>().box.SetActive(true);
+            treasuresBox[i].GetComponent<TreasureBox>().reward.SetActive(false);
+            treasuresBox[i].GetComponent<TreasureBox>().box.SetActive(true);
             treasuresBox[i].gameObject.GetComponent<BoxCollider>().enabled = true;        
         }
         if(artifactNum == 2) 

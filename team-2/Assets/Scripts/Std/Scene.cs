@@ -2,6 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SceneName
+{
+    Intro = 0,
+    StartMap,
+    Hall,
+    JumpMap,
+    Maze,
+    Quiz,
+    Treasure,
+    CantMoveScene = 800,  // 고장난 출입구 때 쓰일 열거형
+    end = 999
+}
 public class Scene : MonoBehaviour
 {
    // public static Scene instance;
@@ -64,7 +76,7 @@ public class Scene : MonoBehaviour
 
     public virtual void load() { }
     public virtual void free() { }
-    public void LoadPlayer()
+    public void LoadPlayer(string spawnName = "spawn")
     {   // this function load Player on spawn Object Position
         PlayerPrefs.DeleteAll();
         Player player = GameManager.Instance.GetPlayer();
@@ -75,9 +87,10 @@ public class Scene : MonoBehaviour
             obj.transform.localScale *= 2;
             player = obj.AddComponent<Player>();
         }
-
-        Transform spawnPos = GameObject.Find("spawn").transform;
-        player.transform.position = spawnPos.position;
+        
+        Transform spawnPos = GameObject.Find(spawnName).transform;
+        Debug.Log("포지션 값 " + spawnPos.transform.position + ", " + player.transform.localPosition);
+        player.transform.localPosition = spawnPos.localPosition;
         GameManager.Instance.SetPlayer(player);
     }
 

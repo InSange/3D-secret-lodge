@@ -171,7 +171,7 @@ public class BossPlayer : MonoBehaviour
             if (hit.collider.CompareTag("Door"))
             {
                 clickObject = hit.collider.gameObject;
-                gameManager.Field_Change(clickObject);
+                //gameManager.Field_Change(clickObject);
                 isLoading = true;
             }
 
