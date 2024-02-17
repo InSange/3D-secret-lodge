@@ -126,6 +126,10 @@ public class Player : MonoBehaviour
                 //isLoading = true;
                 //GameManager.Instance.Field_Change(clickObject);
             }
+            else if(hit.collider.gameObject.CompareTag("NPC"))
+            {
+                Debug.Log("NPC Contact");
+            }
             /*else if(clickObject.CompareTag("Artifact"))
             {
                 GameManager.Instance.Get_Artifact(clickObject);
@@ -135,10 +139,6 @@ public class Player : MonoBehaviour
             {
                 clickObject.GetComponent<TreasureBox>().OpenBox();
                 clickObject = null;
-            }
-            else if(clickObject.CompareTag("NPC"))
-            {
-               // systemManager.SetTextPanel(clickObject.gameObject);
             }
             else if(clickObject.CompareTag("Broken_Door"))
             {

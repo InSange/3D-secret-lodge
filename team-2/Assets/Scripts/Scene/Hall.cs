@@ -14,6 +14,9 @@ public class Hall : Scene
     [SerializeField] GameObject quiz;
     [SerializeField] GameObject treasure;
 
+    // NPC Cat
+    [SerializeField] NPC cat;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +47,8 @@ public class Hall : Scene
         maze = GameObject.Find("Maze Door");
         quiz = GameObject.Find("Quiz Door");
         treasure = GameObject.Find("Treasure Door");
+
+        cat = GameObject.Find("NPC_CAT").GetComponent<NPC>();
 
         Door sceneDoor;
         sceneDoor = entrance.AddComponent<Door>();

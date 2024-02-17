@@ -168,12 +168,11 @@ public class UIManager : MonoBehaviour
     }
     public void MainMenuButton()
     {
-        Debug.Log("메인 메뉴로!"  + (GameManager.Instance.curScene ? "있음 " : "없음"));
         GameManager.Instance.PauseFunc();
-        Destroy(GameManager.Instance.player.gameObject);
         //mainMenu_Panel.SetActive(true);
         Cursor.visible = true;
-        GameManager.Instance.curScene.setScene("Intro");
+        GameManager.Instance.SceneChange(SceneName.Intro);
+        Destroy(GameManager.Instance.player.gameObject);
     }
 
     private void ContinueButton()
