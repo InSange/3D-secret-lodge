@@ -69,7 +69,8 @@ public class Intro : Scene
 
     void NewGameButton()
     {
-        GameManager.Instance.SceneChange(SceneName.Hall);
+        GameManager.Instance.SceneChange(SceneName.StartMap);
+        GameManager.Instance.isPlaying = true;
     }
 
     void ContinueGameButton()

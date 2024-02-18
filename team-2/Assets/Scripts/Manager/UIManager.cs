@@ -4,6 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum EventDialogue
+{
+    StartMountain = 0,
+    FoundLodge,
+    InHall,
+    TalkWithCat,
+}
+
 /// <summary>
 /// UIManager의 역할은 게임의 모든 UI를 관리하고
 /// 뿌려주는 역할
@@ -17,7 +25,7 @@ public class UIManager : MonoBehaviour
 
     void Awake()
     {
-        if(null == instance)
+        if (null == instance)
         {
             instance = this;
 
@@ -33,7 +41,7 @@ public class UIManager : MonoBehaviour
     {
         get
         {
-            if(null == instance)
+            if (null == instance)
             {
                 return null;
             }
@@ -46,14 +54,58 @@ public class UIManager : MonoBehaviour
     // 고정 UI
     Image fadeImage;
     Image gameOverImage;
-    GameObject treasurePanel;
-    GameObject pausePanel;
-    GameObject infoPanel;
-    GameObject tutoPanel;
-    GameObject talk_panel;
-    Text talkText;
-    Text nameText;
+    [SerializeField] GameObject treasurePanel;
+    [SerializeField] GameObject pausePanel;
+    [SerializeField] GameObject infoPanel;
+    [SerializeField] GameObject talk_panel;
+    [SerializeField] Text talkText;
+    [SerializeField] Text nameText;
 
+    // 시간 흐름 (텍스트 애니메이션 및 자동 스킵 기능)
+    float dt;
+
+    // 대화창에 관한 변수들
+    bool isDialogue;
+    List<TextData> textDatas;
+    int dialogueIndex;
+
+    void Update()
+    {
+        if(isDialogue)
+        {
+            if(!GameManager.Instance.isPlaying)
+            {
+                isDialogue = false;
+                talk_panel.SetActive(false);
+            }
+            dt += Time.deltaTime;
+            if(dt > 3.0f)
+            {
+                dt = 0f;
+                dialogueIndex++;
+                ProgressDialogue();
+            }
+        }
+    }
+
+    // Make Canvas Object when to start game Awake time
+    public void CanvasSetting()
+    {
+        if (canvas) return;
+
+        canvas = new GameObject("Canvas");
+        Canvas c = canvas.AddComponent<Canvas>().GetComponent<Canvas>();
+        c.renderMode = RenderMode.ScreenSpaceOverlay;
+        CanvasScaler cs = canvas.AddComponent<CanvasScaler>().GetComponent<CanvasScaler>();
+        cs.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        cs.referenceResolution = new Vector2(1920, 1080);
+        canvas.AddComponent<GraphicRaycaster>();
+        //canvas.transform.parent = this.transform;
+        // 기본 UI세팅
+        DefaultUISetting();
+        isDialogue = false;
+    }
+    // All Default UI Load 
     void DefaultUISetting()
     {
         // fade 이미지
@@ -74,7 +126,7 @@ public class UIManager : MonoBehaviour
         // 채팅 UI
         TalkUISetting();
     }
-
+    // FadeImg Setting for Default UI
     private void FadeImgSetting()
     {
         GameObject fadeOBJ = new GameObject();
@@ -88,6 +140,7 @@ public class UIManager : MonoBehaviour
         rect.anchorMin = new Vector2(0, 0);
         rect.anchorMax = new Vector2(1, 1);
     }
+    // GameOverImg Setting for Default UI
     private void GameOverImgSetting()
     {
         GameObject gameOverOBJ = new GameObject();
@@ -101,6 +154,7 @@ public class UIManager : MonoBehaviour
         rect.anchorMin = new Vector2(0, 0);
         rect.anchorMax = new Vector2(1, 1);
     }
+    // TreasureUI Setting for Default UI
     private void TreasureImgSetting()
     {
         treasurePanel = Instantiate((GameObject)Resources.Load("Scene/CommonUI/TreasureImage"));
@@ -110,8 +164,7 @@ public class UIManager : MonoBehaviour
         rect.localPosition = new Vector3(0, 0, 0);
         treasurePanel.SetActive(false);
     }
-
-
+    // DungeonUI Setting for Default UI
     private void DungeonInfoUISetting()
     {
         infoPanel = Instantiate((GameObject)Resources.Load("Scene/CommonUI/Information_Panel"));
@@ -124,6 +177,7 @@ public class UIManager : MonoBehaviour
 
         infoPanel.SetActive(false);
     }
+    // PuaseUI Setting for Default UI
     private void PauseUISetting()
     {
         pausePanel = Instantiate((GameObject)Resources.Load("Scene/CommonUI/Pause_Panel"));
@@ -141,6 +195,7 @@ public class UIManager : MonoBehaviour
 
         pausePanel.SetActive(false);
     }
+    // TalkUI Setting for Default UI 
     private void TalkUISetting()
     {
         talk_panel = Instantiate((GameObject)Resources.Load("Scene/CommonUI/Talk_Panel"));
@@ -149,32 +204,22 @@ public class UIManager : MonoBehaviour
         RectTransform rect = talk_panel.GetComponent<RectTransform>();
         rect.localPosition = new Vector3(0, -520, 0);
 
+        talkText = GameObject.Find("Talk_Text").GetComponent<Text>();
+        nameText = GameObject.Find("Name_Text").GetComponent<Text>();
+
         talk_panel.SetActive(false);
     }
-    public void CanvasSetting()
-    {
-        if (canvas) return;
-
-        canvas = new GameObject("Canvas");
-        Canvas c = canvas.AddComponent<Canvas>().GetComponent<Canvas>();
-        c.renderMode = RenderMode.ScreenSpaceOverlay;
-        CanvasScaler cs = canvas.AddComponent<CanvasScaler>().GetComponent<CanvasScaler>();
-        cs.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        cs.referenceResolution = new Vector2(1920, 1080);
-        canvas.AddComponent<GraphicRaycaster>();
-        //canvas.transform.parent = this.transform;
-        // 기본 UI세팅
-        DefaultUISetting();
-    }
+    // MainMenu Button in Pause Situation
     public void MainMenuButton()
     {
         GameManager.Instance.PauseFunc();
         //mainMenu_Panel.SetActive(true);
         Cursor.visible = true;
+        GameManager.Instance.isPlaying = false;
         GameManager.Instance.SceneChange(SceneName.Intro);
         Destroy(GameManager.Instance.player.gameObject);
     }
-
+    // Continue Button in Pause Situation
     private void ContinueButton()
     {
         GameManager.Instance.PauseFunc();
@@ -182,8 +227,39 @@ public class UIManager : MonoBehaviour
         Cursor.visible = false;
     }
 
+    public void StartDialogue(EventDialogue e)
+    {
+        int eventIndex = ((int)e);
+        textDatas = GameManager.Instance.GetDialugeData(eventIndex);
+
+        if (textDatas == null) return;
+        // 이벤트 데이터가 있을 시 플레이어를 조작할 수 없음!
+        GameManager.Instance.canInput = false;  // 플레이어 조작 X
+        dt = 0; // 시간 초기화
+        dialogueIndex = 0; // 대사 구별 인덱스
+        isDialogue = true;  // 대화 시작 구별 변수
+
+        nameText.text = textDatas[dialogueIndex].name;
+        talkText.text = textDatas[dialogueIndex].text;
+        talk_panel.SetActive(true);
+    }
+
+    void ProgressDialogue()
+    {   // 인덱스 값이 텍스트 개수와 동일하면 모든 대화는 끝난 것이다!
+        if(dialogueIndex >= textDatas.Count)
+        {
+            isDialogue = false;
+            talk_panel.SetActive(false);
+            GameManager.Instance.canInput = true;
+            return;
+        }
+        // 인덱스 값이 유효하면 다음 대화를 진행한다.
+        nameText.text = textDatas[dialogueIndex].name;
+        talkText.text = textDatas[dialogueIndex].text;
+    }
+
     public void InitGame()
-    { 
+    {
 
     }
 

@@ -71,6 +71,7 @@ public class StartMap : Scene
         tutoPanel.SetActive(false);
         Cursor.visible = false;
         GameManager.Instance.player.isLoading = false;
+        UIManager.Instance.StartDialogue(EventDialogue.StartMountain);
         // TutorialMessage();
     }
 }

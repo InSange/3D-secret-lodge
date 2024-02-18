@@ -47,17 +47,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] Dictionary<int, List<TextData>> textData;
     // 현재 씬
     public Scene curScene;  // Playing in Current User Scene
-    // 입력 시스템 컨트롤
-    public bool canInput;
-    
-    // 채팅 시스템
-    public iChat chat;
 
     // 상태 조건
     private bool isGetArtifact = false; // Room Artifact Get?
     private bool isNeedArtifact = false; // if Get Room Artifact Player can Escape
     [SerializeField] private bool isPause = false;
     public bool isLoadScene = true;   // Can Play? Scene Load Finish Check Flag
+    public bool canInput;   // 입력 시스템 컨트롤
+    public bool isPlaying;  // 현재 인게임 중인가?
 
     public bool getIsPause() {return isPause;}
     // 필드 및 스폰포인트.
@@ -86,6 +83,14 @@ public class GameManager : MonoBehaviour
         Init();
         textData = CSVReader.LoadCSVData("File/Conversation");
         if (textData != null) Debug.Log("대화 데이터 로드 잘됨");
+
+        foreach (var d in textData.Keys)
+        {
+            for (int i = 0; i < textData[d].Count; i++)
+            {
+                Debug.Log(textData[d][i].name + " : " + textData[d][i].text);
+            }
+        }
 
         new Main();
     }
@@ -499,4 +504,10 @@ public class GameManager : MonoBehaviour
         }
     }
 #endif
+
+    public List<TextData> GetDialugeData(int index = -1)
+    {
+        if (index == -1) return null;
+        return textData[index];
+    }
 }

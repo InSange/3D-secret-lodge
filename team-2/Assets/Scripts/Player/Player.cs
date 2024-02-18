@@ -69,6 +69,10 @@ public class Player : MonoBehaviour
             Jump();
             Interaction();
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameManager.Instance.PauseFunc();
+        }
     }
 
     private void FixedUpdate()
@@ -82,10 +86,6 @@ public class Player : MonoBehaviour
         vAxis = Input.GetAxis("Vertical"); //systemManager.isAction ? 0 : Input.GetAxis("Vertical");
         jDown = Input.GetButtonDown("Jump");//systemManager.isAction ? false : Input.GetButtonDown("Jump");
         iDown = Input.GetKeyDown(KeyCode.E);//systemManager.isSelectInformation ? false : Input.GetKeyDown(KeyCode.E);
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            GameManager.Instance.PauseFunc();
-        }
     }
 
     private void Move()
