@@ -34,6 +34,8 @@ public class Hall : Scene
         LoadMap();
 
         LoadPlayer("hall spawn");
+
+        LoadFinish();
     }
 
     void LoadMap()
