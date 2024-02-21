@@ -69,7 +69,8 @@ public class Intro : Scene
 
     void NewGameButton()
     {
-        GameManager.Instance.SceneChange(SceneName.Hall);
+        GameManager.Instance.SceneChange(SceneName.StartMap);
+        //GameManager.Instance.isPlaying = true;
     }
 
     void ContinueGameButton()
@@ -78,6 +79,7 @@ public class Intro : Scene
         GameManager.Instance.Gameload();
         mainMenu.gameObject.SetActive(false);
         Cursor.visible = false;
+        GameManager.Instance.isPlaying = true;
     }
 
     void ExitGameButton()

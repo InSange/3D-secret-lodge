@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class StartMap : Scene
 {
     GameObject startMap_Canvas;
+
     [SerializeField] GameObject map;
-    [SerializeField] Transform spawn;
-    [SerializeField] GameObject door;
+    [SerializeField] GameObject startMapDoor;
     [SerializeField] GameObject tutoPanel;
 
     // Start is called before the first frame update
@@ -30,7 +30,7 @@ public class StartMap : Scene
         LoadMap();
         LoadUI();
 
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
         LoadPlayer();
 
         // Player move restrict to message
@@ -42,6 +42,22 @@ public class StartMap : Scene
     {   // Load BackGround Map
         map = Instantiate((GameObject)Resources.Load("Scene/StartMap/Start_MAP"));
         map.transform.SetParent(this.transform);
+
+        startMapDoor = GameObject.Find("StartMap Door");
+
+        if(startMapDoor.activeSelf)
+        {
+            Debug.Log("로드 잘됨 " + startMapDoor.name);
+            BoxCollider box = startMapDoor.GetComponent<BoxCollider>();
+            if (box) Debug.Log("오브젝트 로드가 잘 되었는가?");
+        }
+        else
+        {
+            Debug.Log("로드 안됨");
+        }
+        Door sceneDoor;
+        sceneDoor = startMapDoor.AddComponent<Door>();
+        sceneDoor.SetDoorNextScene(SceneName.Hall);
     }
 
     void LoadUI()
@@ -71,6 +87,8 @@ public class StartMap : Scene
         tutoPanel.SetActive(false);
         Cursor.visible = false;
         GameManager.Instance.player.isLoading = false;
+        GameManager.Instance.isPlaying = true;
+        UIManager.Instance.StartDialogue(EventDialogue.StartMountain);
         // TutorialMessage();
     }
 }

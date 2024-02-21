@@ -101,7 +101,6 @@ public class Scene : MonoBehaviour
     {
         if (fadeDt == 0)
         {
-            GameManager.Instance.canInput = true;
             return;
         }
         GameManager.Instance.canInput = false;
@@ -115,12 +114,15 @@ public class Scene : MonoBehaviour
             if (fadeDt >= 0.5f)
                 setSceneImmediately(nameScene);
         }
-        else if(GameManager.Instance.isLoadScene)// && fadeDt < 1.0f)
+        else if (GameManager.Instance.isLoadScene)// && fadeDt < 1.0f)
         {   // ¹à¾ÆÁü
             alpha = 1.0f - (fadeDt - 0.5f) / 0.5f;
             fadeDt += dt;
             if (fadeDt >= 1.0f)
+            {
                 fadeDt = 0.0f;
+                GameManager.Instance.canInput = true;
+            }
         }
         else
         {
@@ -150,12 +152,13 @@ public class Scene : MonoBehaviour
 
         if (goScene != null)
         {
-            GameObject.Destroy(goScene);
-            Resources.UnloadUnusedAssets();
             if (GameManager.Instance.GetPlayer())
             {
+                Destroy(GameManager.Instance.GetPlayer().gameObject);
                 GameManager.Instance.SetPlayer(null);
             }
+            GameObject.Destroy(goScene);
+            Resources.UnloadUnusedAssets();
         }
 
         goScene = go;
