@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         rigid.freezeRotation = true;
         // collider setting
+        this.gameObject.tag = "Player";
         capSuleCollider = GetComponent<CapsuleCollider>();
         // camera setting
         GameObject camera = new GameObject("PlayerCamera");

@@ -282,13 +282,13 @@ public class UIManager : MonoBehaviour
     {
         if (isPause == true)
         {
-            Cursor.visible = false;
+            Cursor.visible = true;
             Time.timeScale = 0;
             pausePanel.SetActive(isPause);
         }
         else
         {
-            Cursor.visible = true;
+            Cursor.visible = false;
             Time.timeScale = 1;
             pausePanel.SetActive(isPause);
         }
