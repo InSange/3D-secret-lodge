@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    SceneName nextScene;
+    [SerializeField]SceneName nextScene;
 
     public void SetDoorNextScene(SceneName scene)
     {

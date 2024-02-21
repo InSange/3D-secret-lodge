@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
             Jump();
             Interaction();
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && GameManager.Instance.isPlaying)
         {
             GameManager.Instance.PauseFunc();
         }

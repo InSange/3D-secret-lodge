@@ -152,12 +152,13 @@ public class Scene : MonoBehaviour
 
         if (goScene != null)
         {
-            GameObject.Destroy(goScene);
-            Resources.UnloadUnusedAssets();
             if (GameManager.Instance.GetPlayer())
             {
+                Destroy(GameManager.Instance.GetPlayer().gameObject);
                 GameManager.Instance.SetPlayer(null);
             }
+            GameObject.Destroy(goScene);
+            Resources.UnloadUnusedAssets();
         }
 
         goScene = go;
