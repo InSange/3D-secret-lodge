@@ -9,7 +9,15 @@ public enum EventDialogue
     StartMountain = 0,
     FoundLodge,
     InHall,
+    SeeTheCat,
     TalkWithCat,
+    TalkForInfo,
+    LeftFirstRoom = 10,
+    LeftSecondRoom,
+    RightFirstRoom,
+    RightSecondRoom,
+    CenterRoom,
+    BrookDoor = 800,
 }
 
 /// <summary>
@@ -60,14 +68,24 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject talk_panel;
     [SerializeField] Text talkText;
     [SerializeField] Text nameText;
+    [SerializeField] Button mazeButton;
+    [SerializeField] Button jumpButton;
+    [SerializeField] Button treasureButton;
+    [SerializeField] Button quizButton;
+    [SerializeField] Button bossButton;
 
     // 시간 흐름 (텍스트 애니메이션 및 자동 스킵 기능)
     float dt;
 
     // 대화창에 관한 변수들
-    bool isDialogue;
+    [SerializeField] bool isDialogue;
     List<TextData> textDatas;
-    int dialogueIndex;
+    [SerializeField] int dialogueIndex;
+    [SerializeField] bool NPCMeet;
+
+    // 대화창이 끝날 경우 실행시켜줄 델리게이트
+    public delegate void DialogueEnd();
+    public DialogueEnd finishDialogue;
 
     void Update()
     {
@@ -79,7 +97,7 @@ public class UIManager : MonoBehaviour
                 talk_panel.SetActive(false);
             }
             dt += Time.deltaTime;
-            if(dt > 3.0f)
+            if(dt > 1.0f)
             {
                 dt = 0f;
                 dialogueIndex++;
@@ -104,6 +122,7 @@ public class UIManager : MonoBehaviour
         // 기본 UI세팅
         DefaultUISetting();
         isDialogue = false;
+        NPCMeet = false;
     }
     // All Default UI Load 
     void DefaultUISetting()
@@ -175,6 +194,18 @@ public class UIManager : MonoBehaviour
         rect.offsetMin = new Vector2(0, 0);
         rect.offsetMax = new Vector2(0, 0);
 
+        mazeButton = GameObject.Find("Maze Button").GetComponent<Button>();
+        jumpButton = GameObject.Find("Jump Button").GetComponent<Button>();
+        treasureButton = GameObject.Find("Treasure Button").GetComponent<Button>();
+        quizButton = GameObject.Find("Quiz Button").GetComponent<Button>();
+        bossButton = GameObject.Find("Boss Button").GetComponent<Button>();
+
+        mazeButton.onClick.AddListener(() => { StartDialogue(EventDialogue.LeftFirstRoom); CloseInformation(); });
+        jumpButton.onClick.AddListener(() => { StartDialogue(EventDialogue.LeftSecondRoom); CloseInformation(); });
+        treasureButton.onClick.AddListener(() => { StartDialogue(EventDialogue.RightFirstRoom); CloseInformation(); });
+        quizButton.onClick.AddListener(() => { StartDialogue(EventDialogue.RightSecondRoom); CloseInformation(); });
+        bossButton.onClick.AddListener(() => { StartDialogue(EventDialogue.CenterRoom); CloseInformation(); });
+
         infoPanel.SetActive(false);
     }
     // PuaseUI Setting for Default UI
@@ -244,6 +275,34 @@ public class UIManager : MonoBehaviour
         talk_panel.SetActive(true);
     }
 
+    public void NPCTalk()
+    {
+        // 처음 만났을 때
+        if (NPCMeet == false)
+        {
+            StartDialogue(EventDialogue.TalkWithCat);
+            NPCMeet = true;
+        }
+        else// if(NPCMeet == true)
+        {
+            // 그 다음 만났을 때
+            finishDialogue += OpenInformation;
+            StartDialogue(EventDialogue.TalkForInfo);
+        }
+    }
+
+    void OpenInformation()
+    {
+        finishDialogue -= OpenInformation;
+        GameManager.Instance.canInput = false;
+        infoPanel.SetActive(true);
+    }
+
+    void CloseInformation()
+    {
+        infoPanel.SetActive(false);
+    }
+
     void ProgressDialogue()
     {   // 인덱스 값이 텍스트 개수와 동일하면 모든 대화는 끝난 것이다!
         if(dialogueIndex >= textDatas.Count)
@@ -251,6 +310,7 @@ public class UIManager : MonoBehaviour
             isDialogue = false;
             talk_panel.SetActive(false);
             GameManager.Instance.canInput = true;
+            if(finishDialogue != null) finishDialogue();
             return;
         }
         // 인덱스 값이 유효하면 다음 대화를 진행한다.

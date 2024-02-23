@@ -87,6 +87,7 @@ public class Scene : MonoBehaviour
             obj.transform.localScale *= 2;
             player = obj.AddComponent<Player>();
         }
+        player.gameObject.layer = LayerMask.NameToLayer("Player");
 
         Transform spawnPos = GameObject.Find(spawnName).transform;
         Debug.Log("포지션 값 " + spawnPos.transform.position + ", " + player.transform.localPosition);

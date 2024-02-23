@@ -508,6 +508,6 @@ public class GameManager : MonoBehaviour
     public List<TextData> GetDialugeData(int index = -1)
     {
         if (index == -1) return null;
-        return textData[index];
+        return (textData[index] != null ? textData[index] : null);
     }
 }

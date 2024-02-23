@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
         GameObject camera = new GameObject("PlayerCamera");
         camera.transform.parent = this.transform;
         m_Camera = camera.AddComponent<Camera>();
+        m_Camera.depth = 2;
         camera.AddComponent<Cammove>().player = this;
         camera.transform.localPosition = new Vector3(0f, 0.76f, 0f);
         camera.transform.localScale = new Vector3(1, 1, 1);
@@ -122,14 +123,27 @@ public class Player : MonoBehaviour
             {
                 Door doorInfo = hit.collider.gameObject.GetComponent<Door>();
 
-                GameManager.Instance.SceneChange(doorInfo.GetNextScene());
+                switch (doorInfo.GetDoorType())
+                {
+                    case DoorType.broken_door:
+                        UIManager.Instance.StartDialogue(EventDialogue.BrookDoor);
+                        break;
+                    case DoorType.door:
+                        GameManager.Instance.SceneChange(doorInfo.GetNextScene());
+                        break;
+                    default:
+                        break;
+                }
+
                 Debug.Log("Interaction + " + hit.collider.gameObject.name);
                 //isLoading = true;
                 //GameManager.Instance.Field_Change(clickObject);
             }
             else if(hit.collider.gameObject.CompareTag("NPC"))
             {
+                UIManager.Instance.NPCTalk();
                 Debug.Log("NPC Contact");
+                
             }
             /*else if(clickObject.CompareTag("Artifact"))
             {
