@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3922635147519565581}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -79,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uBCF4\uBB3C\uCC3E\uAE30\uC5D0 \uB300\uD55C \uC815\uBCF4"
+  m_Text: "\uC624\uB978\uCABD \uCCAB\uBC88\uC9F8 \uBC29\uC5D0 \uB300\uD55C \uC815\uBCF4\n"
 --- !u!1 &3922635147040741763
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,7 +112,6 @@ RectTransform:
   m_Children:
   - {fileID: 3922635147271071763}
   m_Father: {fileID: 3922635147084866348}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -227,7 +225,7 @@ GameObject:
   - component: {fileID: 3922635147084032290}
   - component: {fileID: 3922635147084032291}
   m_Layer: 5
-  m_Name: RCP Button
+  m_Name: Quiz Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,7 +245,6 @@ RectTransform:
   m_Children:
   - {fileID: 3922635147275170519}
   m_Father: {fileID: 3922635147084866348}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -384,7 +381,6 @@ RectTransform:
   - {fileID: 3922635147084032288}
   - {fileID: 3922635147322316610}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -460,7 +456,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3922635147040741762}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -508,7 +503,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uBBF8\uB85C\uC5D0 \uB300\uD55C \uC815\uBCF4"
+  m_Text: "\uC67C\uCABD \uCCAB\uBC88\uC9F8 \uBC29\uC5D0 \uB300\uD55C \uC815\uBCF4"
 --- !u!1 &3922635147275170516
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,7 +516,7 @@ GameObject:
   - component: {fileID: 3922635147275170521}
   - component: {fileID: 3922635147275170518}
   m_Layer: 5
-  m_Name: RCP Text
+  m_Name: Quiz Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -540,7 +535,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3922635147084032288}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -588,7 +582,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uAC00\uC704\uBC14\uC704\uBCF4\uC5D0 \uB300\uD55C \uC815\uBCF4"
+  m_Text: "\uC624\uB978\uCABD \uB450\uBC88\uC9F8 \uBC29\uC5D0 \uB300\uD55C \uC815\uBCF4\n"
 --- !u!1 &3922635147322316611
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,7 +616,6 @@ RectTransform:
   m_Children:
   - {fileID: 3922635147911611855}
   m_Father: {fileID: 3922635147084866348}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -756,7 +749,6 @@ RectTransform:
   m_Children:
   - {fileID: 3922635146876822891}
   m_Father: {fileID: 3922635147084866348}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -888,7 +880,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3922635147322316610}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -970,7 +961,6 @@ RectTransform:
   m_Children:
   - {fileID: 3922635148670742699}
   m_Father: {fileID: 3922635147084866348}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -1102,7 +1092,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3922635148180373851}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1150,4 +1139,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC810\uD504\uB9F5\uC5D0 \uB300\uD55C \uC815\uBCF4"
+  m_Text: "\uC67C\uCABD \uB450\uBC88\uC9F8 \uBC29\uC5D0 \uB300\uD55C \uC815\uBCF4"

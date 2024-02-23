@@ -15578,7 +15578,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 166910, guid: 7c026980fc17fa642b7a22557ebb0007, type: 3}
       propertyPath: m_Name
-      value: Quiz Door
+      value: Trap Door
       objectReference: {fileID: 0}
     - target: {fileID: 166910, guid: 7c026980fc17fa642b7a22557ebb0007, type: 3}
       propertyPath: m_TagString

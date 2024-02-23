@@ -12,7 +12,7 @@ public class Hall : Scene
     [SerializeField] GameObject entrance;
     [SerializeField] GameObject jumpMap;
     [SerializeField] GameObject maze;
-    [SerializeField] GameObject quiz;
+    [SerializeField] GameObject trap;
     [SerializeField] GameObject treasure;
 
     // NPC Cat
@@ -57,7 +57,7 @@ public class Hall : Scene
         entrance = GameObject.Find("Entrance Door");
         jumpMap = GameObject.Find("JumpMap Door");
         maze = GameObject.Find("Maze Door");
-        quiz = GameObject.Find("Quiz Door");
+        trap = GameObject.Find("Trap Door");
         treasure = GameObject.Find("Treasure Door");
 
         cat = GameObject.Find("NPC_CAT").GetComponent<NPC>();
@@ -75,7 +75,7 @@ public class Hall : Scene
         sceneDoor.SetDoorNextScene(SceneName.Maze);
         sceneDoor.SetDoorType(DoorType.door);
 
-        sceneDoor = quiz.AddComponent<Door>();
+        sceneDoor = trap.AddComponent<Door>();
         sceneDoor.SetDoorNextScene(SceneName.Quiz);
         sceneDoor.SetDoorType(DoorType.door);
 
@@ -89,7 +89,6 @@ public class Hall : Scene
         finishDirector.stopped += OffCamera;
         sequence = 0;
 
-        UIManager.Instance.finishDialogue += HallInitEnter;
     }
 
     void HallInitEnter()
@@ -98,9 +97,11 @@ public class Hall : Scene
         switch (sequence)
         {
             case 0:
+                UIManager.Instance.finishDialogue += HallInitEnter;
                 UIManager.Instance.StartDialogue(EventDialogue.InHall);
                 break;
             case 1:
+                UIManager.Instance.finishDialogue -= HallInitEnter;
                 initCamera.SetActive(true);
                 break;
             default:
@@ -112,6 +113,7 @@ public class Hall : Scene
     void OffCamera(PlayableDirector pd)
     {
         initCamera.SetActive(false);
-        UIManager.Instance.StartDialogue(EventDialogue.TalkWithCat);
+        UIManager.Instance.finishDialogue -= HallInitEnter;
+        UIManager.Instance.StartDialogue(EventDialogue.SeeTheCat);
     }
 }

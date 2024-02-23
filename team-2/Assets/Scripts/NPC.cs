@@ -30,28 +30,4 @@ public class NPC : MonoBehaviour
         information_Rooms.Add(3, new string[] {"오른쪽 두번째 방은 가위바위보 맵이야.", "유물을 획득하기 위해서는 가위바위보를 해서 3번 이겨야하나봐.", "가위바위보에 지거나 무승부가 되면 무슨일이 벌어질지 모르니 조심해!"});
         information_Rooms.Add(4, new string[] {"유물을 다모으게 되면 저기 뒤에 보이는 문을 열수있어.", "저 방안에는 무시무시한 존재가 살고 있는 것 같아..", "아마 저 존재를 쓰러뜨리면 여기서 나갈 수 있지 않을까?"});
     }
-
-    public string GetContent(int id, int contentNum)
-    {
-        if(contentNum >= content[id].Length)
-        {
-            return null;
-        }
-        else 
-        {
-            return content[id][contentNum];
-        }
-    }
-
-    public string GetInformation(int roomId, int informationNum)
-    {
-        if(informationNum >= information_Rooms[roomId].Length)
-        {
-            return null;
-        }
-        else
-        {
-            return information_Rooms[roomId][informationNum];
-        }
-    }
 }

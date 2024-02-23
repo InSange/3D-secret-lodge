@@ -141,7 +141,9 @@ public class Player : MonoBehaviour
             }
             else if(hit.collider.gameObject.CompareTag("NPC"))
             {
+                UIManager.Instance.NPCTalk();
                 Debug.Log("NPC Contact");
+                
             }
             /*else if(clickObject.CompareTag("Artifact"))
             {
