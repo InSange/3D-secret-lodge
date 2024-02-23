@@ -67,9 +67,13 @@ public class UIManager : MonoBehaviour
     float dt;
 
     // 대화창에 관한 변수들
-    bool isDialogue;
+    [SerializeField] bool isDialogue;
     List<TextData> textDatas;
-    int dialogueIndex;
+    [SerializeField] int dialogueIndex;
+
+    // 대화창이 끝날 경우 실행시켜줄 델리게이트
+    public delegate void DialogueEnd();
+    public DialogueEnd finishDialogue;
 
     void Update()
     {
@@ -253,6 +257,7 @@ public class UIManager : MonoBehaviour
             isDialogue = false;
             talk_panel.SetActive(false);
             GameManager.Instance.canInput = true;
+            finishDialogue();
             return;
         }
         // 인덱스 값이 유효하면 다음 대화를 진행한다.

@@ -163,7 +163,7 @@ public class Monster : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("�΋H�� ���? " + other.gameObject.name);
+        //Debug.Log("�΋H�� ���? " + other.gameObject.name);
         if(other.gameObject.CompareTag("Player"))
         {
             target = other.gameObject.transform;

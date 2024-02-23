@@ -21,6 +21,11 @@ public class Hall : Scene
     // Camera
     [SerializeField] GameObject initCamera;
 
+    // Scene State
+    [SerializeField] bool isDescription;
+    [SerializeField] int sequence;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +45,7 @@ public class Hall : Scene
         LoadPlayer("hall spawn");
 
         LoadFinish();
+        HallInitEnter();
     }
 
     void LoadMap()
@@ -79,6 +85,33 @@ public class Hall : Scene
 
         initCamera = GameObject.Find("Init Camera");
         initCamera.SetActive(false);
+        PlayableDirector finishDirector = initCamera.GetComponent<PlayableDirector>();
+        finishDirector.stopped += OffCamera;
+        sequence = 0;
 
+        UIManager.Instance.finishDialogue += HallInitEnter;
+    }
+
+    void HallInitEnter()
+    {
+        Debug.Log(sequence + "응애 시작!");
+        switch (sequence)
+        {
+            case 0:
+                UIManager.Instance.StartDialogue(EventDialogue.InHall);
+                break;
+            case 1:
+                initCamera.SetActive(true);
+                break;
+            default:
+                break;
+        }
+        sequence++;
+    }    
+
+    void OffCamera(PlayableDirector pd)
+    {
+        initCamera.SetActive(false);
+        UIManager.Instance.StartDialogue(EventDialogue.TalkWithCat);
     }
 }
