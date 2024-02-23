@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class Hall : Scene
 {
@@ -16,6 +17,9 @@ public class Hall : Scene
 
     // NPC Cat
     [SerializeField] NPC cat;
+
+    // Camera
+    [SerializeField] GameObject initCamera;
 
     // Start is called before the first frame update
     void Start()
@@ -55,17 +59,26 @@ public class Hall : Scene
         Door sceneDoor;
         sceneDoor = entrance.AddComponent<Door>();
         sceneDoor.SetDoorNextScene(SceneName.CantMoveScene);
+        sceneDoor.SetDoorType(DoorType.broken_door);
 
         sceneDoor = jumpMap.AddComponent<Door>();
         sceneDoor.SetDoorNextScene(SceneName.JumpMap);
+        sceneDoor.SetDoorType(DoorType.door);
 
         sceneDoor = maze.AddComponent<Door>();
         sceneDoor.SetDoorNextScene(SceneName.Maze);
+        sceneDoor.SetDoorType(DoorType.door);
 
         sceneDoor = quiz.AddComponent<Door>();
         sceneDoor.SetDoorNextScene(SceneName.Quiz);
+        sceneDoor.SetDoorType(DoorType.door);
 
         sceneDoor = treasure.AddComponent<Door>();
         sceneDoor.SetDoorNextScene(SceneName.Treasure);
+        sceneDoor.SetDoorType(DoorType.door);
+
+        initCamera = GameObject.Find("Init Camera");
+        initCamera.SetActive(false);
+
     }
 }

@@ -10,6 +10,8 @@ public enum EventDialogue
     FoundLodge,
     InHall,
     TalkWithCat,
+
+    BrookDoor = 800,
 }
 
 /// <summary>
