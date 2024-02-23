@@ -79,7 +79,7 @@ public class UIManager : MonoBehaviour
                 talk_panel.SetActive(false);
             }
             dt += Time.deltaTime;
-            if(dt > 3.0f)
+            if(dt > 1.0f)
             {
                 dt = 0f;
                 dialogueIndex++;

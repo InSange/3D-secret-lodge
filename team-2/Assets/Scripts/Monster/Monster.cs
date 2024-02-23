@@ -1,38 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public enum AIState
 {
     idle,
     walk,
-    run,
+    patrol,
+    chase,
     attack
 }
 
-[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
 
 public class Monster : MonoBehaviour
 {
-    [SerializeField] float speed;
-    [SerializeField] float detectRange;
-    [SerializeField] float attackRange;
-    [SerializeField] CapsuleCollider detectCollider;
-    [SerializeField] Transform target;
-    [SerializeField] NavMeshAgent agent;
-    [SerializeField] Animator anim;
-    [SerializeField] AIState state;
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½
+    public CapsuleCollider detectCollider;
+    public Transform target;
+    public UnityEngine.AI.NavMeshAgent agent;
+    public Animator anim;
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    [SerializeField] float smoothRotationTime;//target ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½Ï´Âµï¿½ ï¿½É¸ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+    [SerializeField] float rotationVelocity;//target ï¿½Óµï¿½ï¿½ï¿½ ï¿½Ù²ï¿½Âµï¿½ ï¿½É¸ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+    [SerializeField] int targetLayer;
+
+    // ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½
+    public AIState state;
     [SerializeField] bool isChase;
-    [SerializeField] float distance;
-    // ´ÙÀ½ Çàµ¿À» ÁÖ±âÀûÀ¸·Î ¾÷µ¥ÀÌÆ®
-    [SerializeField] float dt;
-    [SerializeField] float nextBehaviourTime;
     [SerializeField] bool isLive;
+    [SerializeField] float dt;
+    public float detectRange;
+    public float attackRange;
+    public float nextBehaviourTime;
+    public float patrolDistance;
+
+    public ref float GetRotationTime()
+    {
+        return ref smoothRotationTime;
+    }
+
+    public float GetRotationVelocity()
+    {
+        return rotationVelocity;
+    }
+
 
     private void OnDrawGizmos()
     {
-        // ÇÃ·¹ÀÌ¾î ÀÎ½Ä ¹× °ø°Ý ¹Ý°æ ¹üÀ§¸¦ ±âÁî¸ð·Î ±×·ÁÁØ´Ù. ºÓÀº»öÀº ÃßÀû ¹üÀ§, ÆÄ¶õ»öÀº °ø°Ý ¹üÀ§
+        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Î½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ý°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½Ø´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectRange);
         Gizmos.color = Color.blue;
@@ -41,14 +57,21 @@ public class Monster : MonoBehaviour
 
     private void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
+        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         detectCollider = GetComponentInChildren<CapsuleCollider>();
-        Debug.Log("³ª´Â °¡Á®¿Â´Ù ÄÝ¶óÀÌ´õ¸¦ " + detectCollider.gameObject.name);
+        anim = GetComponent<Animator>();
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½ ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ï¿½ï¿½ " + detectCollider.gameObject.name);
+        // ï¿½âº» ï¿½ï¿½ï¿½ï¿½
+        smoothRotationTime = 0.3f;
+        rotationVelocity = 0.1f;
         isLive = true;
-        detectRange = 10.0f;
-        attackRange = 5.0f;
         dt = 0;
-        nextBehaviourTime = 1.0f;
+        targetLayer = LayerMask.NameToLayer("Player");
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        detectRange = 10.0f;
+        attackRange = 3.0f;
+        nextBehaviourTime = 0.5f;
+        patrolDistance = 10.0f;
     }
 
     // Update is called once per frame
@@ -62,55 +85,89 @@ public class Monster : MonoBehaviour
                 MonsterAI();
                 dt = 0;
             }
+
+            anim.SetFloat("speed", agent.desiredVelocity.magnitude);
         }
     }
 
-    void MonsterAI()
+    public virtual void MonsterAI()
     {
         if (target == null)
         {
+            Debug.Log("Å¸ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½");
 
+            if (state != AIState.patrol)
+            {
+                state = AIState.patrol;
+                anim.SetBool("chase", false);
+                agent.speed = 1.0f;
+                Debug.Log("Å½ï¿½ï¿½ï¿½ï¿½");
+            }
+
+            if (agent.remainingDistance <= 1.0f)
+            {
+                var randomPos = Random.insideUnitSphere * patrolDistance + transform.position;  // centerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ý°ï¿½) distance ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½. *Random.insideUnitSphere*ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1 Â¥ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½.
+
+                UnityEngine.AI.NavMeshHit hit;  // NavMesh ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì³ï¿½. Raycast hit ï¿½ï¿½ ï¿½ï¿½ï¿½
+
+                UnityEngine.AI.NavMesh.SamplePosition(randomPos, out hit, patrolDistance, UnityEngine.AI.NavMesh.AllAreas);  // areaMaskï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ NavMesh ï¿½ß¿ï¿½ï¿½ï¿½ randomPosï¿½Îºï¿½ï¿½ï¿½ distance ï¿½Ý°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ randomPosï¿½ï¿½ *ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½* ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ï³ï¿½ Ã£ï¿½Æ¼ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ hitï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. 
+                agent.SetDestination(hit.position);
+            }
         }
-        else
+        else//if(target != null)
         {
-            distance = Vector3.Distance(target.position, transform.position);
-            // Å¸°ÙÀÌ ÃßÀû ¹Ý°æ¿¡ µé¾î¿ÔÀ» ¶§
-            if (distance <= detectRange)
-            {   // ÇöÀç »óÅÂ°¡ Idle Á¤Áö »óÅÂÀÏ¶§
-                if (state == AIState.idle)
-                {
+            if (state != AIState.chase)
+            {
+                state = AIState.chase;
+                anim.SetBool("chase", true);
+                agent.speed = 5.0f;
+            }
 
-                }
+            var lookRotation = Quaternion.LookRotation(target.transform.position - transform.position);
+            var targetAngleY = lookRotation.eulerAngles.y;
 
-                // ÇöÀç »óÅÂ°¡ ÃßÀûÁßÀÏ ¶§
-                if (state == AIState.run)
-                {   // Nav ÄÄÆ÷³ÍÆ®¸¦ ÅëÇØ ¸ñÀûÁö¸¦ Å¸°Ù Æ÷Áö¼ÇÀ¸·Î ¼³Á¤ÇÑ´Ù.
-                    agent.SetDestination(target.position);
-                    anim.SetFloat("speed", agent.velocity.magnitude);
+            transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngleY, ref rotationVelocity, smoothRotationTime);
 
-                    if (distance <= attackRange)
-                    {   // °ø°Ý °Å¸® ¾ÈÀ¸·Î µé¾î¿ÔÀ» ¶§
-
-                    }
-                }
+            float dist = Vector3.Distance(target.position, transform.position);
+            // Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ý°æ¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+            if (dist <= attackRange)
+            {   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â°ï¿½ Idle ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½
+                anim.SetTrigger("attack");
             }
             else
             {
-                // ÇöÀç »óÅÂ°¡ ÃßÀûÁßÀÏ¶§ Å¸°ÙÀÌ ÃßÀû¹üÀ§ ¹ÛÀ¸·Î ¹þ¾î³¯ ½Ã
-                if (state == AIState.run)
-                {   // Ã³À½ À§Ä¡ÇØÀÖ´ø ÁöÁ¡À¸·Î µ¹¾Æ°£´Ù.
-                    anim.SetFloat("speed", agent.velocity.magnitude);
-                }
+                agent.SetDestination(target.position);
+            }
+        }
+    }
+
+    void SearchTarget()
+    {
+        var colliders = Physics.OverlapSphere(transform.position, detectRange, targetLayer);
+
+        foreach (var collider in colliders)
+        {
+            var livingEntity = collider.GetComponent<Player>();
+
+            // LivingEntity ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½, ï¿½Ø´ï¿½ LivingEntityï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´Ù¸ï¿½,
+            if (livingEntity != null)
+            {
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ LivingEntityï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                target = livingEntity.gameObject.transform;
+
+                // forï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                break;
             }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("ºÎ‹HÈù »ç¶÷? " + other.gameObject.name);
+        Debug.Log("ï¿½Î‹Hï¿½ï¿½ ï¿½ï¿½ï¿½? " + other.gameObject.name);
         if(other.gameObject.CompareTag("Player"))
         {
             target = other.gameObject.transform;
+            anim.SetBool("chase", true);
         }
     }
 
