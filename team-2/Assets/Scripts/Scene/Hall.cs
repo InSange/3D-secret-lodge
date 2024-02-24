@@ -103,6 +103,7 @@ public class Hall : Scene
             case 1:
                 UIManager.Instance.finishDialogue -= HallInitEnter;
                 initCamera.SetActive(true);
+                GameManager.Instance.GetPlayer().transform.LookAt(cat.transform);
                 break;
             default:
                 break;

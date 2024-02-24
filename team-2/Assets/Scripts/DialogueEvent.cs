@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class DialogueEvent : MonoBehaviour
 {
     [SerializeField] EventDialogue _event;
     [SerializeField] bool isOneTime;
+
+    // Camera
+    [SerializeField] GameObject eventCamera;
 
     public void SetEvent(EventDialogue e)
     {
@@ -21,7 +25,17 @@ public class DialogueEvent : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            UIManager.Instance.StartDialogue(_event);
+            if(eventCamera != null)
+            {
+                GameManager.Instance.canInput = false;
+                PlayableDirector pd = eventCamera.GetComponent<PlayableDirector>();
+                pd.stopped += OffCamera;
+                eventCamera.SetActive(true);
+            }
+            else
+            {
+                UIManager.Instance.StartDialogue(_event);
+            }
         }
     }
 
@@ -31,5 +45,11 @@ public class DialogueEvent : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+    }
+
+    void OffCamera(PlayableDirector pd)
+    {
+        eventCamera.SetActive(false);
+        UIManager.Instance.StartDialogue(_event);
     }
 }
