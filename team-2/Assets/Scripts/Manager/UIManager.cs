@@ -296,11 +296,13 @@ public class UIManager : MonoBehaviour
         finishDialogue -= OpenInformation;
         GameManager.Instance.canInput = false;
         infoPanel.SetActive(true);
+        Cursor.visible = true;
     }
 
     void CloseInformation()
     {
         infoPanel.SetActive(false);
+        Cursor.visible = false;
     }
 
     void ProgressDialogue()
