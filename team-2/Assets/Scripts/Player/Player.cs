@@ -12,14 +12,17 @@ public class Player : MonoBehaviour
     public int life = 2; // 생명력.
     public bool live;
 
-    float hAxis, vAxis;     // 어느 방향으로 이동할 것인지 입력받아줄 변수.
-    float playerSpeed = 10;  // 플레이어의 기본 이동속도.
-    float jumpPower = 8.0f;    // 플레이어의 점프력
+    [SerializeField] float hAxis, vAxis;     // 어느 방향으로 이동할 것인지 입력받아줄 변수.
+    float playerSpeed = 5.0f;  // 플레이어의 기본 이동속도.
+    [SerializeField] float jumpPower = 150.0f;    // 플레이어의 점프력
 
-    Vector3 groundOffset;
-    bool isGround;            // 땅에 착륙중인가?
+    [SerializeField] Vector3 groundOffset;
+    [SerializeField] bool isGround;            // 땅에 착륙중인가?
+    [Header("Boxcast Property")]
+    [SerializeField] private Vector3 boxSize;
+    [SerializeField] private float maxGroundDistance;
 
-    bool jDown;             // 점프 키
+    [SerializeField] bool jDown;             // 점프 키
     bool iDown;             // 상호작용 키
     bool pauseDown;         // pause Button
 
@@ -44,6 +47,7 @@ public class Player : MonoBehaviour
         // rigidBody Setting
         rigid = GetComponent<Rigidbody>();
         rigid.freezeRotation = true;
+        rigid.mass = 5f;
         // collider setting
         this.gameObject.tag = "Player";
         capSuleCollider = GetComponent<CapsuleCollider>();
@@ -60,6 +64,8 @@ public class Player : MonoBehaviour
 
         isGround = false;
         live = true;
+        boxSize = new Vector3(1, 0.5f, 1);
+        maxGroundDistance = 2f;
     }
 
     void Update()
@@ -67,8 +73,6 @@ public class Player : MonoBehaviour
         if (GameManager.Instance.canInput && !GameManager.Instance.getIsPause() && !isLoading)
         {
             GetInput();
-            Move();
-            Jump();
             Interaction();
         }
         if (Input.GetKeyDown(KeyCode.Escape) && GameManager.Instance.isPlaying)
@@ -79,7 +83,12 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        isGround = GroundCheck();
+        if (GameManager.Instance.canInput && !GameManager.Instance.getIsPause() && !isLoading)
+        {
+            isGround = GroundCheck();
+            Move();
+            Jump();
+        }
     }
 
     void GetInput()
@@ -169,12 +178,13 @@ public class Player : MonoBehaviour
 
     bool GroundCheck()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, capSuleCollider.height + Mathf.Abs(groundOffset.y)))
+        return Physics.BoxCast(transform.position, boxSize, -transform.up, transform.rotation, maxGroundDistance);
+        /*if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, capSuleCollider.height + Mathf.Abs(groundOffset.y)))
         {
             Debug.DrawRay(transform.position, Vector3.down * capSuleCollider.height + groundOffset, Color.red);
             return true;
         }
-        return false;
+        return false;*/
     }
 
     private void OnTriggerEnter(Collider other)
@@ -206,5 +216,11 @@ public class Player : MonoBehaviour
             other.gameObject.SetActive(false);
             PlayerPrefs.SetInt("spawnPoint", 1);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawCube(transform.position - transform.up * maxGroundDistance, boxSize);
     }
 }
