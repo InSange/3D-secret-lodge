@@ -95,8 +95,8 @@ public class Scene : MonoBehaviour
         GameManager.Instance.SetPlayer(player);
     }
 
-    private string nameScene;
-    private float fadeDt = 0.5f;
+    [SerializeField] private string nameScene;
+    [SerializeField] private float fadeDt = 0.5f;
 
     public void fade(float dt)
     {

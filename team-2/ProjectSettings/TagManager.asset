@@ -15,6 +15,7 @@ TagManager:
   - Monster
   - NPC
   - Broken_Door
+  - Monster_Point
   layers:
   - Default
   - TransparentFX

@@ -69,7 +69,7 @@ public class Intro : Scene
 
     void NewGameButton()
     {
-        GameManager.Instance.SceneChange(SceneName.StartMap);
+        GameManager.Instance.SceneChange(SceneName.Maze);
         GameManager.Instance.isPlaying = true;
     }
 

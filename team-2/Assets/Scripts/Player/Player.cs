@@ -7,38 +7,34 @@ public class Player : MonoBehaviour
     private Camera m_Camera;    // 플레이어 카메라 (생성되면서 배치되어짐)
     private Ray ray;    // 카메라 중심을 기점으로 오브젝트 체크하기 위한 레이저 
     private RaycastHit hit; // 레이저와 접촉된 물체를 기록하는 변수
-    private bool m_Jump;
+    Rigidbody rigid;        // 플레이어의 리지드바디.
+    CapsuleCollider capSuleCollider;
 
     public int life = 2; // 생명력.
     public bool live;
 
+    // 이동 관련 변수
     [SerializeField] float hAxis, vAxis;     // 어느 방향으로 이동할 것인지 입력받아줄 변수.
-    float playerSpeed = 5.0f;  // 플레이어의 기본 이동속도.
+    [SerializeField] bool shiftDown;
+    [SerializeField] float playerSpeed = 5.0f;  // 플레이어의 기본 이동속도.
     [SerializeField] float jumpPower = 150.0f;    // 플레이어의 점프력
-
-    [SerializeField] Vector3 groundOffset;
-    [SerializeField] bool isGround;            // 땅에 착륙중인가?
-    [Header("Boxcast Property")]
-    [SerializeField] private Vector3 boxSize;
-    [SerializeField] private float maxGroundDistance;
-
     [SerializeField] bool jDown;             // 점프 키
+    [SerializeField] bool moveCheck;
+    Vector3 movingWay;      // 플레이어가 나아갈 방향
+    // 랜드 관련 변수
+    [SerializeField] bool isGround;            // 땅에 착륙중인가? 
+    [SerializeField] private Vector3 boxSize;   // 땅에 착륙중인지 체크하기 위한 박스
+    [SerializeField] private float maxGroundDistance;   // 해당 박스를 놓을 위치
+    [SerializeField] private Vector3 bodyBoxSize;
+    [SerializeField] private float bodySize;
+    // 상호작용 키들 ( 상호작용 및 esc 퍼즈 키 )
     bool iDown;             // 상호작용 키
     bool pauseDown;         // pause Button
-
+    // 로딩시 플레이어 움직임 제한하기 위한 변수
     public bool isLoading;  // 로딩중일때 플레이어 일시정지기능(움직임 및 점프 x).
-
-    Vector3 movingWay;      // 플레이어가 나아갈 방향
-
-    Rigidbody rigid;        // 플레이어의 리지드바디.
-    CapsuleCollider capSuleCollider;
-
-    public GameObject clickObject;  // 플레이어가 상호작용 할 오브젝트를 넣어줄 변수.
 
     //public SystemManager systemManager; // 시스템 매니저
     public RSP rsp;
-
-    //public GameObject feildPointObj; // 필드이동에 사용되는 포인트 지점 체크하는 변수 
 
     void Start()
     {
@@ -60,12 +56,12 @@ public class Player : MonoBehaviour
         camera.transform.localPosition = new Vector3(0f, 0.76f, 0f);
         camera.transform.localScale = new Vector3(1, 1, 1);
 
-        groundOffset = new Vector3(0, -0.2f, 0);
-
         isGround = false;
         live = true;
         boxSize = new Vector3(1, 0.5f, 1);
         maxGroundDistance = 2f;
+        bodyBoxSize = new Vector3(2.5f, 3.0f, 2.5f);
+        bodySize = -0.5f;
     }
 
     void Update()
@@ -86,6 +82,7 @@ public class Player : MonoBehaviour
         if (GameManager.Instance.canInput && !GameManager.Instance.getIsPause() && !isLoading)
         {
             isGround = GroundCheck();
+            moveCheck = MoveCheck();
             Move();
             Jump();
         }
@@ -95,8 +92,9 @@ public class Player : MonoBehaviour
     {
         hAxis = Input.GetAxis("Horizontal");//systemManager.isAction ? 0 : Input.GetAxis("Horizontal");
         vAxis = Input.GetAxis("Vertical"); //systemManager.isAction ? 0 : Input.GetAxis("Vertical");
-        jDown = Input.GetButtonDown("Jump");//systemManager.isAction ? false : Input.GetButtonDown("Jump");
         iDown = Input.GetKeyDown(KeyCode.E);//systemManager.isSelectInformation ? false : Input.GetKeyDown(KeyCode.E);
+        shiftDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+        if (Input.GetButtonDown("Jump")) jDown = true;
     }
 
     private void Move()
@@ -104,8 +102,14 @@ public class Player : MonoBehaviour
         if (!isLoading)
         {
             movingWay = new Vector3(hAxis, 0, vAxis).normalized;
+            float finalSpeed = (shiftDown) ? playerSpeed * 2 : playerSpeed;
 
-            transform.Translate(movingWay * playerSpeed * Time.deltaTime);
+            if(MoveCheck())
+            {
+                movingWay = Vector3.zero;
+            }
+
+            transform.Translate(movingWay * finalSpeed * Time.deltaTime);
         }
     }
 
@@ -114,7 +118,7 @@ public class Player : MonoBehaviour
         if (jDown && isGround && !isLoading)
         {
             rigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-            isGround = true;
+            jDown = false;
         }
     }
 
@@ -187,35 +191,38 @@ public class Player : MonoBehaviour
         return false;*/
     }
 
-    private void OnTriggerEnter(Collider other)
+    bool MoveCheck()
     {
-        /*clickObject = other.gameObject;
-        if(other.gameObject.CompareTag("Monster")&& live == true)
-        {
-            live = false;
-            GameManager.Instance.GameOver();
-        }
-        else if(other.gameObject.CompareTag("Flame")&&live == true)
-        {
-            live = false;
-            GameManager.Instance.GameOver();
-        }
-        else if(other.gameObject.name == "Paper" || other.gameObject.name == "Scissor" || other.gameObject.name == "Rock")
-        {
-            Debug.Log("내가 밟고 있는거 " + other.gameObject.name);
-            rsp.SetPlayerRCP(other.gameObject.name);
-        }*/
-    }
+        // 움직임에 대한 로컬 벡터를 월드 벡터로 변환해준다.
+        //movingWay = transform.TransformDirection(movingWay);
+        // scope로 ray 충돌을 확인할 범위를 지정할 수 있다.
+        float scope = 2f;
 
-    private void OnTriggerExit(Collider other)
-    {
-        clickObject = null;
-        if (other.name == "StartMessage")
+        // 플레이어의 머리, 가슴, 발 총 3군데에서 ray를 쏜다.
+        List<Vector3> rayPositions = new List<Vector3>();
+        rayPositions.Add(transform.position + Vector3.up * 0.1f);
+        rayPositions.Add(transform.position + Vector3.up * capSuleCollider.height * 0.5f);
+        rayPositions.Add(transform.position + Vector3.up * capSuleCollider.height);
+
+        Vector3 forward = transform.TransformDirection(movingWay); // new Vector3(movingWay.x * transform.forward.z, movingWay.y * transform.forward.z, movingWay.z * transform.forward.z);
+
+        // 디버깅을 위해 ray를 화면에 그린다.
+        foreach (Vector3 pos in rayPositions)
         {
-            //systemManager.StartMessage();
-            other.gameObject.SetActive(false);
-            PlayerPrefs.SetInt("spawnPoint", 1);
+            Debug.DrawRay(pos, forward * scope, Color.red);
         }
+
+        // ray와 벽의 충돌을 확인한다.
+        foreach (Vector3 pos in rayPositions)
+        {
+            if (Physics.Raycast(pos, forward, out RaycastHit hit, scope))
+            {
+                return true;
+            }
+        }
+        return false;
+
+        //return Physics.BoxCast(transform.position, bodyBoxSize, -transform.up, transform.rotation, bodySize);
     }
 
     private void OnDrawGizmos()
