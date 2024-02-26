@@ -15,6 +15,7 @@ TagManager:
   - Monster
   - NPC
   - Broken_Door
+  - Monster_Point
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Water
   - UI
   - Player
-  - 
+  - Wall
   - 
   - 
   - 

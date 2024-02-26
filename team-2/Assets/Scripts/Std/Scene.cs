@@ -66,6 +66,8 @@ public class Scene : MonoBehaviour
     public bool getKeyStat(int key) { return (keyStat & key) == key; }
     public bool GetKeyDown(int key) { return (keyDown & key) == key; }
 
+    public RoomData room;
+
     iPoint mousePoint()
     {
         Vector3 v = Input.mousePosition;
@@ -91,12 +93,12 @@ public class Scene : MonoBehaviour
 
         Transform spawnPos = GameObject.Find(spawnName).transform;
         Debug.Log("포지션 값 " + spawnPos.transform.position + ", " + player.transform.localPosition);
-        player.transform.localPosition = spawnPos.localPosition;
+        player.transform.position = spawnPos.position;
         GameManager.Instance.SetPlayer(player);
     }
 
-    private string nameScene;
-    private float fadeDt = 0.5f;
+    [SerializeField] private string nameScene;
+    [SerializeField] private float fadeDt = 0.5f;
 
     public void fade(float dt)
     {
