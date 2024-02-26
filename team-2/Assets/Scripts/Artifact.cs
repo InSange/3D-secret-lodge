@@ -7,6 +7,9 @@ public class Artifact : MonoBehaviour
     public GameObject gameManager;
     public GameObject player;
 
+    public delegate void GetArtifactAfter();
+    public GetArtifactAfter playerGetArtifact;
+
     private float timer = 0f;
     void Update()
     {
@@ -17,5 +20,12 @@ public class Artifact : MonoBehaviour
     public void RotateGameObject(Vector3 rotation)
     {
         transform.rotation = Quaternion.Euler(rotation);
+    }
+
+    public void GetArtifact()
+    {
+        gameObject.SetActive(false);
+
+        playerGetArtifact();
     }
 }

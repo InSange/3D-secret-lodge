@@ -19,17 +19,18 @@ public class Player : MonoBehaviour
     [SerializeField] float playerSpeed = 5.0f;  // 플레이어의 기본 이동속도.
     [SerializeField] float jumpPower = 150.0f;    // 플레이어의 점프력
     [SerializeField] bool jDown;             // 점프 키
-    [SerializeField] bool moveCheck;
-    Vector3 movingWay;      // 플레이어가 나아갈 방향
+    [SerializeField] Vector3 movingWay;      // 플레이어가 나아갈 방향
     // 랜드 관련 변수
     [SerializeField] bool isGround;            // 땅에 착륙중인가? 
     [SerializeField] private Vector3 boxSize;   // 땅에 착륙중인지 체크하기 위한 박스
     [SerializeField] private float maxGroundDistance;   // 해당 박스를 놓을 위치
     [SerializeField] private Vector3 bodyBoxSize;
     [SerializeField] private float bodySize;
+    [SerializeField] int bodylayerMask;
     // 상호작용 키들 ( 상호작용 및 esc 퍼즈 키 )
     bool iDown;             // 상호작용 키
     bool pauseDown;         // pause Button
+    [SerializeField] int interactionlayerMask;
     // 로딩시 플레이어 움직임 제한하기 위한 변수
     public bool isLoading;  // 로딩중일때 플레이어 일시정지기능(움직임 및 점프 x).
 
@@ -62,6 +63,8 @@ public class Player : MonoBehaviour
         maxGroundDistance = 2f;
         bodyBoxSize = new Vector3(2.5f, 3.0f, 2.5f);
         bodySize = -0.5f;
+        bodylayerMask = 1 << LayerMask.NameToLayer("Wall");
+        interactionlayerMask = ~(1 << LayerMask.NameToLayer("Wall"));
     }
 
     void Update()
@@ -82,7 +85,6 @@ public class Player : MonoBehaviour
         if (GameManager.Instance.canInput && !GameManager.Instance.getIsPause() && !isLoading)
         {
             isGround = GroundCheck();
-            moveCheck = MoveCheck();
             Move();
             Jump();
         }
@@ -158,11 +160,12 @@ public class Player : MonoBehaviour
                 Debug.Log("NPC Contact");
                 
             }
-            /*else if(clickObject.CompareTag("Artifact"))
+            else if(hit.collider.gameObject.CompareTag("Artifact"))
             {
-                GameManager.Instance.Get_Artifact(clickObject);
-                clickObject = null;
+                Artifact artifact = hit.collider.gameObject.GetComponent<Artifact>();
+                artifact.GetArtifact();
             }
+            /*
             else if(clickObject.CompareTag("Treasure"))
             {
                 clickObject.GetComponent<TreasureBox>().OpenBox();
@@ -215,7 +218,7 @@ public class Player : MonoBehaviour
         // ray와 벽의 충돌을 확인한다.
         foreach (Vector3 pos in rayPositions)
         {
-            if (Physics.Raycast(pos, forward, out RaycastHit hit, scope))
+            if (Physics.Raycast(pos, forward, out RaycastHit hit, scope, bodylayerMask))
             {
                 return true;
             }

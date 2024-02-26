@@ -45,6 +45,11 @@ public class Monster : MonoBehaviour
         return rotationVelocity;
     }
 
+    public void SetDetectRange(float v)
+    {
+        detectRange = v;
+    }
+
 
     private void OnDrawGizmos()
     {

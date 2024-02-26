@@ -20,12 +20,12 @@ public class Maze : Scene
 
     private void LoadMapData()
     {
+        transform.position = new Vector3(3000.0f, 0, 0);
         map = Instantiate((GameObject)Resources.Load("Scene/Maze/Maze"));
         map.transform.SetParent(this.transform);
-
-        door = GameObject.FindWithTag("Door").GetComponent<Door>();
-        door.SetDoorNextScene(SceneName.Hall);
-        door.SetDoorType(DoorType.broken_door);
+        room = GetComponentInChildren<RoomData>();
+        room.SetSceneData(this);
+        room.RoomSetting();
     }
 
     // Update is called once per frame
