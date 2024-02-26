@@ -7,13 +7,11 @@ public class Maze : Scene
 {
     [SerializeField] GameObject map;
     [SerializeField] List<Transform> spawnPoints;
-    [SerializeField] Door door;
 
     // Start is called before the first frame update
     void Start()
     {
         LoadMapData();
-
         LoadPlayer("Maze_SpawnPoint");
         LoadFinish();
     }
@@ -26,6 +24,17 @@ public class Maze : Scene
         room = GetComponentInChildren<RoomData>();
         room.SetSceneData(this);
         room.RoomSetting();
+        room.artifact.playerGetArtifact += MazeSecondPhase;
+    }
+
+    public void MazeSecondPhase()
+    {
+        room.door.SetDoorType(DoorType.door);
+
+        for (int i = 0; i < room.monsters.Count; i++)
+        {
+            room.monsters[i].detectCollider.radius = 300.0f;
+        }
     }
 
     // Update is called once per frame

@@ -5,7 +5,8 @@ using UnityEngine;
 public enum DoorType
 {
     broken_door = 0,
-    door
+    door,
+    clear,
 }
 
 public class Door : MonoBehaviour

@@ -4,16 +4,11 @@ using UnityEngine;
 
 public class RoomData : MonoBehaviour
 {
-    [SerializeField] Door door;
-    [SerializeField] Artifact artifact;
-    [SerializeField] List<Transform> monster_spawn;
-    [SerializeField] List<Monster> monsters;
-    [SerializeField] Scene sceneData;
-
-    public Door GetDoorObject()
-    {
-        return door;
-    }
+    public Door door;
+    public Artifact artifact;
+    public List<Transform> monster_spawn;
+    public List<Monster> monsters;
+    public Scene sceneData;
 
     public void SetSceneData(Scene data)
     {
@@ -23,18 +18,7 @@ public class RoomData : MonoBehaviour
 
     public void RoomSetting()
     {
-        artifact.playerGetArtifact += SecondPhase;
         door.SetDoorNextScene(SceneName.Hall);
         door.SetDoorType(DoorType.broken_door);
-    }
-
-    public void SecondPhase()
-    {
-        door.SetDoorType(DoorType.door);
-        
-        for(int i = 0; i < monsters.Count; i++)
-        {
-            monsters[i].detectCollider.radius = 300.0f;
-        }
     }
 }

@@ -8,14 +8,30 @@ public class JumpMap : Scene
     // Start is called before the first frame update
     void Start()
     {
-        // background map instance
-        map = Instantiate((GameObject)Resources.Load("Scene/StartMap/Start_MAP"));
+        LoadMapData();
+        LoadPlayer("JumpMap_SpawnPoint");
+        LoadFinish();
+    }
+
+    private void LoadMapData()
+    {
+        map = Instantiate((GameObject)Resources.Load("Scene/JumpMap/JumpMap"));
         map.transform.SetParent(this.transform);
+        room = GetComponentInChildren<RoomData>();
+        room.SetSceneData(this);
+        room.RoomSetting();
+        room.artifact.playerGetArtifact += JumpMapSecondPhase;
+    }
+
+    public void JumpMapSecondPhase()
+    {
+        room.door.SetDoorType(DoorType.door);
+        Debug.Log("Á¡ÇÁ¸Ê Å»Ãë ¿Ï·á");
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-        
+        base.Update();
     }
 }

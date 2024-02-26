@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField] float hAxis, vAxis;     // 어느 방향으로 이동할 것인지 입력받아줄 변수.
     [SerializeField] bool shiftDown;
     [SerializeField] float playerSpeed = 5.0f;  // 플레이어의 기본 이동속도.
-    [SerializeField] float jumpPower = 150.0f;    // 플레이어의 점프력
+    [SerializeField] float jumpPower = 180.0f;    // 플레이어의 점프력
     [SerializeField] bool jDown;             // 점프 키
     [SerializeField] Vector3 movingWay;      // 플레이어가 나아갈 방향
     // 랜드 관련 변수
@@ -146,6 +146,8 @@ public class Player : MonoBehaviour
                     case DoorType.door:
                         GameManager.Instance.SceneChange(doorInfo.GetNextScene());
                         break;
+                    case DoorType.clear:
+                        break;
                     default:
                         break;
                 }
@@ -199,7 +201,7 @@ public class Player : MonoBehaviour
         // 움직임에 대한 로컬 벡터를 월드 벡터로 변환해준다.
         //movingWay = transform.TransformDirection(movingWay);
         // scope로 ray 충돌을 확인할 범위를 지정할 수 있다.
-        float scope = 2f;
+        float scope = 1.3f;
 
         // 플레이어의 머리, 가슴, 발 총 3군데에서 ray를 쏜다.
         List<Vector3> rayPositions = new List<Vector3>();
