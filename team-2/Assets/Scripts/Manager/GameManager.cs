@@ -312,9 +312,9 @@ public class GameManager : MonoBehaviour
         }
         for(int i = 0; i < treasuresBox.Length; i++)
         {
-            /*treasuresBox[i].GetComponent<TreasureBox>().reward.SetActive(false);
+            treasuresBox[i].GetComponent<TreasureBox>().reward.SetActive(false);
             treasuresBox[i].GetComponent<TreasureBox>().box.SetActive(true);
-            treasuresBox[i].gameObject.GetComponent<BoxCollider>().enabled = true;      */  
+            treasuresBox[i].gameObject.GetComponent<BoxCollider>().enabled = true;        
         }
         if(artifactNum == 2) 
         {

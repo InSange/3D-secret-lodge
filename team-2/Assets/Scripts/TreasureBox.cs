@@ -4,22 +4,14 @@ using UnityEngine;
 
 public class TreasureBox : MonoBehaviour
 {
-    [SerializeField] bool haveArtifact;
-    [SerializeField] GameObject boxContent;
+    public GameObject reward;
+    public GameObject box;
 
     public void OpenBox()
     {
-        this.gameObject.SetActive(false);
-    }
-
-    public void SetHaveArtifact(bool flag, GameObject obj)
-    {
-        haveArtifact = flag;
-        boxContent = obj;
-    }
-
-    public bool GetHaveArtifact()
-    {
-        return haveArtifact;
+        reward.SetActive(true);
+        box.SetActive(false);
+        this.gameObject.GetComponent<BoxCollider>().enabled = false;
+        reward.GetComponent<SurpirseImage>().Surpirse();
     }
 }
