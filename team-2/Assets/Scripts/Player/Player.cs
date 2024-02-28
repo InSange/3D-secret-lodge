@@ -103,13 +103,14 @@ public class Player : MonoBehaviour
     {
         if (!isLoading)
         {
+            if(MoveCheck())
+            {
+                hAxis = 0;
+                vAxis = 0;
+            }
             movingWay = new Vector3(hAxis, 0, vAxis).normalized;
             float finalSpeed = (shiftDown) ? playerSpeed * 2 : playerSpeed;
 
-            if(MoveCheck())
-            {
-                movingWay = Vector3.zero;
-            }
 
             transform.Translate(movingWay * finalSpeed * Time.deltaTime);
         }
@@ -205,7 +206,7 @@ public class Player : MonoBehaviour
 
         // 플레이어의 머리, 가슴, 발 총 3군데에서 ray를 쏜다.
         List<Vector3> rayPositions = new List<Vector3>();
-        rayPositions.Add(transform.position + Vector3.up * 0.1f);
+        //rayPositions.Add(transform.position + Vector3.up * 0.1f);
         rayPositions.Add(transform.position + Vector3.up * capSuleCollider.height * 0.5f);
         rayPositions.Add(transform.position + Vector3.up * capSuleCollider.height);
 

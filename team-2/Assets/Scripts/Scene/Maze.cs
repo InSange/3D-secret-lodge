@@ -24,17 +24,6 @@ public class Maze : Scene
         room = GetComponentInChildren<RoomData>();
         room.SetSceneData(this);
         room.RoomSetting();
-        room.artifact.playerGetArtifact += MazeSecondPhase;
-    }
-
-    public void MazeSecondPhase()
-    {
-        room.door.SetDoorType(DoorType.door);
-
-        for (int i = 0; i < room.monsters.Count; i++)
-        {
-            room.monsters[i].detectCollider.radius = 300.0f;
-        }
     }
 
     // Update is called once per frame

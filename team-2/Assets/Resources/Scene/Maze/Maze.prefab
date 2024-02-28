@@ -50169,7 +50169,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5178731829728683032}
-  - component: {fileID: 209373961634781983}
+  - component: {fileID: 5679163367546339997}
   m_Layer: 0
   m_Name: Maze
   m_TagString: Untagged
@@ -50201,7 +50201,7 @@ Transform:
   - {fileID: 2900890306334061453}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &209373961634781983
+--- !u!114 &5679163367546339997
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -50210,11 +50210,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5178731829728683039}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 137198c122fbb1746afec4212540c074, type: 3}
+  m_Script: {fileID: 11500000, guid: 951445485abc0d045bb4091989ace6d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   door: {fileID: 8338681071372376873}
   artifact: {fileID: 8926227722790119691}
+  sceneData: {fileID: 0}
   monster_spawn:
   - {fileID: 23453930233018195}
   - {fileID: 6273239684174490084}
@@ -50226,6 +50227,12 @@ MonoBehaviour:
   - {fileID: 6966575126944086511}
   - {fileID: 3325401871886323125}
   - {fileID: 7804349118076142222}
+  - {fileID: 5202577506793035993}
+  - {fileID: 2250919780298125714}
+  - {fileID: 5294969034205852925}
+  - {fileID: 8593296743352409184}
+  - {fileID: 6839966388588516225}
+  - {fileID: 8117092519362127200}
   monsters:
   - {fileID: 698243506967695541}
   - {fileID: 6232973744586741436}
@@ -50243,7 +50250,6 @@ MonoBehaviour:
   - {fileID: 2790289790412696943}
   - {fileID: 7518749417930785471}
   - {fileID: 78922792694651846}
-  sceneData: {fileID: 0}
 --- !u!1 &5178731829728913730
 GameObject:
   m_ObjectHideFlags: 0
