@@ -6,8 +6,6 @@ public class RoomData : MonoBehaviour
 {
     public Door door;
     public Artifact artifact;
-    public List<Transform> monster_spawn;
-    public List<Monster> monsters;
     public Scene sceneData;
 
     public void SetSceneData(Scene data)
@@ -16,7 +14,7 @@ public class RoomData : MonoBehaviour
         Debug.Log("신데이터 로드:" + sceneData);
     }
 
-    public void RoomSetting()
+    public virtual void RoomSetting()
     {
         door.SetDoorNextScene(SceneName.Hall);
         door.SetDoorType(DoorType.broken_door);
