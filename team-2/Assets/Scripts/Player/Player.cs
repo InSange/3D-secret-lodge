@@ -161,19 +161,18 @@ public class Player : MonoBehaviour
             {
                 UIManager.Instance.NPCTalk();
                 Debug.Log("NPC Contact");
-                
             }
             else if(hit.collider.gameObject.CompareTag("Artifact"))
             {
                 Artifact artifact = hit.collider.gameObject.GetComponent<Artifact>();
                 artifact.GetArtifact();
             }
-            /*
-            else if(clickObject.CompareTag("Treasure"))
+            else if(hit.collider.gameObject.CompareTag("Treasure"))
             {
-                clickObject.GetComponent<TreasureBox>().OpenBox();
-                clickObject = null;
+                TreasureBox box = hit.collider.gameObject.GetComponent<TreasureBox>();
+                box.OpenBox();
             }
+            /*
             else if(clickObject.CompareTag("Broken_Door"))
             {
                // systemManager.PlayerText(clickObject);
