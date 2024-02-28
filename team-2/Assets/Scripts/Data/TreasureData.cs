@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class TreasureData : RoomData
 {
     [SerializeField] GameObject enterCamera;
-    [SerializeField] List<Monster> monsters;
+    [SerializeField] GameObject monsterParent;
+    [SerializeField] List<GameObject> monsters;
     [SerializeField] List<GameObject> boxes;
-    [SerializeField] List<GameObject> monsterInBox;
     [SerializeField] bool isArtifactInput;
     // Start is called before the first frame update
     void Start()
@@ -20,39 +21,39 @@ public class TreasureData : RoomData
         base.RoomSetting();
         boxes[0].GetComponent<TreasureBox>().SetHaveArtifact(false, null);
 
+        int rand = Random.Range(1, boxes.Count);
+
         for(int i = 1; i < boxes.Count; i++)
         {
-            if(!isArtifactInput)
+            if (i == rand)
             {
-                int rand = Random.Range(0, 1);
-                if (rand == 1)
-                {
-                    boxes[i].GetComponent<TreasureBox>().SetHaveArtifact(true, artifact.gameObject);
-                    artifact.transform.SetParent(boxes[i].transform);
-                    artifact.transform.localPosition = Vector3.zero;
-                }
-                else
-                {
-                    boxes[i].GetComponent<TreasureBox>().SetHaveArtifact(false, monsterInBox[0]);
-                    monsterInBox[0].transform.SetParent(boxes[i].transform);
-                    monsterInBox[0].transform.localPosition = Vector3.zero;
-                    monsterInBox.RemoveAt(0);
-                }
+                boxes[i].GetComponent<TreasureBox>().SetHaveArtifact(true, artifact.gameObject);
+                artifact.transform.localPosition = boxes[i].transform.localPosition;
+                artifact.gameObject.SetActive(false);
             }
             else
             {
-                boxes[i].GetComponent<TreasureBox>().SetHaveArtifact(false, monsterInBox[0]);
-                monsterInBox[0].transform.SetParent(boxes[i].transform);
-                monsterInBox[0].transform.localPosition = Vector3.zero;
-                monsterInBox.RemoveAt(0);
+                GameObject monster = Instantiate((GameObject)Resources.Load("Monster/Hide Zombie"));
+                boxes[i].GetComponent<TreasureBox>().SetHaveArtifact(false, monster);
+                monster.transform.SetParent(monsterParent.transform);
+                monster.transform.localPosition = boxes[i].transform.localPosition;
+                monsters.Add(monster);
+                monster.SetActive(false);
             }
         }
+
+        sceneData.fadeOutAfter += InitTreasureRoom;
     }
 
     public void InitTreasureRoom()
     {
-
+        GameManager.Instance.canInput = false;
+        sceneData.fadeOutAfter -= InitTreasureRoom;
+        PlayableDirector pd = enterCamera.GetComponent<PlayableDirector>();
+        pd.stopped += OffEnterCamera;
+        enterCamera.SetActive(true);
     }
+
 
     public void TreasureSecondPhase()
     {
@@ -60,7 +61,13 @@ public class TreasureData : RoomData
 
         for (int i = 0; i < monsters.Count; i++)
         {
-            monsters[i].detectCollider.radius = 300.0f;
+            Monster monsterCS = monsters[i].GetComponent<Monster>();
+            monsterCS.detectCollider.radius = 300.0f;
         }
+    }
+    void OffEnterCamera(PlayableDirector pd)
+    {
+        enterCamera.SetActive(false);
+        GameManager.Instance.canInput = true;
     }
 }

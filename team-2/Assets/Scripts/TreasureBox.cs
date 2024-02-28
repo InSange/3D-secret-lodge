@@ -10,6 +10,7 @@ public class TreasureBox : MonoBehaviour
     public void OpenBox()
     {
         this.gameObject.SetActive(false);
+        if(boxContent != null) boxContent.SetActive(true);
     }
 
     public void SetHaveArtifact(bool flag, GameObject obj)
