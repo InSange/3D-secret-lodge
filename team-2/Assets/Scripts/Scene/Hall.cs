@@ -94,6 +94,7 @@ public class Hall : Scene
     void HallInitEnter()
     {
         Debug.Log(sequence + "응애 시작!");
+        Transform playerTransform = GameManager.Instance.GetPlayer().transform;
         switch (sequence)
         {
             case 0:
@@ -103,7 +104,6 @@ public class Hall : Scene
             case 1:
                 UIManager.Instance.finishDialogue -= HallInitEnter;
                 initCamera.SetActive(true);
-                GameManager.Instance.GetPlayer().transform.LookAt(cat.transform);
                 break;
             default:
                 break;
