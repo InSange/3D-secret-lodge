@@ -7,7 +7,7 @@ public enum SceneName
     Intro = 0,
     StartMap,
     Hall,
-    JumpMap,
+    Trap,
     Maze,
     Quiz,
     Treasure,

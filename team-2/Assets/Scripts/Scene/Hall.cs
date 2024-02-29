@@ -68,7 +68,7 @@ public class Hall : Scene
         sceneDoor.SetDoorType(DoorType.broken_door);
 
         sceneDoor = jumpMap.AddComponent<Door>();
-        sceneDoor.SetDoorNextScene(SceneName.JumpMap);
+        sceneDoor.SetDoorNextScene(SceneName.Trap);
         sceneDoor.SetDoorType(DoorType.door);
 
         sceneDoor = maze.AddComponent<Door>();
