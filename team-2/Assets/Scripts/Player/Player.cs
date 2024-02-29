@@ -34,9 +34,6 @@ public class Player : MonoBehaviour
     // 로딩시 플레이어 움직임 제한하기 위한 변수
     public bool isLoading;  // 로딩중일때 플레이어 일시정지기능(움직임 및 점프 x).
 
-    //public SystemManager systemManager; // 시스템 매니저
-    public RSP rsp;
-
     void Start()
     {
         this.gameObject.AddComponent<CapsuleCollider>();
