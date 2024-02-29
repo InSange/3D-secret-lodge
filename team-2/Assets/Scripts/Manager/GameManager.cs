@@ -133,9 +133,9 @@ public class GameManager : MonoBehaviour
                 Debug.Log("홀 이동");
                 GameManager.Instance.curScene.setScene("Hall");
                 break;
-            case SceneName.JumpMap:
+            case SceneName.Trap:
                 Debug.Log("점프맵 이동");
-                GameManager.Instance.curScene.setScene("JumpMap");
+                GameManager.Instance.curScene.setScene("Trap");
                 break;
             case SceneName.Maze:
                 Debug.Log("미로 이동");

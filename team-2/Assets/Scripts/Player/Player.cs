@@ -34,9 +34,6 @@ public class Player : MonoBehaviour
     // 로딩시 플레이어 움직임 제한하기 위한 변수
     public bool isLoading;  // 로딩중일때 플레이어 일시정지기능(움직임 및 점프 x).
 
-    //public SystemManager systemManager; // 시스템 매니저
-    public RSP rsp;
-
     void Start()
     {
         this.gameObject.AddComponent<CapsuleCollider>();
@@ -161,19 +158,18 @@ public class Player : MonoBehaviour
             {
                 UIManager.Instance.NPCTalk();
                 Debug.Log("NPC Contact");
-                
             }
             else if(hit.collider.gameObject.CompareTag("Artifact"))
             {
                 Artifact artifact = hit.collider.gameObject.GetComponent<Artifact>();
                 artifact.GetArtifact();
             }
-            /*
-            else if(clickObject.CompareTag("Treasure"))
+            else if(hit.collider.gameObject.CompareTag("Treasure"))
             {
-                clickObject.GetComponent<TreasureBox>().OpenBox();
-                clickObject = null;
+                TreasureBox box = hit.collider.gameObject.GetComponent<TreasureBox>();
+                box.OpenBox();
             }
+            /*
             else if(clickObject.CompareTag("Broken_Door"))
             {
                // systemManager.PlayerText(clickObject);

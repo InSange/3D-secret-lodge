@@ -20,13 +20,6 @@ public class JumpMap : Scene
         room = GetComponentInChildren<RoomData>();
         room.SetSceneData(this);
         room.RoomSetting();
-        room.artifact.playerGetArtifact += JumpMapSecondPhase;
-    }
-
-    public void JumpMapSecondPhase()
-    {
-        room.door.SetDoorType(DoorType.door);
-        Debug.Log("Á¡ÇÁ¸Ê Å»Ãë ¿Ï·á");
     }
 
     // Update is called once per frame
