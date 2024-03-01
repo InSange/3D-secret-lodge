@@ -11,11 +11,6 @@ public class TrapAxe : TrapOBJ
     [SerializeField] float upspeed;
     [SerializeField] bool isReturn;
 
-    public override void Update()
-    {
-        base.Update();
-    }
-
     public override void FixedUpdate()
     {
         base.FixedUpdate();
