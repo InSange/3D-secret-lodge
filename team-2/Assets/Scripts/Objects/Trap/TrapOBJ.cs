@@ -6,11 +6,6 @@ public class TrapOBJ : MonoBehaviour
 {
     public float dt;
 
-    public virtual void Update()
-    {
-        dt += Time.deltaTime;
-    }
-
     public virtual void FixedUpdate()
     {
 

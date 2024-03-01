@@ -8,6 +8,7 @@ public class TrapRoomData : RoomData
 {
     [SerializeField] GameObject enterCamera;
     [SerializeField] GameObject secondPhaseCamera;
+    [SerializeField] List<TrapOBJ> trapOBJ;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +42,10 @@ public class TrapRoomData : RoomData
     {
         artifact.playerGetArtifact -= TrapRoomSecondPhase;
         door.SetDoorType(DoorType.door);
+        for(int i = 0; i < trapOBJ.Count; i++)
+        {
+            trapOBJ[i].SecondPhaseSetting();
+        }
         OnSecondPhaseCamera();
     }
 
