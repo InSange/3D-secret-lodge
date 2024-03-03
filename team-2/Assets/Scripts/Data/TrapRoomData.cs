@@ -42,7 +42,8 @@ public class TrapRoomData : RoomData
     {
         artifact.playerGetArtifact -= TrapRoomSecondPhase;
         door.SetDoorType(DoorType.door);
-        for(int i = 0; i < trapOBJ.Count; i++)
+        door.doorEvent += OutHall;
+        for (int i = 0; i < trapOBJ.Count; i++)
         {
             trapOBJ[i].SecondPhaseSetting();
         }
@@ -61,5 +62,13 @@ public class TrapRoomData : RoomData
     {
         secondPhaseCamera.SetActive(false);
         GameManager.Instance.canInput = true;
+    }
+
+    void OutHall()
+    {
+        GameManager.data.clearTrap= true;
+        GameManager.SaveGameData();
+        door.doorEvent -= OutHall;
+        Debug.Log("함정맵 세이브 완료!");
     }
 }

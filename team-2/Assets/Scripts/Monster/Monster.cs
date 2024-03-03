@@ -34,6 +34,8 @@ public class Monster : MonoBehaviour
     public float attackRange;
     public float nextBehaviourTime;
     public float patrolDistance;
+    public float speed;
+    public float chaseSpeed;
 
     public ref float GetRotationTime()
     {
@@ -73,10 +75,8 @@ public class Monster : MonoBehaviour
         dt = 0;
         targetLayer = LayerMask.NameToLayer("Player");
         // ���� ����
-        detectRange = 10.0f;
-        attackRange = 3.0f;
-        nextBehaviourTime = 0.5f;
-        patrolDistance = 10.0f;
+        MonsterSetting();
+        detectCollider.radius = detectRange;
     }
 
     // Update is called once per frame
@@ -95,6 +95,16 @@ public class Monster : MonoBehaviour
         }
     }
 
+    public virtual void MonsterSetting()
+    {
+        detectRange = 10.0f;
+        attackRange = 3.0f;
+        nextBehaviourTime = 0.5f;
+        patrolDistance = 10.0f;
+        speed = 1.0f;
+        chaseSpeed = 5.0f;
+    }
+
     public virtual void MonsterAI()
     {
         if (target == null)
@@ -105,7 +115,7 @@ public class Monster : MonoBehaviour
             {
                 state = AIState.patrol;
                 anim.SetBool("chase", false);
-                agent.speed = 1.0f;
+                agent.speed = speed;
                 Debug.Log("Ž����");
             }
 
@@ -125,7 +135,7 @@ public class Monster : MonoBehaviour
             {
                 state = AIState.chase;
                 anim.SetBool("chase", true);
-                agent.speed = 5.0f;
+                agent.speed = chaseSpeed;
             }
 
             var lookRotation = Quaternion.LookRotation(target.transform.position - transform.position);
@@ -173,6 +183,7 @@ public class Monster : MonoBehaviour
         {
             target = other.gameObject.transform;
             anim.SetBool("chase", true);
+            Debug.Log("추적한다 나는 " + target.name);
         }
     }
 

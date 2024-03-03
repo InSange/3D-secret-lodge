@@ -266,6 +266,7 @@ public class UIManager : MonoBehaviour
         if (textDatas == null) return;
         // 이벤트 데이터가 있을 시 플레이어를 조작할 수 없음!
         GameManager.Instance.canInput = false;  // 플레이어 조작 X
+        Debug.Log("여기 있어요11");
         dt = 0; // 시간 초기화
         dialogueIndex = 0; // 대사 구별 인덱스
         isDialogue = true;  // 대화 시작 구별 변수
@@ -282,6 +283,8 @@ public class UIManager : MonoBehaviour
         {
             StartDialogue(EventDialogue.TalkWithCat);
             NPCMeet = true;
+            GameManager.data.visitedHall = true;
+            GameManager.SaveGameData();
         }
         else// if(NPCMeet == true)
         {

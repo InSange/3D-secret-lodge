@@ -45,7 +45,11 @@ public class Hall : Scene
         LoadPlayer("hall spawn");
 
         LoadFinish();
-        HallInitEnter();
+
+        if (GameManager.data.visitedHall == false)
+        {
+            fadeOutAfter += HallInitEnter;
+        }
     }
 
     void LoadMap()
@@ -53,6 +57,10 @@ public class Hall : Scene
         // Load BackGround Map
         map = Instantiate((GameObject)Resources.Load("Scene/Hall/Hall"));
         map.transform.SetParent(this.transform);
+
+        room = GetComponentInChildren<RoomData>();
+        room.SetSceneData(this);
+        room.RoomSetting();
 
         entrance = GameObject.Find("Entrance Door");
         jumpMap = GameObject.Find("JumpMap Door");
@@ -68,7 +76,7 @@ public class Hall : Scene
         sceneDoor.SetDoorType(DoorType.broken_door);
 
         sceneDoor = jumpMap.AddComponent<Door>();
-        sceneDoor.SetDoorNextScene(SceneName.Trap);
+        sceneDoor.SetDoorNextScene(SceneName.JumpMap);
         sceneDoor.SetDoorType(DoorType.door);
 
         sceneDoor = maze.AddComponent<Door>();
@@ -76,7 +84,7 @@ public class Hall : Scene
         sceneDoor.SetDoorType(DoorType.door);
 
         sceneDoor = trap.AddComponent<Door>();
-        sceneDoor.SetDoorNextScene(SceneName.Quiz);
+        sceneDoor.SetDoorNextScene(SceneName.Trap);
         sceneDoor.SetDoorType(DoorType.door);
 
         sceneDoor = treasure.AddComponent<Door>();
@@ -93,17 +101,20 @@ public class Hall : Scene
 
     void HallInitEnter()
     {
+        if (fadeOutAfter != null) fadeOutAfter -= HallInitEnter;
         Debug.Log(sequence + "응애 시작!");
         Transform playerTransform = GameManager.Instance.GetPlayer().transform;
         switch (sequence)
         {
             case 0:
+                playerTransform.Rotate(new Vector3(0, -180.0f, 0));
                 UIManager.Instance.finishDialogue += HallInitEnter;
                 UIManager.Instance.StartDialogue(EventDialogue.InHall);
                 break;
             case 1:
                 UIManager.Instance.finishDialogue -= HallInitEnter;
                 initCamera.SetActive(true);
+                playerTransform.Rotate(new Vector3(0, 180.0f, 0));
                 break;
             default:
                 break;

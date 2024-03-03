@@ -150,6 +150,7 @@ public class Player : MonoBehaviour
                         break;
                 }
 
+                if(doorInfo.doorEvent != null) doorInfo.doorEvent();
                 Debug.Log("Interaction + " + hit.collider.gameObject.name);
                 //isLoading = true;
                 //GameManager.Instance.Field_Change(clickObject);
@@ -169,28 +170,12 @@ public class Player : MonoBehaviour
                 TreasureBox box = hit.collider.gameObject.GetComponent<TreasureBox>();
                 box.OpenBox();
             }
-            /*
-            else if(clickObject.CompareTag("Broken_Door"))
-            {
-               // systemManager.PlayerText(clickObject);
-            }
-            else if(clickObject.name == "BossRoom In Point")
-            {
-                Debug.Log(clickObject.name);
-                GameManager.Instance.BossInRoom();
-            }*/
         }
     }
 
     bool GroundCheck()
     {
         return Physics.BoxCast(transform.position, boxSize, -transform.up, transform.rotation, maxGroundDistance);
-        /*if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, capSuleCollider.height + Mathf.Abs(groundOffset.y)))
-        {
-            Debug.DrawRay(transform.position, Vector3.down * capSuleCollider.height + groundOffset, Color.red);
-            return true;
-        }
-        return false;*/
     }
 
     bool MoveCheck()

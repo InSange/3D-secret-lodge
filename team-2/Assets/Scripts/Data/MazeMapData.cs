@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MazeMapData : RoomData
 {
-    [SerializeField] List<Transform> monster_spawn;
     [SerializeField] List<Monster> monsters;
     // Start is called before the first frame update
     void Start()
@@ -20,10 +19,19 @@ public class MazeMapData : RoomData
     public void MazeSecondPhase()
     {
         door.SetDoorType(DoorType.door);
+        door.doorEvent += OutHall;
 
         for (int i = 0; i < monsters.Count; i++)
         {
             monsters[i].detectCollider.radius = 300.0f;
         }
+    }
+
+    void OutHall()
+    {
+        GameManager.data.clearMaze= true;
+        GameManager.SaveGameData();
+        door.doorEvent -= OutHall;
+        Debug.Log("미로 세이브 완료!");
     }
 }

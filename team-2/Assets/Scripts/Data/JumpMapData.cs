@@ -27,6 +27,7 @@ public class JumpMapData : RoomData
         artifact.playerGetArtifact -= JumpMapSecondPhase;
         // 문 나갈수 있게 세팅
         door.SetDoorType(DoorType.door);
+        door.doorEvent += OutHall;
         // 용암 세팅
         lava.LavaOn();
         // 시네마틱 2페이즈 카메라 시작
@@ -60,5 +61,13 @@ public class JumpMapData : RoomData
     {
         secondPhaseCamera.SetActive(false);
         GameManager.Instance.canInput = true;
+    }
+
+    void OutHall()
+    {
+        GameManager.data.clearJumpMap = true;
+        GameManager.SaveGameData();
+        door.doorEvent -= OutHall;
+        Debug.Log("점프맵 세이브 완료!");
     }
 }
