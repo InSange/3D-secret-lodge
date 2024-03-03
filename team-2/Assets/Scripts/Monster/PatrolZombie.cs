@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class PatrolZombie : Monster
 {
+    public override void MonsterSetting()
+    {
+        base.MonsterSetting();
+        detectRange = 5.0f;
+        attackRange = 3.0f;
+        nextBehaviourTime = 0.5f;
+        patrolDistance = 10.0f;
+        speed = 1.0f;
+        chaseSpeed = 5.0f;
+    }
     public override void MonsterAI()
     {
         if (target == null)
@@ -14,7 +24,7 @@ public class PatrolZombie : Monster
             {
                 state = AIState.patrol;
                 anim.SetBool("chase", false);
-                agent.speed = 1.0f;
+                agent.speed = speed;
                 Debug.Log("탐색중");
             }
 
@@ -34,7 +44,7 @@ public class PatrolZombie : Monster
             {
                 state = AIState.chase;
                 anim.SetBool("chase", true);
-                agent.speed = 5.0f;
+                agent.speed = chaseSpeed;
             }
 
             var lookRotation = Quaternion.LookRotation(target.transform.position - transform.position);

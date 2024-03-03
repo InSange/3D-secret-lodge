@@ -7,10 +7,10 @@ public enum SceneName
     Intro = 0,
     StartMap,
     Hall,
-    Trap,
+    JumpMap,
     Maze,
-    Quiz,
     Treasure,
+    Trap,
     CantMoveScene = 800,  // 고장난 출입구 때 쓰일 열거형
     end = 999
 }
@@ -81,6 +81,7 @@ public class Scene : MonoBehaviour
     public void LoadPlayer(string spawnName = "spawn")
     {   // this function load Player on spawn Object Position
         PlayerPrefs.DeleteAll();
+
         Player player = GameManager.Instance.GetPlayer();
         if (player == null)
         {
@@ -127,7 +128,8 @@ public class Scene : MonoBehaviour
             {
                 fadeDt = 0.0f;
                 GameManager.Instance.canInput = true;
-                if(fadeOutAfter != null) fadeOutAfter();
+                Debug.Log("여기 있어요12");
+                if (fadeOutAfter != null) fadeOutAfter();
             }
         }
         else

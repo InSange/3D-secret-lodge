@@ -8,7 +8,6 @@ public class StartMap : Scene
     GameObject startMap_Canvas;
 
     [SerializeField] GameObject map;
-    [SerializeField] GameObject startMapDoor;
     [SerializeField] GameObject tutoPanel;
 
     // Start is called before the first frame update
@@ -27,7 +26,7 @@ public class StartMap : Scene
     /// </summary>
     private void Init()
     {
-        LoadMap();
+        LoadMapData();
         LoadUI();
 
         //PlayerPrefs.DeleteAll();
@@ -38,26 +37,13 @@ public class StartMap : Scene
         LoadFinish();
     }
 
-    void LoadMap()
+    void LoadMapData()
     {   // Load BackGround Map
         map = Instantiate((GameObject)Resources.Load("Scene/StartMap/Start_MAP"));
         map.transform.SetParent(this.transform);
-
-        startMapDoor = GameObject.Find("StartMap Door");
-
-        if(startMapDoor.activeSelf)
-        {
-            Debug.Log("로드 잘됨 " + startMapDoor.name);
-            BoxCollider box = startMapDoor.GetComponent<BoxCollider>();
-            if (box) Debug.Log("오브젝트 로드가 잘 되었는가?");
-        }
-        else
-        {
-            Debug.Log("로드 안됨");
-        }
-        Door sceneDoor;
-        sceneDoor = startMapDoor.AddComponent<Door>();
-        sceneDoor.SetDoorNextScene(SceneName.Hall);
+        room = GetComponentInChildren<RoomData>();
+        room.SetSceneData(this);
+        room.RoomSetting();
     }
 
     void LoadUI()

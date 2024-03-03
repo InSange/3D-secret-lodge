@@ -58,6 +58,7 @@ public class TreasureData : RoomData
     public void TreasureSecondPhase()
     {
         door.SetDoorType(DoorType.door);
+        door.doorEvent += OutHall;
 
         for (int i = 0; i < monsters.Count; i++)
         {
@@ -69,5 +70,13 @@ public class TreasureData : RoomData
     {
         enterCamera.SetActive(false);
         GameManager.Instance.canInput = true;
+    }
+
+    void OutHall()
+    {
+        GameManager.data.clearTreasure = true;
+        GameManager.SaveGameData();
+        door.doorEvent -= OutHall;
+        Debug.Log("함정맵 세이브 완료!");
     }
 }

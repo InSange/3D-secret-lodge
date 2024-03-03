@@ -14,6 +14,9 @@ public class Door : MonoBehaviour
     [SerializeField] SceneName nextScene;
     [SerializeField] DoorType type;
 
+    public delegate void OpenDoor();
+    public OpenDoor doorEvent;
+
     public void SetDoorNextScene(SceneName scene)
     {
         nextScene = scene;

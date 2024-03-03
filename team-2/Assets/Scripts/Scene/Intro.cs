@@ -69,16 +69,23 @@ public class Intro : Scene
 
     void NewGameButton()
     {
-        GameManager.Instance.SceneChange(SceneName.Trap);
+        GameManager.InitGameData();
+        GameManager.Instance.SceneChange(SceneName.StartMap);
         GameManager.Instance.isPlaying = true;
     }
 
     void ContinueGameButton()
     {
-        mainMenu_Panel.SetActive(false);
-        GameManager.Instance.Gameload();
-        mainMenu.gameObject.SetActive(false);
-        Cursor.visible = false;
+        GameManager.LoadGameData();
+        if (GameManager.data.tutorial == false)
+        {
+            GameManager.Instance.SceneChange(SceneName.StartMap);
+        }
+        else
+        {
+            Cursor.visible = false;
+            GameManager.Instance.SceneChange(SceneName.Hall);
+        }
         GameManager.Instance.isPlaying = true;
     }
 
