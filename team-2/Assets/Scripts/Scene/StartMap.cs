@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class StartMap : Scene
 {
+    GameObject startMap_Canvas;
+
     [SerializeField] GameObject map;
     [SerializeField] GameObject tutoPanel;
 
@@ -33,8 +35,6 @@ public class StartMap : Scene
         // Player move restrict to message
         GameManager.Instance.player.isLoading = true;
         LoadFinish();
-
-        fadeOutAfter += TutorialMessage;
     }
 
     void LoadMapData()
@@ -48,7 +48,7 @@ public class StartMap : Scene
 
     void LoadUI()
     {
-       /* // 기본 캔버스 세팅
+        // 기본 캔버스 세팅
         startMap_Canvas = new GameObject("Canvas");
         Canvas c = startMap_Canvas.AddComponent<Canvas>().GetComponent<Canvas>();
         c.renderMode = RenderMode.ScreenSpaceOverlay;
@@ -65,11 +65,12 @@ public class StartMap : Scene
         Button tutoButton = GameObject.Find("Start_Button").GetComponent<Button>();
         tutoButton.onClick.AddListener(TutorialButton);
 
-        tutoPanel.SetActive(true);*/
+        tutoPanel.SetActive(true);
     }
 
-    void TutorialMessage()
+    void TutorialButton()
     {
+        tutoPanel.SetActive(false);
         Cursor.visible = false;
         GameManager.Instance.player.isLoading = false;
         GameManager.Instance.isPlaying = true;
