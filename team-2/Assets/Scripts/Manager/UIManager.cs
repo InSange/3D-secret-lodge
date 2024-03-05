@@ -97,7 +97,13 @@ public class UIManager : MonoBehaviour
                 talk_panel.SetActive(false);
             }
             dt += Time.deltaTime;
-            if(dt > 1.0f)
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                dt = 0f;
+                dialogueIndex++;
+                ProgressDialogue();
+            }
+            if (dt > 3.0f)
             {
                 dt = 0f;
                 dialogueIndex++;
