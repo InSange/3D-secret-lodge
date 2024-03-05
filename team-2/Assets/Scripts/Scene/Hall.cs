@@ -15,9 +15,6 @@ public class Hall : Scene
     [SerializeField] GameObject trap;
     [SerializeField] GameObject treasure;
 
-    // NPC Cat
-    [SerializeField] NPC cat;
-
     // Camera
     [SerializeField] GameObject initCamera;
 
@@ -67,8 +64,6 @@ public class Hall : Scene
         maze = GameObject.Find("Maze Door");
         trap = GameObject.Find("Trap Door");
         treasure = GameObject.Find("Treasure Door");
-
-        cat = GameObject.Find("NPC_CAT").GetComponent<NPC>();
 
         Door sceneDoor;
         sceneDoor = entrance.AddComponent<Door>();
