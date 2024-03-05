@@ -13,6 +13,7 @@ public class Titan : Monster
         patrolDistance = 10.0f;
         speed = 3.0f;
         chaseSpeed = 5.0f;
+        type = MonsterType.Titan;
     }
     public override void MonsterAI()
     {

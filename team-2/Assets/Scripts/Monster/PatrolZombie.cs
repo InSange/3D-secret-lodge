@@ -13,6 +13,7 @@ public class PatrolZombie : Monster
         patrolDistance = 10.0f;
         speed = 1.0f;
         chaseSpeed = 5.0f;
+        type = MonsterType.Zombie;
     }
     public override void MonsterAI()
     {
@@ -58,6 +59,7 @@ public class PatrolZombie : Monster
             {   // 현재 상태가 Idle 정지 상태일때
                 anim.SetTrigger("attack");
                 transform.LookAt(target);
+                MonsterAttack();
             }
             else
             {

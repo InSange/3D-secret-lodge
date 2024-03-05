@@ -134,63 +134,6 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
-
-        // dont use prev code Scene Change
-#if true
-        /*Objects OBJcomponent = interactionOBJ.GetComponent<Objects>();
-        if(OBJcomponent.inRoom)
-        {
-            //isNeedArtifact = true;
-            playerInRoomOBJ = OBJcomponent.RoomOBJ;
-            if(roomState[playerInRoomOBJ] != 0)
-            {
-                player.isLoading = false;
-                Debug.Log("Aready Clear!!");
-                return;
-            }
-            isNeedArtifact = true;
-            Transform nextPos = OBJcomponent.NextRoomPosition;
-            systemManager.GetComponent<FadeInOut>().FadeFunc();
-                
-            StartCoroutine(tpPos(nextPos));
-        }
-        else
-        {
-            if(!isGetArtifact && !isNeedArtifact)  {    
-                Transform nextPos = OBJcomponent.NextRoomPosition;
-                systemManager.GetComponent<FadeInOut>().FadeFunc();
-                    
-                StartCoroutine(tpPos(nextPos));
-            }
-            else{
-                systemManager.GetComponent<SystemManager>().narration(interactionOBJ);
-                Debug.Log("Can't exit");
-                player.isLoading = false;
-                return;
-            }
-            if(artifactNum == 0) {
-                save_Artifacts[artifactNum].SetActive(true);
-                
-                PlayerPrefs.SetInt("maze_state", 1);
-            }
-            else if(artifactNum == 1) {
-                save_Artifacts[artifactNum].SetActive(true);
-                
-                PlayerPrefs.SetInt("jump_state", 1);
-            }
-            else if(artifactNum == 2) {
-                save_Artifacts[artifactNum].SetActive(true);
-                
-                PlayerPrefs.SetInt("treasure_state", 1);
-            }
-            else if(artifactNum == 3) {
-                save_Artifacts[artifactNum].SetActive(true);
-                
-                PlayerPrefs.SetInt("RCP_state", 1);
-            }
-            StartCoroutine(Current_Save());
-        }*/
-#endif
     }
 
 
@@ -201,12 +144,18 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.PauseGame(isPause);
     }
 
-
+    [SerializeField] GameOverView overView;
     // 게임 오버
-    public void GameOver()
+    public void GameOver(MonsterType monster)
     {
-        /*player.isLoading=true;
-        StartCoroutine(GameOverLoadSetting());*/
+        try
+        {
+            overView.eventStart(monster);
+        }
+        catch (System.Exception)
+        {
+            curScene.setScene("Intro");
+        }
     }
 
     public void SetPlayer(Player p)

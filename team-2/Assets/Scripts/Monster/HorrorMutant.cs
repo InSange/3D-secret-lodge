@@ -13,6 +13,7 @@ public class HorrorMutant : Monster
         patrolDistance = 10.0f;
         speed = 3.0f;
         chaseSpeed = 10.0f;
+        type = MonsterType.Mutant;
     }
     public override void MonsterAI()
     {

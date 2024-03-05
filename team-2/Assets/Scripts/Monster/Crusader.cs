@@ -13,6 +13,7 @@ public class Crusader : Monster
         patrolDistance = 10.0f;
         speed = 5.0f;
         chaseSpeed = 7.0f;
+        type = MonsterType.Crusader;
     }
     public override void MonsterAI()
     {
