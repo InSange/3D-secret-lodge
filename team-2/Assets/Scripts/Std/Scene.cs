@@ -102,6 +102,8 @@ public class Scene : MonoBehaviour
     [SerializeField] private float fadeDt = 0.5f;
     public delegate void FadeOutFinish();
     public FadeOutFinish fadeOutAfter;
+    public delegate void FadeInFinish();
+    public FadeInFinish fadeInFinish;
 
     public void fade(float dt)
     {
@@ -118,7 +120,10 @@ public class Scene : MonoBehaviour
             alpha = fadeDt / 0.5f;
             fadeDt += dt;
             if (fadeDt >= 0.5f)
+            {
                 setSceneImmediately(nameScene);
+                if (fadeInFinish != null) fadeInFinish();
+            }
         }
         else if (GameManager.Instance.isLoadScene)// && fadeDt < 1.0f)
         {   // ¹à¾ÆÁü

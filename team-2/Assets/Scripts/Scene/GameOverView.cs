@@ -70,14 +70,17 @@ public class GameOverView : MonoBehaviour
 
     public void OutScene(PlayableDirector pd)
     {
-        GameManager.Instance.curScene.fadeOutAfter += OutCamera;
+        Debug.Log("왜 안됑?12313213");
         if (GameManager.data.tutorial == true) GameManager.Instance.SceneChange(SceneName.Hall);
         else GameManager.Instance.SceneChange(SceneName.StartMap);
+        GameManager.Instance.curScene.fadeInFinish += OutCamera;
     }
 
     void OutCamera()
     {
-        GameManager.Instance.curScene.fadeOutAfter -= OutCamera;
+        Debug.Log("왜 안됑?44");
+        GameManager.Instance.curScene.fadeInFinish -= OutCamera;
+        playerDeadEvent();
         cameraInfo.depth = 0f;
         deadCamera.Stop();
     }

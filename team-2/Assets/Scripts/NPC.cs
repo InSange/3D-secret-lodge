@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum NPC
+public enum NPC_TYPE
 {
     Boy = 0,
     Man,
