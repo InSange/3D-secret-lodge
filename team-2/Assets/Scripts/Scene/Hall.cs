@@ -9,7 +9,6 @@ public class Hall : Scene
     [SerializeField] GameObject map;
 
     // Door;
-    [SerializeField] GameObject entrance;
     [SerializeField] GameObject jumpMap;
     [SerializeField] GameObject maze;
     [SerializeField] GameObject trap;
@@ -59,16 +58,12 @@ public class Hall : Scene
         room.SetSceneData(this);
         room.RoomSetting();
 
-        entrance = GameObject.Find("Entrance Door");
         jumpMap = GameObject.Find("JumpMap Door");
         maze = GameObject.Find("Maze Door");
         trap = GameObject.Find("Trap Door");
         treasure = GameObject.Find("Treasure Door");
 
         Door sceneDoor;
-        sceneDoor = entrance.AddComponent<Door>();
-        sceneDoor.SetDoorNextScene(SceneName.CantMoveScene);
-        sceneDoor.SetDoorType(DoorType.broken_door);
 
         sceneDoor = jumpMap.AddComponent<Door>();
         sceneDoor.SetDoorNextScene(SceneName.JumpMap);
@@ -102,14 +97,12 @@ public class Hall : Scene
         switch (sequence)
         {
             case 0:
-                playerTransform.Rotate(new Vector3(0, -180.0f, 0));
                 UIManager.Instance.finishDialogue += HallInitEnter;
                 UIManager.Instance.StartDialogue(EventDialogue.InHall);
                 break;
             case 1:
                 UIManager.Instance.finishDialogue -= HallInitEnter;
                 initCamera.SetActive(true);
-                playerTransform.Rotate(new Vector3(0, 180.0f, 0));
                 break;
             default:
                 break;
