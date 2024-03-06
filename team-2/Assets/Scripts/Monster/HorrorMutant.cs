@@ -13,6 +13,8 @@ public class HorrorMutant : Monster
         patrolDistance = 10.0f;
         speed = 3.0f;
         chaseSpeed = 10.0f;
+        attackSize = new Vector3(2.0f, 4.0f, 3.0f);
+        attackHeight = 1.0f;
         type = MonsterType.Mutant;
     }
     public override void MonsterAI()
@@ -59,6 +61,7 @@ public class HorrorMutant : Monster
             {   // 현재 상태가 Idle 정지 상태일때
                 anim.SetTrigger("attack");
                 transform.LookAt(target);
+                MonsterAttack();
             }
             else
             {

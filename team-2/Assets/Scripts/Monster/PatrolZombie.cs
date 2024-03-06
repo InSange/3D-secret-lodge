@@ -13,6 +13,8 @@ public class PatrolZombie : Monster
         patrolDistance = 10.0f;
         speed = 1.0f;
         chaseSpeed = 5.0f;
+        attackSize = new Vector3(2.0f, 4.0f, 2.0f);
+        attackHeight = 2.0f;
         type = MonsterType.Zombie;
     }
     public override void MonsterAI()
