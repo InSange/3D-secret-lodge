@@ -66,6 +66,7 @@ public class TrapRoomData : RoomData
 
     public override void OutHall()
     {
+        base.OutHall();
         GameManager.data.clearTrap= true;
         GameManager.SaveGameData();
         door.doorEvent -= OutHall;

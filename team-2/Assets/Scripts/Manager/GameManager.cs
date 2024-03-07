@@ -57,11 +57,15 @@ public class GameManager : MonoBehaviour
 
     /// <summary>
     /// 게임에서 씬 전환시 발생하는 이벤트는 여기에다가 담아두기!
+    /// 게임에서 필요로하는 이벤트는 게임매니저가 처리해주가!
     /// </summary>
     public delegate void FadeOutFinish();
     public FadeOutFinish fadeOutAfter;
     public delegate void FadeInFinish();
     public FadeInFinish fadeInFinish;
+    public delegate void EventOn();
+    public EventOn eventStart;  // Hall에서 고양이와 대화 후 문을 바꿔줄때 SettingDoor에서 사용
+
 
     void Start()
     {
@@ -193,6 +197,7 @@ public class GameManager : MonoBehaviour
         data.clearTreasure = false;
         data.clearTrap = false;
         data.getArtifactNum = 0;
+        data.NPCMeet = false;
         SaveGameData();
     }
 

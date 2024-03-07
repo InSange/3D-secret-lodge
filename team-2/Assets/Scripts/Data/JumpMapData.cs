@@ -65,6 +65,7 @@ public class JumpMapData : RoomData
 
     public override void OutHall()
     {
+        base.OutHall();
         GameManager.data.clearJumpMap = true;
         GameManager.SaveGameData();
         door.doorEvent -= OutHall;

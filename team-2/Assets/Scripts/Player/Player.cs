@@ -130,30 +130,35 @@ public class Player : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * 3.0f, Color.red);
         if (hit.collider) Debug.Log("Check Obj " + hit.collider.gameObject.name);
 
+        // 삼중 대체할 만한 것이 있을까..?
+        // 가독성 문제를 해결하기 위해 함수로 따로 빼주기.
         if (iDown && !isLoading && hit.collider)
         {
             if (hit.collider.gameObject.CompareTag("Door"))
             {
                 Door doorInfo = hit.collider.gameObject.GetComponent<Door>();
 
+                if (doorInfo.doorEvent != null) doorInfo.doorEvent();
+                Debug.Log("Interaction + " + hit.collider.gameObject.name);
+
                 switch (doorInfo.GetDoorType())
                 {
                     case DoorType.broken_door:
                         UIManager.Instance.StartDialogue(EventDialogue.BrookDoor);
                         break;
+                    case DoorType.need_talk:
+                        UIManager.Instance.StartDialogue(EventDialogue.NeedTalkForOpenDoor);
+                        break;
                     case DoorType.door:
+                        // 2중 스위치 검증.
                         GameManager.Instance.SceneChange(doorInfo.GetNextScene());
                         break;
                     case DoorType.clear:
+                        UIManager.Instance.StartDialogue(EventDialogue.ClearRoomDoor);
                         break;
                     default:
                         break;
                 }
-
-                if(doorInfo.doorEvent != null) doorInfo.doorEvent();
-                Debug.Log("Interaction + " + hit.collider.gameObject.name);
-                //isLoading = true;
-                //GameManager.Instance.Field_Change(clickObject);
             }
             else if(hit.collider.gameObject.CompareTag("NPC"))
             {

@@ -5,6 +5,7 @@ using UnityEngine;
 public enum DoorType
 {
     broken_door = 0,
+    need_talk,
     door,
     clear,
 }

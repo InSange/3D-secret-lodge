@@ -74,8 +74,8 @@ public class TreasureData : RoomData
 
     public override void OutHall()
     {
+        base.OutHall();
         GameManager.data.clearTreasure = true;
-        GameManager.data.getArtifactNum++;
         GameManager.SaveGameData();
         door.doorEvent -= OutHall;
         Debug.Log("함정맵 세이브 완료!");

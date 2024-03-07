@@ -8,12 +8,6 @@ public class Hall : Scene
 {
     [SerializeField] GameObject map;
 
-    // Door;
-    [SerializeField] GameObject jumpMap;
-    [SerializeField] GameObject maze;
-    [SerializeField] GameObject trap;
-    [SerializeField] GameObject treasure;
-
     // Camera
     [SerializeField] GameObject initCamera;
 
@@ -57,29 +51,6 @@ public class Hall : Scene
         room = GetComponentInChildren<RoomData>();
         room.SetSceneData(this);
         room.RoomSetting();
-
-        jumpMap = GameObject.Find("JumpMap Door");
-        maze = GameObject.Find("Maze Door");
-        trap = GameObject.Find("Trap Door");
-        treasure = GameObject.Find("Treasure Door");
-
-        Door sceneDoor;
-
-        sceneDoor = jumpMap.AddComponent<Door>();
-        sceneDoor.SetDoorNextScene(SceneName.JumpMap);
-        sceneDoor.SetDoorType(DoorType.door);
-
-        sceneDoor = maze.AddComponent<Door>();
-        sceneDoor.SetDoorNextScene(SceneName.Maze);
-        sceneDoor.SetDoorType(DoorType.door);
-
-        sceneDoor = trap.AddComponent<Door>();
-        sceneDoor.SetDoorNextScene(SceneName.Trap);
-        sceneDoor.SetDoorType(DoorType.door);
-
-        sceneDoor = treasure.AddComponent<Door>();
-        sceneDoor.SetDoorNextScene(SceneName.Treasure);
-        sceneDoor.SetDoorType(DoorType.door);
 
         initCamera = GameObject.Find("Init Camera");
         initCamera.SetActive(false);

@@ -13,4 +13,5 @@ public struct GameData
     public bool clearTreasure;  // check treasureMap clear
     public bool clearTrap;  // check trapMap clear
     public int getArtifactNum;
+    public bool NPCMeet;
 }

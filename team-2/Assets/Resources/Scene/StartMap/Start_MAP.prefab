@@ -39067,7 +39067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextScene: 2
-  type: 1
+  type: 2
 --- !u!1 &5572704233153886418
 GameObject:
   m_ObjectHideFlags: 0

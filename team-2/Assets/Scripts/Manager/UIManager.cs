@@ -36,6 +36,8 @@ public enum EventDialogue
     Woman2,
     Woman3,
     BrookDoor = 800,
+    NeedTalkForOpenDoor = 801,
+    ClearRoomDoor = 802,
 }
 
 /// <summary>
@@ -99,7 +101,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] bool isDialogue;
     List<TextData> textDatas;
     [SerializeField] int dialogueIndex;
-    [SerializeField] bool NPCMeet;
 
     // 대화창이 끝날 경우 실행시켜줄 델리게이트
     public delegate void DialogueEnd();
@@ -317,7 +318,6 @@ public class UIManager : MonoBehaviour
         // 기본 UI세팅
         DefaultUISetting();
         isDialogue = false;
-        NPCMeet = false;
     }
 
     public void StartDialogue(EventDialogue e)
@@ -338,12 +338,14 @@ public class UIManager : MonoBehaviour
     public void CatTalk()
     {
         // 처음 만났을 때
-        if (NPCMeet == false)
+        if (GameManager.data.NPCMeet == false)
         {
+            Debug.Log("넌 어디서 나오니?");
             StartDialogue(EventDialogue.TalkWithCat);
-            NPCMeet = true;
+            GameManager.data.NPCMeet = true;
             GameManager.data.visitedHall = true;
             GameManager.SaveGameData();
+            if (GameManager.Instance.eventStart != null) GameManager.Instance.eventStart();
         }
         else// if(NPCMeet == true)
         {
