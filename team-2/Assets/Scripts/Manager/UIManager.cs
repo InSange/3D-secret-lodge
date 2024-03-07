@@ -8,7 +8,6 @@ public enum EventDialogue
 {
     StartMountain = 0,
     FoundLodge,
-    InHall,
     SeeTheCat,
     TalkWithCat,
     TalkForInfo,
@@ -17,6 +16,25 @@ public enum EventDialogue
     RightFirstRoom,
     RightSecondRoom,
     CenterRoom,
+    GetFirstArtifact = 101,
+    GetSecondArtifact = 102,
+    GetThirdArtifact = 103,
+    GetLastArtifact = 104,
+    Boy1 = 200,
+    Boy2,
+    Boy3,
+    Man1 = 300,
+    Man2,
+    Man3,
+    Dwarf1 = 400,
+    Dwarf2,
+    Dwarf3,
+    Robin1 = 500,
+    Robin2,
+    Robin3,
+    Woman1 = 600,
+    Woman2,
+    Woman3,
     BrookDoor = 800,
 }
 
@@ -282,7 +300,7 @@ public class UIManager : MonoBehaviour
         talk_panel.SetActive(true);
     }
 
-    public void NPCTalk()
+    public void CatTalk()
     {
         // 처음 만났을 때
         if (NPCMeet == false)

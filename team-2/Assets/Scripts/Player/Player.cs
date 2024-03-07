@@ -5,7 +5,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Camera m_Camera;    // 플레이어 카메라 (생성되면서 배치되어짐)
-    private Camera die_Camera;
     private Ray ray;    // 카메라 중심을 기점으로 오브젝트 체크하기 위한 레이저 
     private RaycastHit hit; // 레이저와 접촉된 물체를 기록하는 변수
     Rigidbody rigid;        // 플레이어의 리지드바디.
@@ -158,8 +157,9 @@ public class Player : MonoBehaviour
             }
             else if(hit.collider.gameObject.CompareTag("NPC"))
             {
-                UIManager.Instance.NPCTalk();
-                Debug.Log("NPC Contact");
+                NPC npc = hit.collider.gameObject.GetComponent<NPC>();
+                npc.Talk();
+                //UIManager.Instance.NPCTalk();
             }
             else if(hit.collider.gameObject.CompareTag("Artifact"))
             {

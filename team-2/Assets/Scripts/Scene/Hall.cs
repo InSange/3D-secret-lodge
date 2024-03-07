@@ -92,17 +92,15 @@ public class Hall : Scene
     void HallInitEnter()
     {
         if (fadeOutAfter != null) fadeOutAfter -= HallInitEnter;
-        Debug.Log(sequence + "응애 시작!");
+
         Transform playerTransform = GameManager.Instance.GetPlayer().transform;
         switch (sequence)
         {
             case 0:
-                UIManager.Instance.finishDialogue += HallInitEnter;
-                UIManager.Instance.StartDialogue(EventDialogue.InHall);
+                initCamera.SetActive(true);
                 break;
             case 1:
-                UIManager.Instance.finishDialogue -= HallInitEnter;
-                initCamera.SetActive(true);
+                UIManager.Instance.StartDialogue(EventDialogue.SeeTheCat);
                 break;
             default:
                 break;
