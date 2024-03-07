@@ -37,8 +37,6 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
-
-    Dictionary<GameObject, int> roomState; // Room Clear?
     // 플레이어
     public Player player;   // Player
 
@@ -47,8 +45,6 @@ public class GameManager : MonoBehaviour
     public Scene curScene;  // Playing in Current User Scene
 
     // 상태 조건
-    private bool isGetArtifact = false; // Room Artifact Get?
-    private bool isNeedArtifact = false; // if Get Room Artifact Player can Escape
     [SerializeField] private bool isPause = false;
     public bool isLoadScene = true;   // Can Play? Scene Load Finish Check Flag
     public bool canInput;   // 입력 시스템 컨트롤
@@ -59,13 +55,13 @@ public class GameManager : MonoBehaviour
     // 현재 플레이어 방오브젝트
     public GameObject playerInRoomOBJ;
 
-    // 현재 먹은 유물 번호
-    public int artifactNum = -1;    // 0 -> Maze Artifact, 1 -> Jump Artifact, 2 -> treasure Artifact, 3 -> Quiz Artifact 
-
-    // 함정들
-    // 1. Lava Set parameter
-    public GameObject Jump_Map_lava;
-    public Vector3 lavaStartPos;
+    /// <summary>
+    /// 게임에서 씬 전환시 발생하는 이벤트는 여기에다가 담아두기!
+    /// </summary>
+    public delegate void FadeOutFinish();
+    public FadeOutFinish fadeOutAfter;
+    public delegate void FadeInFinish();
+    public FadeInFinish fadeInFinish;
 
     void Start()
     {
@@ -196,6 +192,7 @@ public class GameManager : MonoBehaviour
         data.clearMaze = false;
         data.clearTreasure = false;
         data.clearTrap = false;
+        data.getArtifactNum = 0;
         SaveGameData();
     }
 

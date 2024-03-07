@@ -130,26 +130,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // Make Canvas Object when to start game Awake time
-    public void CanvasSetting()
-    {
-        if (canvas) return;
-
-        canvas = new GameObject("Canvas");
-        Canvas c = canvas.AddComponent<Canvas>().GetComponent<Canvas>();
-        c.renderMode = RenderMode.ScreenSpaceOverlay;
-        CanvasScaler cs = canvas.AddComponent<CanvasScaler>().GetComponent<CanvasScaler>();
-        cs.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        cs.referenceResolution = new Vector2(1920, 1080);
-        canvas.AddComponent<GraphicRaycaster>();
-        //canvas.transform.parent = this.transform;
-        // 기본 UI세팅
-        DefaultUISetting();
-        isDialogue = false;
-        NPCMeet = false;
-    }
+    /// <summary>
+    /// Private
+    /// </summary>
+    /// 
     // All Default UI Load 
-    void DefaultUISetting()
+    private void DefaultUISetting()
     {
         // fade 이미지
         FadeImgSetting();
@@ -265,7 +251,7 @@ public class UIManager : MonoBehaviour
         talk_panel.SetActive(false);
     }
     // MainMenu Button in Pause Situation
-    public void MainMenuButton()
+    private void MainMenuButton()
     {
         GameManager.Instance.PauseFunc();
         //mainMenu_Panel.SetActive(true);
@@ -282,6 +268,58 @@ public class UIManager : MonoBehaviour
         Cursor.visible = false;
     }
 
+    private void OpenInformation()
+    {
+        finishDialogue -= OpenInformation;
+        GameManager.Instance.canInput = false;
+        infoPanel.SetActive(true);
+        Cursor.visible = true;
+    }
+
+    private void CloseInformation()
+    {
+        infoPanel.SetActive(false);
+        Cursor.visible = false;
+    }
+
+    private void ProgressDialogue()
+    {   // 인덱스 값이 텍스트 개수 보다 크면 모든 대화는 끝난 것이다!
+        if (dialogueIndex >= textDatas.Count)
+        {
+            isDialogue = false;
+            talk_panel.SetActive(false);
+            GameManager.Instance.canInput = true;
+            if (finishDialogue != null) finishDialogue();
+            return;
+        }
+        // 인덱스 값이 유효하면 다음 대화를 진행한다.
+        nameText.text = textDatas[dialogueIndex].name;
+        talkText.text = textDatas[dialogueIndex].text;
+        if (talk_panel.activeSelf == false) talk_panel.SetActive(true);
+    }
+
+    /// <summary>
+    /// public
+    /// </summary>
+    // Make Canvas Object when to start game Awake time
+    public void CanvasSetting()
+    {
+        if (canvas) return;
+
+        canvas = new GameObject("Canvas");
+        Canvas c = canvas.AddComponent<Canvas>().GetComponent<Canvas>();
+        c.renderMode = RenderMode.ScreenSpaceOverlay;
+        CanvasScaler cs = canvas.AddComponent<CanvasScaler>().GetComponent<CanvasScaler>();
+        cs.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        cs.referenceResolution = new Vector2(1920, 1080);
+        canvas.AddComponent<GraphicRaycaster>();
+        //canvas.transform.parent = this.transform;
+        // 기본 UI세팅
+        DefaultUISetting();
+        isDialogue = false;
+        NPCMeet = false;
+    }
+
     public void StartDialogue(EventDialogue e)
     {
         int eventIndex = ((int)e);
@@ -294,10 +332,7 @@ public class UIManager : MonoBehaviour
         dt = 0; // 시간 초기화
         dialogueIndex = 0; // 대사 구별 인덱스
         isDialogue = true;  // 대화 시작 구별 변수
-
-        nameText.text = textDatas[dialogueIndex].name;
-        talkText.text = textDatas[dialogueIndex].text;
-        talk_panel.SetActive(true);
+        ProgressDialogue();
     }
 
     public void CatTalk()
@@ -316,55 +351,6 @@ public class UIManager : MonoBehaviour
             finishDialogue += OpenInformation;
             StartDialogue(EventDialogue.TalkForInfo);
         }
-    }
-
-    void OpenInformation()
-    {
-        finishDialogue -= OpenInformation;
-        GameManager.Instance.canInput = false;
-        infoPanel.SetActive(true);
-        Cursor.visible = true;
-    }
-
-    void CloseInformation()
-    {
-        infoPanel.SetActive(false);
-        Cursor.visible = false;
-    }
-
-    void ProgressDialogue()
-    {   // 인덱스 값이 텍스트 개수와 동일하면 모든 대화는 끝난 것이다!
-        if(dialogueIndex >= textDatas.Count)
-        {
-            isDialogue = false;
-            talk_panel.SetActive(false);
-            GameManager.Instance.canInput = true;
-            if(finishDialogue != null) finishDialogue();
-            return;
-        }
-        // 인덱스 값이 유효하면 다음 대화를 진행한다.
-        nameText.text = textDatas[dialogueIndex].name;
-        talkText.text = textDatas[dialogueIndex].text;
-    }
-
-    public void InitGame()
-    {
-
-    }
-
-    public void ContinueGame()
-    {
-
-    }
-
-    public void RestartGame()
-    {
-
-    }
-
-    public void StopGame()
-    {
-
     }
 
     public void PauseGame(bool isPause)
@@ -386,5 +372,10 @@ public class UIManager : MonoBehaviour
     public Image GetFadeImage()
     {
         return fadeImage;
+    }
+
+    public bool GetDialogueState()
+    {
+        return isDialogue;
     }
 }

@@ -34,7 +34,7 @@ public class StartMap : Scene
         GameManager.Instance.player.isLoading = true;
         LoadFinish();
 
-        fadeOutAfter += TutorialMessage;
+        GameManager.Instance.fadeOutAfter += TutorialMessage;
     }
 
     void LoadMapData()
@@ -70,6 +70,7 @@ public class StartMap : Scene
 
     void TutorialMessage()
     {
+        GameManager.Instance.fadeOutAfter -= TutorialMessage;
         Cursor.visible = false;
         GameManager.Instance.player.isLoading = false;
         GameManager.Instance.isPlaying = true;

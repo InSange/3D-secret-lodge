@@ -27,8 +27,9 @@ public class MazeMapData : RoomData
         }
     }
 
-    void OutHall()
+    public override void OutHall()
     {
+        base.OutHall();
         GameManager.data.clearMaze= true;
         GameManager.SaveGameData();
         door.doorEvent -= OutHall;

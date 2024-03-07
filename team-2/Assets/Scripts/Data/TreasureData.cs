@@ -42,13 +42,13 @@ public class TreasureData : RoomData
             }
         }
 
-        sceneData.fadeOutAfter += InitTreasureRoom;
+        GameManager.Instance.fadeOutAfter += InitTreasureRoom;
     }
 
     public void InitTreasureRoom()
     {
         GameManager.Instance.canInput = false;
-        sceneData.fadeOutAfter -= InitTreasureRoom;
+        GameManager.Instance.fadeOutAfter -= InitTreasureRoom;
         PlayableDirector pd = enterCamera.GetComponent<PlayableDirector>();
         pd.stopped += OffEnterCamera;
         enterCamera.SetActive(true);
@@ -72,9 +72,10 @@ public class TreasureData : RoomData
         GameManager.Instance.canInput = true;
     }
 
-    void OutHall()
+    public override void OutHall()
     {
         GameManager.data.clearTreasure = true;
+        GameManager.data.getArtifactNum++;
         GameManager.SaveGameData();
         door.doorEvent -= OutHall;
         Debug.Log("함정맵 세이브 완료!");

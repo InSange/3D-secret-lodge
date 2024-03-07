@@ -73,13 +73,13 @@ public class GameOverView : MonoBehaviour
         Debug.Log("왜 안됑?12313213");
         if (GameManager.data.tutorial == true) GameManager.Instance.SceneChange(SceneName.Hall);
         else GameManager.Instance.SceneChange(SceneName.StartMap);
-        GameManager.Instance.curScene.fadeInFinish += OutCamera;
+        GameManager.Instance.fadeInFinish += OutCamera;
     }
 
     void OutCamera()
     {
         Debug.Log("왜 안됑?44");
-        GameManager.Instance.curScene.fadeInFinish -= OutCamera;
+        GameManager.Instance.fadeInFinish -= OutCamera;
         playerDeadEvent();
         cameraInfo.depth = 0f;
         deadCamera.Stop();

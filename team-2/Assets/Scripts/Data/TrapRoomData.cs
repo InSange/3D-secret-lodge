@@ -19,14 +19,14 @@ public class TrapRoomData : RoomData
     public override void RoomSetting()
     {
         base.RoomSetting();
-        sceneData.fadeOutAfter += OnEnterCamera;
+        GameManager.Instance.fadeOutAfter += OnEnterCamera;
         secondPhaseCamera.SetActive(false);
     }
 
     private void OnEnterCamera()
     {
         GameManager.Instance.canInput = false;
-        sceneData.fadeOutAfter -= OnEnterCamera;
+        GameManager.Instance.fadeOutAfter -= OnEnterCamera;
         PlayableDirector pd = enterCamera.GetComponent<PlayableDirector>();
         pd.stopped += OffEnterCamera;
         enterCamera.SetActive(true);
@@ -64,7 +64,7 @@ public class TrapRoomData : RoomData
         GameManager.Instance.canInput = true;
     }
 
-    void OutHall()
+    public override void OutHall()
     {
         GameManager.data.clearTrap= true;
         GameManager.SaveGameData();

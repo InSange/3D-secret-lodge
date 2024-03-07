@@ -44,7 +44,7 @@ public class Hall : Scene
 
         if (GameManager.data.visitedHall == false)
         {
-            fadeOutAfter += HallInitEnter;
+            GameManager.Instance.fadeOutAfter += HallInitEnter;
         }
     }
 
@@ -91,7 +91,7 @@ public class Hall : Scene
 
     void HallInitEnter()
     {
-        if (fadeOutAfter != null) fadeOutAfter -= HallInitEnter;
+        if (GameManager.Instance.fadeOutAfter != null) GameManager.Instance.fadeOutAfter -= HallInitEnter;
 
         Transform playerTransform = GameManager.Instance.GetPlayer().transform;
         switch (sequence)

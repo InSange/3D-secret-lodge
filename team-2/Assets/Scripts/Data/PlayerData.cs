@@ -12,4 +12,5 @@ public struct GameData
     public bool clearMaze;  // check jumpMap clear
     public bool clearTreasure;  // check treasureMap clear
     public bool clearTrap;  // check trapMap clear
+    public int getArtifactNum;
 }

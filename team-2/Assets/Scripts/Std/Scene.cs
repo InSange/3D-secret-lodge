@@ -100,10 +100,6 @@ public class Scene : MonoBehaviour
 
     [SerializeField] private string nameScene;
     [SerializeField] private float fadeDt = 0.5f;
-    public delegate void FadeOutFinish();
-    public FadeOutFinish fadeOutAfter;
-    public delegate void FadeInFinish();
-    public FadeInFinish fadeInFinish;
 
     public void fade(float dt)
     {
@@ -122,7 +118,7 @@ public class Scene : MonoBehaviour
             if (fadeDt >= 0.5f)
             {
                 setSceneImmediately(nameScene);
-                if (fadeInFinish != null) fadeInFinish();
+                if (GameManager.Instance.fadeInFinish != null) GameManager.Instance.fadeInFinish();
             }
         }
         else if (GameManager.Instance.isLoadScene)// && fadeDt < 1.0f)
@@ -134,7 +130,7 @@ public class Scene : MonoBehaviour
                 fadeDt = 0.0f;
                 GameManager.Instance.canInput = true;
                 Debug.Log("여기 있어요12");
-                if (fadeOutAfter != null) fadeOutAfter();
+                if (GameManager.Instance.fadeOutAfter != null) GameManager.Instance.fadeOutAfter();
             }
         }
         else

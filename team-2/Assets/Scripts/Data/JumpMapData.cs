@@ -18,7 +18,7 @@ public class JumpMapData : RoomData
     public override void RoomSetting()
     {
         base.RoomSetting();
-        sceneData.fadeOutAfter += OnEnterCamera;
+        GameManager.Instance.fadeOutAfter += OnEnterCamera;
         secondPhaseCamera.SetActive(false);
     }
 
@@ -37,7 +37,7 @@ public class JumpMapData : RoomData
      void OnEnterCamera()
     {
         GameManager.Instance.canInput = false;
-        sceneData.fadeOutAfter -= OnEnterCamera;
+        GameManager.Instance.fadeOutAfter -= OnEnterCamera;
         PlayableDirector pd = enterCamera.GetComponent<PlayableDirector>();
         pd.stopped += OffEnterCamera;
         enterCamera.SetActive(true);
@@ -63,7 +63,7 @@ public class JumpMapData : RoomData
         GameManager.Instance.canInput = true;
     }
 
-    void OutHall()
+    public override void OutHall()
     {
         GameManager.data.clearJumpMap = true;
         GameManager.SaveGameData();
