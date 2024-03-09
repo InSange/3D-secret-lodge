@@ -40,6 +40,13 @@ public enum EventDialogue
     ClearRoomDoor = 802,
 }
 
+public enum IconState
+{
+    NONE = 0,
+    Talk,
+    DoorOpen
+}
+
 /// <summary>
 /// UIManager의 역할은 게임의 모든 UI를 관리하고
 /// 뿌려주는 역할
@@ -82,6 +89,9 @@ public class UIManager : MonoBehaviour
     // 고정 UI
     Image fadeImage;
     Image gameOverImage;
+    [SerializeField] Image interactionIcon;
+    [SerializeField] Sprite openDoor;
+    [SerializeField] Sprite talk;
     [SerializeField] GameObject treasurePanel;
     [SerializeField] GameObject pausePanel;
     [SerializeField] GameObject infoPanel;
@@ -93,6 +103,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] Button treasureButton;
     [SerializeField] Button quizButton;
     [SerializeField] Button bossButton;
+
+    // 상호작용 Icon 컬러
+    Color iconColor;
 
     // 시간 흐름 (텍스트 애니메이션 및 자동 스킵 기능)
     float dt;
@@ -110,6 +123,7 @@ public class UIManager : MonoBehaviour
     {
         if(isDialogue)
         {
+            SettingIcon(IconState.NONE);
             if(!GameManager.Instance.isPlaying)
             {
                 isDialogue = false;
@@ -143,6 +157,9 @@ public class UIManager : MonoBehaviour
 
         // 게임오버 이미지
         GameOverImgSetting();
+
+        // 상호작용 아이콘 이미지
+        InteractionIconSetting();
 
         // 트레저 이미지 UI
         TreasureImgSetting();
@@ -183,6 +200,21 @@ public class UIManager : MonoBehaviour
         rect.localPosition = new Vector3(0, 0, 0);
         rect.anchorMin = new Vector2(0, 0);
         rect.anchorMax = new Vector2(1, 1);
+    }
+    private void InteractionIconSetting()
+    {
+        iconColor = new Color(0, 0, 0, 0);
+        GameObject interactionImg = new GameObject();
+        interactionImg.name = "Interaction Image";
+        interactionImg.transform.SetParent(canvas.transform);
+        interactionIcon = interactionImg.AddComponent<Image>();
+        interactionIcon.color = iconColor;
+        RectTransform rect = interactionImg.GetComponent<RectTransform>();
+        rect.localPosition = new Vector3(0, 0, 0);
+        rect.sizeDelta = new Vector2(100, 100);
+
+        openDoor = Resources.Load<Sprite>("Scene/CommonUI/OpenIcon");
+        talk = Resources.Load<Sprite>("Scene/CommonUI/TalkIcon");
     }
     // TreasureUI Setting for Default UI
     private void TreasureImgSetting()
@@ -379,5 +411,29 @@ public class UIManager : MonoBehaviour
     public bool GetDialogueState()
     {
         return isDialogue;
+    }
+
+    public void SettingIcon(IconState state)
+    {
+        if (isDialogue) iconColor.a = 0;
+        else
+        {
+            iconColor.a = 1;
+            switch (state)
+            {
+                case IconState.NONE:
+                    iconColor.a = 0;
+                    break;
+                case IconState.Talk:
+                    interactionIcon.sprite = talk;
+                    break;
+                case IconState.DoorOpen:
+                    interactionIcon.sprite = openDoor;
+                    break;
+                default:
+                    break;
+            }
+        }
+        interactionIcon.color = iconColor;
     }
 }

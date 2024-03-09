@@ -1168,9 +1168,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2595924625112506917}
+  - component: {fileID: 448958027205910009}
+  - component: {fileID: 6289692535030454166}
   m_Layer: 0
   m_Name: BoosRoom Door
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1190,9 +1192,43 @@ Transform:
   m_Children:
   - {fileID: 2595924624913729577}
   - {fileID: 2595924624760462630}
-  - {fileID: 2595924625135343875}
   m_Father: {fileID: 2595924623906034197}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &448958027205910009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2595924625112506916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b833b087406f2674db12430a8ac86466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextScene: 0
+  type: 0
+--- !u!65 &6289692535030454166
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2595924625112506916}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.2, y: 8, z: 7.5}
+  m_Center: {x: 46, y: 10, z: -0.7}
 --- !u!1 &2595924625118507583
 GameObject:
   m_ObjectHideFlags: 0
@@ -1332,74 +1368,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &2595924625135343874
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2595924625135343875}
-  - component: {fileID: 2595924625135343872}
-  - component: {fileID: 2595924625135343873}
-  m_Layer: 0
-  m_Name: BossRoom In Point
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2595924625135343875
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2595924625135343874}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 44.81, y: 8.39, z: -0.684}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2595924625112506917}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2595924625135343872
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2595924625135343874}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 3, y: 5, z: 8}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2595924625135343873
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2595924625135343874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b833b087406f2674db12430a8ac86466, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextScene: 0
-  type: 0
 --- !u!1 &2595924625210716590
 GameObject:
   m_ObjectHideFlags: 0
@@ -1605,6 +1573,12 @@ MonoBehaviour:
   maze: {fileID: 4412134060914047420}
   trap: {fileID: 8676224290424686627}
   treasure: {fileID: 7195400934242244056}
+  boss: {fileID: 448958027205910009}
+  boy: {fileID: 8301512378466345706}
+  man: {fileID: 5535985758323919032}
+  robin: {fileID: 3626010399849833157}
+  dwarf: {fileID: 2208776797915135495}
+  woman: {fileID: 2901375435980665745}
 --- !u!1 &2595924625489026804
 GameObject:
   m_ObjectHideFlags: 0
@@ -11481,6 +11455,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6449358, guid: 0894e59934291c64d9041c5d75db1750, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12781,6 +12759,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 423330, guid: 3ed882138e89c274888d1f686dc75f29, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6467682, guid: 3ed882138e89c274888d1f686dc75f29, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -20274,7 +20256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a1ed32f08a9f948ad98673a249c44d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 400
+  type: 0
 --- !u!4 &5721343425414470151 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 86ba56314fee1bc4a805be0e076e2ab6, type: 3}
@@ -20405,7 +20387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a1ed32f08a9f948ad98673a249c44d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 600
+  type: 0
 --- !u!4 &7955859323410114934 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3973721326379063914, guid: e788f48bcd3b68a4da5aa8c36971a6e5, type: 3}
@@ -22055,7 +22037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a1ed32f08a9f948ad98673a249c44d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 500
+  type: 0
 --- !u!1001 &8939472554600789232
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23605,7 +23587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a1ed32f08a9f948ad98673a249c44d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 200
+  type: 0
 --- !u!4 &8900761657318839067 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ecb7c9c270bee2842be0d5f70d786040, type: 3}

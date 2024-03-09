@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     Rigidbody rigid;        // 플레이어의 리지드바디.
     CapsuleCollider capSuleCollider;
 
-    public int life = 2; // 생명력.
     public bool live;
 
     // 이동 관련 변수
@@ -31,8 +30,6 @@ public class Player : MonoBehaviour
     bool iDown;             // 상호작용 키
     bool pauseDown;         // pause Button
     [SerializeField] int interactionlayerMask;
-    // 로딩시 플레이어 움직임 제한하기 위한 변수
-    public bool isLoading;  // 로딩중일때 플레이어 일시정지기능(움직임 및 점프 x).
 
     void Start()
     {
@@ -65,8 +62,12 @@ public class Player : MonoBehaviour
     }
 
     void Update()
-    {   // don't work Input System for Player that playing fade In/Out System now
-        if (GameManager.Instance.canInput && !GameManager.Instance.getIsPause() && !isLoading)
+    {   if(live == false)
+        {
+            rigid.isKinematic = true;
+            return;
+        }
+        if (GameManager.Instance.canInput && !GameManager.Instance.getIsPause() && live)
         {
             GetInput();
             Interaction();
@@ -79,7 +80,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (GameManager.Instance.canInput && !GameManager.Instance.getIsPause() && !isLoading)
+        if (GameManager.Instance.canInput && !GameManager.Instance.getIsPause())
         {
             isGround = GroundCheck();
             Move();
@@ -98,24 +99,21 @@ public class Player : MonoBehaviour
 
     private void Move()
     {
-        if (!isLoading)
+        if(MoveCheck())
         {
-            if(MoveCheck())
-            {
-                hAxis = 0;
-                vAxis = 0;
-            }
-            movingWay = new Vector3(hAxis, 0, vAxis).normalized;
-            float finalSpeed = (shiftDown) ? playerSpeed * 2 : playerSpeed;
-
-
-            transform.Translate(movingWay * finalSpeed * Time.deltaTime);
+            hAxis = 0;
+            vAxis = 0;
         }
+        movingWay = new Vector3(hAxis, 0, vAxis).normalized;
+        float finalSpeed = (shiftDown) ? playerSpeed * 2 : playerSpeed;
+
+
+        transform.Translate(movingWay * finalSpeed * Time.deltaTime);
     }
 
     void Jump()
     {
-        if (jDown && isGround && !isLoading)
+        if (jDown && isGround)
         {
             rigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             jDown = false;
@@ -128,55 +126,80 @@ public class Player : MonoBehaviour
 
         Physics.Raycast(ray, out hit, 3.0f);
         Debug.DrawRay(ray.origin, ray.direction * 3.0f, Color.red);
-        if (hit.collider) Debug.Log("Check Obj " + hit.collider.gameObject.name);
-
+        if (hit.collider == null)
+        {
+            UIManager.Instance.SettingIcon(IconState.NONE);
+            return;
+        }
         // 삼중 대체할 만한 것이 있을까..?
         // 가독성 문제를 해결하기 위해 함수로 따로 빼주기.
-        if (iDown && !isLoading && hit.collider)
+        if (hit.collider.gameObject.CompareTag("Door"))
         {
-            if (hit.collider.gameObject.CompareTag("Door"))
+            if (!iDown)
             {
-                Door doorInfo = hit.collider.gameObject.GetComponent<Door>();
+                UIManager.Instance.SettingIcon(IconState.DoorOpen);
+                return;
+            }
+            Door doorInfo = hit.collider.gameObject.GetComponent<Door>();
 
-                if (doorInfo.doorEvent != null) doorInfo.doorEvent();
-                Debug.Log("Interaction + " + hit.collider.gameObject.name);
+            if (doorInfo.doorEvent != null) doorInfo.doorEvent();
+            Debug.Log("Interaction + " + hit.collider.gameObject.name);
 
-                switch (doorInfo.GetDoorType())
-                {
-                    case DoorType.broken_door:
-                        UIManager.Instance.StartDialogue(EventDialogue.BrookDoor);
-                        break;
-                    case DoorType.need_talk:
-                        UIManager.Instance.StartDialogue(EventDialogue.NeedTalkForOpenDoor);
-                        break;
-                    case DoorType.door:
-                        // 2중 스위치 검증.
-                        GameManager.Instance.SceneChange(doorInfo.GetNextScene());
-                        break;
-                    case DoorType.clear:
-                        UIManager.Instance.StartDialogue(EventDialogue.ClearRoomDoor);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else if(hit.collider.gameObject.CompareTag("NPC"))
+            switch (doorInfo.GetDoorType())
             {
-                NPC npc = hit.collider.gameObject.GetComponent<NPC>();
-                npc.Talk();
-                //UIManager.Instance.NPCTalk();
-            }
-            else if(hit.collider.gameObject.CompareTag("Artifact"))
-            {
-                Artifact artifact = hit.collider.gameObject.GetComponent<Artifact>();
-                artifact.GetArtifact();
-            }
-            else if(hit.collider.gameObject.CompareTag("Treasure"))
-            {
-                TreasureBox box = hit.collider.gameObject.GetComponent<TreasureBox>();
-                box.OpenBox();
+                case DoorType.broken_door:
+                    UIManager.Instance.StartDialogue(EventDialogue.BrookDoor);
+                    break;
+                case DoorType.need_talk:
+                    UIManager.Instance.StartDialogue(EventDialogue.NeedTalkForOpenDoor);
+                    break;
+                case DoorType.door:
+                    // 2중 스위치 검증.
+                    GameManager.Instance.SceneChange(doorInfo.GetNextScene());
+                    break;
+                case DoorType.clear:
+                    UIManager.Instance.StartDialogue(EventDialogue.ClearRoomDoor);
+                    break;
+                default:
+                    break;
             }
         }
+        else if(hit.collider.gameObject.CompareTag("NPC"))
+        {
+            if (!iDown)
+            {
+                UIManager.Instance.SettingIcon(IconState.Talk);
+                return;
+            }
+            NPC npc = hit.collider.gameObject.GetComponent<NPC>();
+            npc.Talk();
+            //UIManager.Instance.NPCTalk();
+        }
+        else if(hit.collider.gameObject.CompareTag("Artifact"))
+        {
+            if (!iDown)
+            {
+                UIManager.Instance.SettingIcon(IconState.Talk);
+                return;
+            }
+            Artifact artifact = hit.collider.gameObject.GetComponent<Artifact>();
+            artifact.GetArtifact();
+        }
+        else if(hit.collider.gameObject.CompareTag("Treasure"))
+        {
+            if (!iDown)
+            {
+                UIManager.Instance.SettingIcon(IconState.Talk);
+                return;
+            }
+            TreasureBox box = hit.collider.gameObject.GetComponent<TreasureBox>();
+            box.OpenBox();
+        }
+        else
+        {
+            UIManager.Instance.SettingIcon(IconState.NONE);
+        }
+
     }
 
     bool GroundCheck()

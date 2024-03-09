@@ -30,8 +30,6 @@ public class StartMap : Scene
         //PlayerPrefs.DeleteAll();
         LoadPlayer();
 
-        // Player move restrict to message
-        GameManager.Instance.player.isLoading = true;
         LoadFinish();
 
         GameManager.Instance.fadeOutAfter += TutorialMessage;
@@ -72,7 +70,6 @@ public class StartMap : Scene
     {
         GameManager.Instance.fadeOutAfter -= TutorialMessage;
         Cursor.visible = false;
-        GameManager.Instance.player.isLoading = false;
         GameManager.Instance.isPlaying = true;
         UIManager.Instance.StartDialogue(EventDialogue.StartMountain);
         // TutorialMessage();

@@ -14,6 +14,14 @@ public class HallData : RoomData
     [SerializeField] Door maze;
     [SerializeField] Door trap;
     [SerializeField] Door treasure;
+    [SerializeField] Door boss;
+
+    // NPC
+    [SerializeField] NPC boy;
+    [SerializeField] NPC man;
+    [SerializeField] NPC robin;
+    [SerializeField] NPC dwarf;
+    [SerializeField] NPC woman;
 
     public override void RoomSetting()
     {
@@ -29,6 +37,25 @@ public class HallData : RoomData
 
         if (GameManager.data.visitedHall == false) NeedTalkForOpenDoor();
         else SettingDoor();
+
+        if(GameManager.data.clearJumpMap && GameManager.data.clearMaze
+            && GameManager.data.clearTrap && GameManager.data.clearTreasure)
+        {
+            boy.gameObject.SetActive(false);
+            man.gameObject.SetActive(false);
+            robin.gameObject.SetActive(false);
+            dwarf.gameObject.SetActive(false);
+            woman.gameObject.SetActive(false);
+            boss.SetDoorType(DoorType.door);
+        }
+        else
+        {
+            boy.SetType(NPC_TYPE.Boy);
+            man.SetType(NPC_TYPE.Man);
+            robin.SetType(NPC_TYPE.Robin);
+            dwarf.SetType(NPC_TYPE.Dwarf);
+            woman.SetType(NPC_TYPE.Woman);
+        }
 
         GameManager.Instance.eventStart += SettingDoor;
     }

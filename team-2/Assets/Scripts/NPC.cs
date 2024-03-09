@@ -29,4 +29,9 @@ public class NPC : MonoBehaviour
                 break;
         }
     }
+
+    public void SetType(NPC_TYPE t)
+    {
+        type = t;
+    }
 }

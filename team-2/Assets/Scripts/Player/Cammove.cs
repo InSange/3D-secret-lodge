@@ -18,7 +18,7 @@ public class Cammove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GameManager.Instance.canInput && !player.isLoading && !GameManager.Instance.getIsPause()) {
+        if(GameManager.Instance.canInput && !GameManager.Instance.getIsPause()) {
             float rotX = Input.GetAxis("Mouse Y") * rotSpeed;//player.systemManager.isAction ? 0 : Input.GetAxis("Mouse Y") * rotSpeed;
             float rotY = Input.GetAxis("Mouse X") * rotSpeed;// player.systemManager.isAction ? 0 : Input.GetAxis("Mouse X") * rotSpeed;
 
