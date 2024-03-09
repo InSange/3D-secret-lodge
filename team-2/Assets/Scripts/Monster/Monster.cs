@@ -7,7 +7,8 @@ public enum MonsterType
     Zombie = 0,
     Mutant,
     Crusader,
-    Titan
+    Titan,
+    Rocks
 }
 
 public enum AIState

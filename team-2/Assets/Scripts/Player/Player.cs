@@ -28,8 +28,6 @@ public class Player : MonoBehaviour
     [SerializeField] int bodylayerMask;
     // 상호작용 키들 ( 상호작용 및 esc 퍼즈 키 )
     bool iDown;             // 상호작용 키
-    bool pauseDown;         // pause Button
-    [SerializeField] int interactionlayerMask;
 
     void Start()
     {
@@ -58,7 +56,6 @@ public class Player : MonoBehaviour
         bodyBoxSize = new Vector3(2.5f, 3.0f, 2.5f);
         bodySize = -0.5f;
         bodylayerMask = 1 << LayerMask.NameToLayer("Wall");
-        interactionlayerMask = ~(1 << LayerMask.NameToLayer("Wall"));
     }
 
     void Update()

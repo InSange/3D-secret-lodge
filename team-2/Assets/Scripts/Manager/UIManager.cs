@@ -88,7 +88,6 @@ public class UIManager : MonoBehaviour
 
     // 고정 UI
     Image fadeImage;
-    Image gameOverImage;
     [SerializeField] Image interactionIcon;
     [SerializeField] Sprite openDoor;
     [SerializeField] Sprite talk;
@@ -151,15 +150,10 @@ public class UIManager : MonoBehaviour
     /// 
     // All Default UI Load 
     private void DefaultUISetting()
-    {
+    {   // 세팅하는 순서에 따라 Layer 순서도를 가진다.
+        // 뒤로가면서 호출되는 함수는 후번으로 간다.
         // fade 이미지
         FadeImgSetting();
-
-        // 게임오버 이미지
-        GameOverImgSetting();
-
-        // 상호작용 아이콘 이미지
-        InteractionIconSetting();
 
         // 트레저 이미지 UI
         TreasureImgSetting();
@@ -172,6 +166,9 @@ public class UIManager : MonoBehaviour
 
         // 채팅 UI
         TalkUISetting();
+
+        // 상호작용 아이콘 이미지
+        InteractionIconSetting();
     }
     // FadeImg Setting for Default UI
     private void FadeImgSetting()
@@ -187,20 +184,7 @@ public class UIManager : MonoBehaviour
         rect.anchorMin = new Vector2(0, 0);
         rect.anchorMax = new Vector2(1, 1);
     }
-    // GameOverImg Setting for Default UI
-    private void GameOverImgSetting()
-    {
-        GameObject gameOverOBJ = new GameObject();
-        gameOverOBJ.name = "GameOverImage";
-        gameOverOBJ.transform.SetParent(canvas.transform);
-        gameOverImage = gameOverOBJ.AddComponent<Image>();
-        gameOverImage.color = new Color32(255, 0, 0, 0);
-        gameOverImage.raycastTarget = false;
-        RectTransform rect = gameOverOBJ.GetComponent<RectTransform>();
-        rect.localPosition = new Vector3(0, 0, 0);
-        rect.anchorMin = new Vector2(0, 0);
-        rect.anchorMax = new Vector2(1, 1);
-    }
+    // Setting for Interaction Situation
     private void InteractionIconSetting()
     {
         iconColor = new Color(0, 0, 0, 0);
