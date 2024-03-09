@@ -49,4 +49,18 @@ public class TrapAxe : TrapOBJ
         isReturn = false;
         x = 0;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Player player = other.GetComponent<Player>();
+
+            if (player.live)
+            {
+                player.live = false;
+                GameManager.Instance.GameOver(MonsterType.Axe);
+            }
+        }
+    }
 }

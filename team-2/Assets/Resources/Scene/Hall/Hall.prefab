@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 2595924623807749087}
   - component: {fileID: 2595924623807749086}
   m_Layer: 0
-  m_Name: Trap Artifact
+  m_Name: Treasure Artifact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 2595924623865599332}
   - component: {fileID: 2595924623865599335}
   m_Layer: 0
-  m_Name: Jump Artifact
+  m_Name: Maze Artifact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -591,7 +591,7 @@ GameObject:
   - component: {fileID: 2595924624150265522}
   - component: {fileID: 2595924624150265533}
   m_Layer: 0
-  m_Name: Maze Artifact
+  m_Name: Jump Artifact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1028,7 +1028,7 @@ GameObject:
   - component: {fileID: 2595924625050424488}
   - component: {fileID: 2595924625050424491}
   m_Layer: 0
-  m_Name: Treasure Artifact
+  m_Name: Trap Artifact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1565,10 +1565,10 @@ MonoBehaviour:
   door: {fileID: 0}
   artifact: {fileID: 0}
   sceneData: {fileID: 0}
-  jumpMapArtifact: {fileID: 2595924623865599329}
-  mazeArtifact: {fileID: 2595924624150265535}
-  treasureArtifact: {fileID: 2595924625050424501}
-  trapArtifact: {fileID: 2595924623807749080}
+  jumpMapArtifact: {fileID: 2595924624150265535}
+  mazeArtifact: {fileID: 2595924623865599329}
+  treasureArtifact: {fileID: 2595924623807749080}
+  trapArtifact: {fileID: 2595924625050424501}
   jumpMap: {fileID: 2594176260955904609}
   maze: {fileID: 4412134060914047420}
   trap: {fileID: 8676224290424686627}

@@ -137,6 +137,10 @@ public class Player : MonoBehaviour
                 UIManager.Instance.SettingIcon(IconState.DoorOpen);
                 return;
             }
+            else
+            {
+                UIManager.Instance.SettingIcon(IconState.NONE);
+            }
             Door doorInfo = hit.collider.gameObject.GetComponent<Door>();
 
             if (doorInfo.doorEvent != null) doorInfo.doorEvent();
@@ -168,6 +172,10 @@ public class Player : MonoBehaviour
                 UIManager.Instance.SettingIcon(IconState.Talk);
                 return;
             }
+            else
+            {
+                UIManager.Instance.SettingIcon(IconState.NONE);
+            }
             NPC npc = hit.collider.gameObject.GetComponent<NPC>();
             npc.Talk();
             //UIManager.Instance.NPCTalk();
@@ -179,6 +187,10 @@ public class Player : MonoBehaviour
                 UIManager.Instance.SettingIcon(IconState.Talk);
                 return;
             }
+            else
+            {
+                UIManager.Instance.SettingIcon(IconState.NONE);
+            }
             Artifact artifact = hit.collider.gameObject.GetComponent<Artifact>();
             artifact.GetArtifact();
         }
@@ -188,6 +200,10 @@ public class Player : MonoBehaviour
             {
                 UIManager.Instance.SettingIcon(IconState.Talk);
                 return;
+            }
+            else
+            {
+                UIManager.Instance.SettingIcon(IconState.NONE);
             }
             TreasureBox box = hit.collider.gameObject.GetComponent<TreasureBox>();
             box.OpenBox();

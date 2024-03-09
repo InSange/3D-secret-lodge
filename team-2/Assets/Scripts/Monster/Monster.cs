@@ -8,7 +8,9 @@ public enum MonsterType
     Mutant,
     Crusader,
     Titan,
-    Rocks
+    Rocks,
+    Axe,
+    Lava
 }
 
 public enum AIState

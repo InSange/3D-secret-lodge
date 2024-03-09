@@ -45,4 +45,18 @@ public class TrapStone : TrapOBJ
     {
         base.SecondPhaseSetting();
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Player player = other.GetComponent<Player>();
+
+            if (player.live)
+            {
+                player.live = false;
+                GameManager.Instance.GameOver(MonsterType.Rocks);
+            }
+        }
+    }
 }

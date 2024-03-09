@@ -154,6 +154,7 @@ public class GameManager : MonoBehaviour
         }
         catch (System.Exception)
         {
+            Debug.Log("Catched Out");
             curScene.setScene("Intro");
         }
     }

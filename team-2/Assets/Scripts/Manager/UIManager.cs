@@ -192,6 +192,7 @@ public class UIManager : MonoBehaviour
         interactionImg.name = "Interaction Image";
         interactionImg.transform.SetParent(canvas.transform);
         interactionIcon = interactionImg.AddComponent<Image>();
+        interactionIcon.raycastTarget = false;
         interactionIcon.color = iconColor;
         RectTransform rect = interactionImg.GetComponent<RectTransform>();
         rect.localPosition = new Vector3(0, 0, 0);

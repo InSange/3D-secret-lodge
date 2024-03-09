@@ -12,6 +12,8 @@ public class GameOverView : MonoBehaviour
     [SerializeField] GameObject crusader;
     [SerializeField] GameObject titan;
     [SerializeField] GameObject rocks;
+    [SerializeField] GameObject axe;
+    [SerializeField] GameObject lava;
 
     public delegate void DeadEvent();
     public DeadEvent playerDeadEvent;
@@ -39,6 +41,14 @@ public class GameOverView : MonoBehaviour
             case MonsterType.Rocks:
                 rocks.SetActive(true);
                 playerDeadEvent += RockEvent;
+                break;
+            case MonsterType.Axe:
+                axe.SetActive(true);
+                playerDeadEvent += AxeEvent;
+                break;
+            case MonsterType.Lava:
+                lava.SetActive(true);
+                playerDeadEvent += LavaEvent;
                 break;
             default:
                 break;
@@ -77,6 +87,18 @@ public class GameOverView : MonoBehaviour
     {
         playerDeadEvent -= RockEvent;
         rocks.SetActive(false);
+    }
+
+    void AxeEvent()
+    {
+        playerDeadEvent -= AxeEvent;
+        axe.SetActive(false);
+    }
+
+    void LavaEvent()
+    {
+        playerDeadEvent -= LavaEvent;
+        lava.SetActive(false);
     }
 
     public void OutScene(PlayableDirector pd)

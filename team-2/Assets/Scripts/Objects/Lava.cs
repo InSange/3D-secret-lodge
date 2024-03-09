@@ -30,4 +30,18 @@ public class Lava : MonoBehaviour
         rend.material.SetTextureOffset("_MainTex", new Vector2(0, moveThis));
         transform.position += (Vector3.up * upSpeed * Time.deltaTime);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Player player = other.GetComponent<Player>();
+
+            if (player.live)
+            {
+                player.live = false;
+                GameManager.Instance.GameOver(MonsterType.Lava);
+            }
+        }
+    }
 }
