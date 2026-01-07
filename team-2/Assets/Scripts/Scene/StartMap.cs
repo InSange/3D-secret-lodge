@@ -2,19 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/// <summary>
+/// 인트로에서 처음 플레이를 시작하는 씬이다.
+/// </summary>
 public class StartMap : Scene
 {
-    [SerializeField] GameObject map;
-    [SerializeField] GameObject tutoPanel;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        Init();
-    }
-
-    // Update is called once per frame
     protected override void Update()
     {
         base.Update();
@@ -22,19 +14,23 @@ public class StartMap : Scene
     /// <summary>
     /// Load object and data to StartMap
     /// </summary>
-    private void Init()
+    public override void load()
     {
-        LoadMapData();
-        LoadUI();
+        base.load();
 
-        //PlayerPrefs.DeleteAll();
+        LoadMapData();
+
         LoadPlayer();
 
         LoadFinish();
-
+        // 페이드 아웃이 끝나면 처음 시작하는 튜토리얼 메시지를 실행한다!
         GameManager.Instance.fadeOutAfter += TutorialMessage;
     }
-
+    /// <summary>
+    /// 시작맵을 구성하는 배경 오브젝트와 자식 오브젝트로 들어가있는
+    /// 룸 데이터를 찾아서 불러온다.
+    /// 룸 데이터와 시작 맵 씬을 연결시키고 초기 세팅을 실행시켜준다.
+    /// </summary>
     void LoadMapData()
     {   // Load BackGround Map
         map = Instantiate((GameObject)Resources.Load("Scene/StartMap/Start_MAP"));
@@ -43,29 +39,10 @@ public class StartMap : Scene
         room.SetSceneData(this);
         room.RoomSetting();
     }
-
-    void LoadUI()
-    {
-       /* // 기본 캔버스 세팅
-        startMap_Canvas = new GameObject("Canvas");
-        Canvas c = startMap_Canvas.AddComponent<Canvas>().GetComponent<Canvas>();
-        c.renderMode = RenderMode.ScreenSpaceOverlay;
-        CanvasScaler cs = startMap_Canvas.AddComponent<CanvasScaler>().GetComponent<CanvasScaler>();
-        cs.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        cs.referenceResolution = new Vector2(1920, 1080);
-        startMap_Canvas.AddComponent<GraphicRaycaster>();
-        startMap_Canvas.transform.parent = this.transform;
-        // 시작 맵 UI
-        tutoPanel = Instantiate((GameObject)Resources.Load("Scene/StartMap/Tutorial_Panel"));
-        tutoPanel.transform.parent = startMap_Canvas.transform;
-        RectTransform rect = tutoPanel.GetComponent<RectTransform>();
-        rect.localPosition = new Vector3(0, 0, 0);
-        Button tutoButton = GameObject.Find("Start_Button").GetComponent<Button>();
-        tutoButton.onClick.AddListener(TutorialButton);
-
-        tutoPanel.SetActive(true);*/
-    }
-
+    /// <summary>
+    /// 게임이 시작되면 튜토리얼 메시지를 이벤트함수에서 제거해주고
+    /// 튜토리얼 메시지를 실행시켜주면서 본격적으로 게임이 시작된다.
+    /// </summary>
     void TutorialMessage()
     {
         GameManager.Instance.fadeOutAfter -= TutorialMessage;

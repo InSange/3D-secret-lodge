@@ -139,6 +139,7 @@ public class GameManager : MonoBehaviour
 
     public void PauseFunc()
     {
+        UIManager.Instance.SettingIcon(IconState.NONE);
         isPause = isPause ? false : true;
 
         UIManager.Instance.PauseGame(isPause);

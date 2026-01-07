@@ -23,8 +23,6 @@ public class Player : MonoBehaviour
     [SerializeField] bool isGround;            // 땅에 착륙중인가? 
     [SerializeField] private Vector3 boxSize;   // 땅에 착륙중인지 체크하기 위한 박스
     [SerializeField] private float maxGroundDistance;   // 해당 박스를 놓을 위치
-    [SerializeField] private Vector3 bodyBoxSize;
-    [SerializeField] private float bodySize;
     [SerializeField] int bodylayerMask;
     // 상호작용 키들 ( 상호작용 및 esc 퍼즈 키 )
     bool iDown;             // 상호작용 키
@@ -53,8 +51,6 @@ public class Player : MonoBehaviour
         live = true;
         boxSize = new Vector3(1, 0.5f, 1);
         maxGroundDistance = 2f;
-        bodyBoxSize = new Vector3(2.5f, 3.0f, 2.5f);
-        bodySize = -0.5f;
         bodylayerMask = 1 << LayerMask.NameToLayer("Wall");
     }
 
@@ -250,8 +246,6 @@ public class Player : MonoBehaviour
             }
         }
         return false;
-
-        //return Physics.BoxCast(transform.position, bodyBoxSize, -transform.up, transform.rotation, bodySize);
     }
 
     private void OnDrawGizmos()

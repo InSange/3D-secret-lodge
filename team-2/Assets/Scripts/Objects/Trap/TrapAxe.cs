@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TrapAxe : TrapOBJ
-{
+{/// <summary>
+/// 매 시간마다 바뀌는 값들을 변수들로 등록해주었다.
+/// </summary>
     [SerializeField] float x;
     [SerializeField] float y;
     [SerializeField] float z;
@@ -16,7 +18,9 @@ public class TrapAxe : TrapOBJ
         base.FixedUpdate();
         MoveAxe();
     }
-
+    /// <summary>
+    /// 시간에 따라 도끼가 회전하는 방향을 조정해주었다!
+    /// </summary>
     void MoveAxe()
     {
         if (isReturn == false)
@@ -39,7 +43,6 @@ public class TrapAxe : TrapOBJ
         }
 
 
-        //transform.localRotation = Quaternion.Euler(x, transform.eulerAngles.y, 0);
         transform.localRotation = Quaternion.Euler(x, y, z);
     }
 
